@@ -37,6 +37,7 @@
             <th>Created_at</th>
             <th>Action</th> 
           </thead>
+          {{-- fix --}}
           <tbody>
             @foreach ($cashes as $cash)
             <tr>
