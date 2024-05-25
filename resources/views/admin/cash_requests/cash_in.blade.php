@@ -43,12 +43,12 @@
         <tr>
           <td>{{ $loop->iteration }}</td>
           <td>
-            <span class="d-block">{{ $cash->user->name }}</span>
+            <span class="d-block">{{ $cash->user->name ?? ''}}</span>
           </td>
-          <td>{{ $cash->phone }}</td>
-          <td>{{ number_format($cash->amount)." ".$cash->currency }}</td>
-          <td>{{ $cash->payment_method }}</td>
-          <td>{{ $cash->last_6_num }}</td>
+          <td>{{ $cash->phone ?? '' }}</td>
+          <td>{{ number_format($cash->amount)." ".$cash->currency ?? '' }}</td>
+          <td>{{ $cash->payment_method ?? ''}}</td>
+          <td>{{ $cash->last_6_num ?? '' }}</td>
           <td>
             <span class="badge text-bg-{{ $cash->status == 0 ? "warning" : ($cash->status == 1 ? "success" : ($cash->status == 2 ? "danger" : "")) }} text-white mb-2">{{ $cash->status == 0 ? "pending" : ($cash->status == 1 ? "accepted" : ($cash->status == 2 ? "rejected" : "")) }}</span>
             @if($cash->status == 0)
