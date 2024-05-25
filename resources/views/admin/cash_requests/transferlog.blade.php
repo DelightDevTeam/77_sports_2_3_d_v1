@@ -57,6 +57,7 @@
             <td>{{ $log->created_at->format('d-m-Y') }}</td>
         </tr>
         @endforeach
+        {{-- change cpanel --}}
       </tbody>
     </table>
   </div>
