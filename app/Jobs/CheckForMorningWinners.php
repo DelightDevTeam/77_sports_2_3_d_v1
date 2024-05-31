@@ -47,12 +47,12 @@ class CheckForMorningWinners implements ShouldQueue
         // Convert prize_no to two_digit_id
         $two_digit_id = $this->twodWiner->prize_no === '00' ? 1 : intval($this->twodWiner->prize_no, 10) + 1;
 
-        $winningEntries = DB::table('lottery_two_digit_copy')
-            ->join('lotteries', 'lottery_two_digit_copy.lottery_id', '=', 'lotteries.id')
-            ->where('lottery_two_digit_copy.two_digit_id', $two_digit_id) // Use the calculated two_digit_id
-            ->where('lottery_two_digit_copy.prize_sent', false)
-            ->whereDate('lottery_two_digit_copy.created_at', $today)
-            ->select('lottery_two_digit_copy.*')
+        $winningEntries = DB::table('lottery_two_digit_copies')
+            ->join('lotteries', 'lottery_two_digit_copies.lottery_id', '=', 'lotteries.id')
+            ->where('lottery_two_digit_copies.two_digit_id', $two_digit_id) // Use the calculated two_digit_id
+            ->where('lottery_two_digit_copies.prize_sent', false)
+            ->whereDate('lottery_two_digit_copies.created_at', $today)
+            ->select('lottery_two_digit_copies.*')
             ->get();
 
         // if ($winningEntries->isEmpty()) {
