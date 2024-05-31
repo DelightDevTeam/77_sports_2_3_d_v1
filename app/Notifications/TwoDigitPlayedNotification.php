@@ -2,23 +2,27 @@
 
 namespace App\Notifications;
 
+use App\Models\Lottery;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use App\Models\Lottery;
-use App\Models\User;
+
 class TwoDigitPlayedNotification extends Notification
 {
     use Queueable;
+
     //protected $user;
     //protected $lottery;
     public $user;
+
     public function __construct($user)
     {
         $this->user = $user;
         //$this->lottery = $lottery;
     }
+
     /**
      * Get the notification's delivery channels.
      *
@@ -30,15 +34,15 @@ class TwoDigitPlayedNotification extends Notification
     }
 
     public function toDatabase($notifiable)
-{
-    return [
-        // 'name' => $this->user->name,
-        // 'email' => $this->user->email,
-        'message' => 'A user has played the two-digit game.',
-        'user_id' => $this->user->id,
-        //'lottery_id' => $this->lottery->id,
-    ];
-}
+    {
+        return [
+            // 'name' => $this->user->name,
+            // 'email' => $this->user->email,
+            'message' => 'A user has played the two-digit game.',
+            'user_id' => $this->user->id,
+            //'lottery_id' => $this->lottery->id,
+        ];
+    }
     /**
      * Get the mail representation of the notification.
      */

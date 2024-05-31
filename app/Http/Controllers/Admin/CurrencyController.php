@@ -14,6 +14,7 @@ class CurrencyController extends Controller
     public function index()
     {
         $currencies = Currency::latest()->get();
+
         return view('admin.currency.index', compact('currencies'));
     }
 
@@ -35,6 +36,7 @@ class CurrencyController extends Controller
             'rate' => 'required',
         ]);
         Currency::create($request->all());
+
         return redirect()->route('admin.currency.index')->with('success', 'Currency created successfully.');
     }
 
@@ -64,6 +66,7 @@ class CurrencyController extends Controller
             'rate' => 'required',
         ]);
         $currency->update($request->all());
+
         return redirect()->route('admin.currency.index')->with('success', 'Currency updated successfully.');
     }
 
@@ -73,6 +76,7 @@ class CurrencyController extends Controller
     public function destroy(Currency $currency)
     {
         $currency->delete();
+
         return redirect()->route('admin.currency.index')->with('success', 'Currency deleted successfully.');
     }
 }

@@ -10,7 +10,6 @@ use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
-
     use AuthenticatesUsers;
 
     /**
@@ -30,20 +29,18 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-//     protected function sendFailedLoginResponse(Request $request)
-// {
-//     throw ValidationException::withMessages([
-//         'email' => [trans('auth.failed')],
-//     ])->redirectTo(route('login'))->with('error', 'Your email is not correct and your password did not match.');
-// }
+    //     protected function sendFailedLoginResponse(Request $request)
+    // {
+    //     throw ValidationException::withMessages([
+    //         'email' => [trans('auth.failed')],
+    //     ])->redirectTo(route('login'))->with('error', 'Your email is not correct and your password did not match.');
+    // }
 
-
-protected function sendFailedLoginResponse(Request $request)
-{
-    throw ValidationException::withMessages([
-        'email' => ['Your email is not correct and your password did not match.'],
-        'password' => ['Your email is not correct and your password did not match.'],
-    ]);
-}
-
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw ValidationException::withMessages([
+            'email' => ['Your email is not correct and your password did not match.'],
+            'password' => ['Your email is not correct and your password did not match.'],
+        ]);
+    }
 }

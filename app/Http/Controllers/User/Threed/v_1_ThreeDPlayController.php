@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\User\Threed;
 
-use App\Models\User;
-use Illuminate\Http\Request;
-use App\Models\ThreeDigit\Lotto;
-use App\Models\Admin\LotteryMatch;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Admin\LotteryMatch;
+use App\Models\ThreeDigit\LotteryThreeDigitPivot;
+use App\Models\ThreeDigit\Lotto;
 use App\Models\ThreeDigit\ThreeDigit;
 use App\Models\ThreeDigit\ThreeDigitOverLimit;
-use App\Models\ThreeDigit\LotteryThreeDigitPivot;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ThreeDPlayController extends Controller
 {
@@ -20,6 +20,7 @@ class ThreeDPlayController extends Controller
     {
         return view('frontend.three_d.index');
     }
+
     // threed play
     public function choiceplay()
     {
@@ -39,6 +40,7 @@ class ThreeDPlayController extends Controller
         return view('frontend.three_d.three_d_choice_play', compact('threeDigits', 'remainingAmounts', 'lottery_matches'));
         //return view('three_d.three_d_choice_play');
     }
+
     public function confirm_play()
     {
         $threeDigits = ThreeDigit::all();
@@ -58,52 +60,52 @@ class ThreeDPlayController extends Controller
         //return view('three_d.three_d_choice_play');
     }
 
-//     public function user_play()
-// {
-//     $userId = auth()->id(); // Get the logged-in user's ID
+    //     public function user_play()
+    // {
+    //     $userId = auth()->id(); // Get the logged-in user's ID
 
-//     $displayThreeDigits = User::getUserThreeDigits($userId);
+    //     $displayThreeDigits = User::getUserThreeDigits($userId);
 
-//     // Log the content of $displayThreeDigits for debugging
-//     Log::debug('DisplayThreeDigits content:', $displayThreeDigits);
+    //     // Log the content of $displayThreeDigits for debugging
+    //     Log::debug('DisplayThreeDigits content:', $displayThreeDigits);
 
-//     // Use optional helper to safely access properties and avoid errors if the key is missing
-//     $threeDigitArray = optional($displayThreeDigits['threeDigit'] ?? null)->toArray() ?? [];
-//     $threeDigitOverArray = optional($displayThreeDigits['threeDigitOver'] ?? null)->toArray() ?? [];
-    
-//     $mergedArray = array_merge($threeDigitArray, $threeDigitOverArray);
+    //     // Use optional helper to safely access properties and avoid errors if the key is missing
+    //     $threeDigitArray = optional($displayThreeDigits['threeDigit'] ?? null)->toArray() ?? [];
+    //     $threeDigitOverArray = optional($displayThreeDigits['threeDigitOver'] ?? null)->toArray() ?? [];
 
-//     return view('frontend.three_d.three-d-history', [
-//         'displayThreeDigits' => $mergedArray,
-//     ]);
-// }
+    //     $mergedArray = array_merge($threeDigitArray, $threeDigitOverArray);
 
-// //     public function user_play()
-// // {
-// //     $userId = auth()->id(); // Get the logged-in user's ID
+    //     return view('frontend.three_d.three-d-history', [
+    //         'displayThreeDigits' => $mergedArray,
+    //     ]);
+    // }
 
-// //     $displayThreeDigits = User::getUserThreeDigits($userId);
-    
-// //     // Check if the key 'threeDigit' exists before trying to use it
-// //     if (!array_key_exists('threeDigit', $displayThreeDigits)) {
-// //         // Handle the error appropriately, maybe log it or return a default value
-// //         Log::error("The key 'threeDigit' was not found in the array returned by getUserThreeDigits");
-// //         $threeDigitArray = []; // Default value if the key does not exist
-// //     } else {
-// //         $threeDigitArray = $displayThreeDigits['threeDigit']->toArray();
-// //     }
+    // //     public function user_play()
+    // // {
+    // //     $userId = auth()->id(); // Get the logged-in user's ID
 
-// //     // Check for 'threeDigitOver' key as well
-// //     $threeDigitOverArray = array_key_exists('threeDigitOver', $displayThreeDigits) 
-// //                            ? $displayThreeDigits['threeDigitOver']->toArray() 
-// //                            : [];
-    
-// //     $mergedArray = array_merge($threeDigitArray, $threeDigitOverArray);
+    // //     $displayThreeDigits = User::getUserThreeDigits($userId);
 
-// //     return view('frontend.three_d.three-d-history', [
-// //         'displayThreeDigits' => $mergedArray,
-// //     ]);
-// // }
+    // //     // Check if the key 'threeDigit' exists before trying to use it
+    // //     if (!array_key_exists('threeDigit', $displayThreeDigits)) {
+    // //         // Handle the error appropriately, maybe log it or return a default value
+    // //         Log::error("The key 'threeDigit' was not found in the array returned by getUserThreeDigits");
+    // //         $threeDigitArray = []; // Default value if the key does not exist
+    // //     } else {
+    // //         $threeDigitArray = $displayThreeDigits['threeDigit']->toArray();
+    // //     }
+
+    // //     // Check for 'threeDigitOver' key as well
+    // //     $threeDigitOverArray = array_key_exists('threeDigitOver', $displayThreeDigits)
+    // //                            ? $displayThreeDigits['threeDigitOver']->toArray()
+    // //                            : [];
+
+    // //     $mergedArray = array_merge($threeDigitArray, $threeDigitOverArray);
+
+    // //     return view('frontend.three_d.three-d-history', [
+    // //         'displayThreeDigits' => $mergedArray,
+    // //     ]);
+    // // }
 
     // public function user_play()
     // {
@@ -120,12 +122,12 @@ class ThreeDPlayController extends Controller
     {
         $userId = auth()->id(); // Get logged in user's ID
         $displayThreeDigits = User::getUserThreeDigits($userId);
+
         // dd($displayThreeDigits);
         return view('frontend.three_d.three-d-history', [
             'displayThreeDigits' => $displayThreeDigits,
         ]);
     }
-
 
     public function store(Request $request)
     {
@@ -139,12 +141,11 @@ class ThreeDPlayController extends Controller
             'user_id' => 'required|exists:users,id',
         ]);
 
-        
         $limit = DB::table('three_d_d_limits')->first(); // Define the limit amount
         $limitAmount = $limit->three_d_limit;
         // get first commission From Commission Table
         $commission_percent = DB::table('commissions')->first();
-        
+
         DB::beginTransaction();
 
         try {
@@ -157,10 +158,10 @@ class ThreeDPlayController extends Controller
             /** @var \App\Models\User $user */
             $user->save();
             // commission calculation
-           if($request->totalAmount >= 1000){
-            $commission = ($request->totalAmount * $commission_percent->commission) / 100;
-            $user->commission_balance += $commission;
-            $user->save();
+            if ($request->totalAmount >= 1000) {
+                $commission = ($request->totalAmount * $commission_percent->commission) / 100;
+                $user->commission_balance += $commission;
+                $user->save();
             }
 
             $lottery = Lotto::create([
@@ -182,7 +183,7 @@ class ThreeDPlayController extends Controller
                         'lotto_id' => $lottery->id,
                         'three_digit_id' => $three_digit_id,
                         'sub_amount' => $sub_amount,
-                        'prize_sent' => false
+                        'prize_sent' => false,
                     ]);
                     $pivot->save();
                 } else {
@@ -194,7 +195,7 @@ class ThreeDPlayController extends Controller
                             'lotto_id' => $lottery->id,
                             'three_digit_id' => $three_digit_id,
                             'sub_amount' => $withinLimit,
-                            'prize_sent' => false
+                            'prize_sent' => false,
                         ]);
                         $pivotWithin->save();
                     }
@@ -204,7 +205,7 @@ class ThreeDPlayController extends Controller
                             'lotto_id' => $lottery->id, // corrected from 'lottery_id'
                             'three_digit_id' => $three_digit_id,
                             'sub_amount' => $overLimit,
-                            'prize_sent' => false
+                            'prize_sent' => false,
                         ]);
                         $pivotOver->save();
                     }
@@ -213,10 +214,12 @@ class ThreeDPlayController extends Controller
 
             DB::commit();
             session()->flash('SuccessRequest', 'Successfully placed bet.');
+
             return redirect()->route('user.display')->with('message', 'Data stored successfully!');
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Error in store method: ' . $e->getMessage());
+            Log::error('Error in store method: '.$e->getMessage());
+
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

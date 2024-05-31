@@ -8,14 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Game extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'name', 'image', 'link'
+        'name', 'image', 'link',
     ];
 
     protected $appends = ['img_url'];
 
     public function getImgUrlAttribute()
     {
-        return asset('assets/img/games/' . $this->image);
+        return asset('assets/img/games/'.$this->image);
     }
 }

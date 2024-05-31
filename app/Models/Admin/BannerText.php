@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class BannerText extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'text'
+        'text',
     ];
 }

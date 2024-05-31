@@ -19,6 +19,7 @@ class CashInRequestController extends Controller
     public function index()
     {
         $cashes = CashInRequest::latest()->get();
+
         return view('admin.cash_requests.cash_in', compact('cashes'));
     }
 
@@ -53,18 +54,18 @@ class CashInRequestController extends Controller
         ]);
         TransferLog::create([
             'user_id' => auth()->user()->id,
-            'amount' => $request->currency == "baht" ? $request->amount * $rate : $request->amount,
+            'amount' => $request->currency == 'baht' ? $request->amount * $rate : $request->amount,
             'type' => 'Deposit',
-            'created_by' => null
+            'created_by' => null,
         ]);
         $user = User::find(auth()->id());
-       
-        $toMail = "delightdeveloper4@gmail.com";
+
+        $toMail = 'delightdeveloper4@gmail.com';
         $mail = [
-            'status' => "Deposit",
+            'status' => 'Deposit',
             'name' => $user->name,
             'balance' => $user->balance,
-            'payment_method'=> $request->payment_method,
+            'payment_method' => $request->payment_method,
             'phone' => $request->phone,
             'amount' => $request->amount,
             'last_6_num' => $request->last_6_num,
@@ -72,6 +73,7 @@ class CashInRequestController extends Controller
             'rate' => $rate,
         ];
         Mail::to($toMail)->send(new CashRequest($mail));
+
         return redirect()->back()->with('success', 'Cash In Request Submitted Successfully');
     }
 
@@ -92,13 +94,14 @@ class CashInRequestController extends Controller
         $cash->save();
 
         $log = TransferLog::where('user_id', $cash->user_id)
-        ->where('created_at', $cash->created_at)
-        ->first();
+            ->where('created_at', $cash->created_at)
+            ->first();
 
         $log->update([
             'status' => 1,
             'created_by' => auth()->user()->id,
         ]);
+
         return redirect()->back()->with('success', 'Filled the cash into user successfully');
     }
 
@@ -109,13 +112,14 @@ class CashInRequestController extends Controller
         $cash->save();
 
         $log = TransferLog::where('user_id', $cash->user_id)
-        ->where('created_at', $cash->created_at)
-        ->first();
+            ->where('created_at', $cash->created_at)
+            ->first();
 
         $log->update([
             'status' => 2,
             'created_by' => auth()->user()->id,
         ]);
+
         return redirect()->back()->with('success', 'Filled the cash into user successfully');
     }
 

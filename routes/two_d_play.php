@@ -1,17 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\User\WithDrawController;
-use App\Http\Controllers\User\UserWalletController;
-use App\Http\Controllers\User\TwodPlayIndexController;
 use App\Http\Controllers\User\AM9\TwoDPlay9AMController;
+use App\Http\Controllers\User\PM12\TwodPlay12PMController;
 use App\Http\Controllers\User\PM2\TwodPlay2PMController;
 use App\Http\Controllers\User\PM4\TwodPlay4PMController;
-use App\Http\Controllers\User\PM12\TwodPlay12PMController;
 use App\Http\Controllers\User\Threed\ThreeDPlayController;
-
+use App\Http\Controllers\User\TwodPlayIndexController;
+use App\Http\Controllers\User\UserWalletController;
+use App\Http\Controllers\User\WithDrawController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 // Route::group(['prefix' => 'user', 'as' => 'user.', 'namespace' => 'App\Http\Controllers\User', 'middleware' => ['auth']], function () {
 
@@ -24,7 +23,6 @@ use App\Http\Controllers\User\Threed\ThreeDPlayController;
 //   // store
 //   Route::post('/two-d-play-index-9am', [TwoDPlay9AMController::class, 'store'])->name('twod-play-index-9am.store');
 
-
 //   // 12:00 pm index
 //   Route::get('/two-d-play-index-12pm', [TwodPlay12PMController::class, 'index'])->name('twod-play-index-12pm');
 //   // 12:00 pm confirm page
@@ -32,14 +30,12 @@ use App\Http\Controllers\User\Threed\ThreeDPlayController;
 //   // store
 //   Route::post('/two-d-play-index-12pm', [TwodPlay12PMController::class, 'store'])->name('twod-play-index-12pm.store');
 
-
 //   // 2:00 pm index
 //   Route::get('/two-d-play-index-2pm', [TwodPlay2PMController::class, 'index'])->name('twod-play-index-2pm');
 //   // 2:00 pm confirm page
 //   Route::get('/two-d-play-2-early-evening-confirm', [TwodPlay2PMController::class, 'play_confirm'])->name('twod-play-confirm-2pm');
 //   // store
 //   Route::post('/two-d-play-index-2pm', [TwodPlay2PMController::class, 'store'])->name('twod-play-index-2pm.store');
-
 
 //   // 4:00 pm index
 //   Route::get('/two-d-play-index-4pm', [TwodPlay4PMController::class, 'index'])->name('twod-play-index-4pm');
@@ -56,8 +52,6 @@ use App\Http\Controllers\User\Threed\ThreeDPlayController;
 
 //   // other route
 //   Route::get('/two-d-winners-history', [App\Http\Controllers\User\WinnerHistoryController::class, 'winnerHistory'])->name('winnerHistory');
-
-
 
 //   Route::get('/twod_history', [App\Http\Controllers\User\UserPlayTwoDHistoryRecordController::class, 'twodHistory'])->name('twodHistory');
 //   // Route::get('/evening-play-history-record', [App\Http\Controllers\User\UserPlayTwoDHistoryRecordController::class, 'EveningPlayHistoryRecord']);
@@ -90,7 +84,6 @@ use App\Http\Controllers\User\Threed\ThreeDPlayController;
 
 //   Route::get('wave-pay-withdraw-money', [WithDrawController::class, 'UserWavePayWithdrawMoney'])->name('UserWavePayWithdrawMoney');
 //   Route::post('wave-pay-with-draw-money', [WithDrawController::class, 'StoreWavepayWithdrawMoney'])->name('StoreWavepayWithdrawMoney');
-
 
 //   Route::get('aya-pay-withdraw-money', [WithDrawController::class, 'UserAYAPayWithdrawMoney'])->name('UserAYAPayWithdrawMoney');
 //   Route::post('aya-pay-with-draw-money', [WithDrawController::class, 'StoreAYApayWithdrawMoney'])->name('StoreAYApayWithdrawMoney');

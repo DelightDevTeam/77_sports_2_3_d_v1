@@ -139,7 +139,7 @@
     <li class="nav-item ">
       <a class="nav-link text-white " data-bs-toggle="collapse" aria-expanded="false" href="#profileExample">
         <i class="fas fa-user-gear"></i>
-        <span class="sidenav-normal  ms-2  ps-1">အကောင့်ဖွင့်ပေးရန်း <b class="caret"></b></span>
+        <span class="sidenav-normal  ms-2  ps-1">အကောင့်ဖွင့်ပေးရန် <b class="caret"></b></span>
       </a>
       <div class="collapse " id="profileExample">
         <ul class="nav nav-sm flex-column">
@@ -163,7 +163,7 @@
           <li class="nav-item">
             <a class="nav-link text-white " href="{{ route('admin.users.index')}}">
               <span class="sidenav-mini-icon"> U </span>
-              <span class="sidenav-normal  ms-2  ps-1">အကောင့်ဖွင့်ပေးရန်း </span>
+              <span class="sidenav-normal  ms-2  ps-1">အကောင့်ဖွင့်ပေးရန် </span>
             </a>
           </li>
           @endcan
@@ -179,6 +179,22 @@
       </a>
       <div class="collapse " id="applicationsExamples">
         <ul class="nav ">
+           @can('user_access')
+          <li class="nav-item ">
+            <a class="nav-link text-white " href="{{ url('admin/2-d-settings')}}">
+              <span class="sidenav-mini-icon"> 2D </span>
+              <span class="sidenav-normal  ms-2  ps-1">  Setting </span>
+            </a>
+          </li>
+          @endcan
+           @can('user_access')
+          <li class="nav-item ">
+            <a class="nav-link text-white " href="{{ url('admin/2-d-more-settings')}}">
+              <span class="sidenav-mini-icon"> 2D </span>
+              <span class="sidenav-normal  ms-2  ps-1">  More Setting </span>
+            </a>
+          </li>
+          @endcan
           @can('user_access')
           <li class="nav-item ">
             <a class="nav-link text-white " href="{{ route('admin.two-d-users-index')}}">

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Models\Admin\FillBalance;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\FillBalance;
+use Illuminate\Http\Request;
 
 class FillBalanceReplyController extends Controller
 {
@@ -13,8 +13,9 @@ class FillBalanceReplyController extends Controller
      */
     public function index()
     {
-        // get balance request list order by latest 
+        // get balance request list order by latest
         $balance_requests = FillBalance::orderBy('created_at', 'desc')->get();
+
         return view('admin.fill_balance.index', compact('balance_requests'));
     }
 
@@ -40,6 +41,7 @@ class FillBalanceReplyController extends Controller
     public function show(string $id)
     {
         $balance = FillBalance::findOrFail($id);
+
         return view('admin.fill_balance.show', compact('balance'));
     }
 
@@ -49,6 +51,7 @@ class FillBalanceReplyController extends Controller
     public function edit(string $id)
     {
         $balance = FillBalance::findOrFail($id);
+
         return view('admin.fill_balance.edit', compact('balance'));
     }
 
@@ -56,30 +59,30 @@ class FillBalanceReplyController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-{
-    // 1. Validate the data
-    $data = $request->validate([
-        'balance' => 'required|numeric',
-        'status' => 'required|numeric', // Assuming you want to validate it as a number
-    ]);
+    {
+        // 1. Validate the data
+        $data = $request->validate([
+            'balance' => 'required|numeric',
+            'status' => 'required|numeric', // Assuming you want to validate it as a number
+        ]);
 
-    // Retrieve the fill balance record
-    $fillBalance = FillBalance::findOrFail($id);
+        // Retrieve the fill balance record
+        $fillBalance = FillBalance::findOrFail($id);
 
-    // 2. Retrieve the user
-    $user = $fillBalance->user;
+        // 2. Retrieve the user
+        $user = $fillBalance->user;
 
-    // 3. Update user's balance column (assuming you're adding to the existing balance)
-    $user->balance += $data['balance'];
-    $user->save();
+        // 3. Update user's balance column (assuming you're adding to the existing balance)
+        $user->balance += $data['balance'];
+        $user->save();
 
-    // 4. Update the status of fill_balances table
-    $fillBalance->status = $data['status'];
-    $fillBalance->save();
+        // 4. Update the status of fill_balances table
+        $fillBalance->status = $data['status'];
+        $fillBalance->save();
 
-    // Return or redirect as per your requirement
-    return back()->with('success', 'Balance and Status updated successfully!');
-}
+        // Return or redirect as per your requirement
+        return back()->with('success', 'Balance and Status updated successfully!');
+    }
     //  public function update(Request $request, $id)
     // {
     //     // Validate the request
@@ -97,7 +100,6 @@ class FillBalanceReplyController extends Controller
     //     // Redirect back with a success message
     //     return redirect()->back()->with('success', 'Status updated successfully.');
     // }
-
 
     /**
      * Remove the specified resource from storage.

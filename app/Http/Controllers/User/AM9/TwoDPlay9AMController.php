@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\User\AM9;
 
+use App\Http\Controllers\Controller;
 use App\Models\Admin\Currency;
-use App\Models\Lottery;
-use Illuminate\Http\Request;
-use App\Models\Admin\TwoDigit;
 use App\Models\Admin\LotteryMatch;
+use App\Models\Admin\TwoDigit;
+use App\Models\Lottery;
+use App\Models\LotteryTwoDigitPivot;
+use App\Models\Two\LotteryTwoDigitOverLimit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
-use App\Models\LotteryTwoDigitPivot;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Two\LotteryTwoDigitOverLimit;
 
 class TwoDplay9AMController extends Controller
 {
@@ -52,7 +52,6 @@ class TwoDplay9AMController extends Controller
         return view('frontend.two_d.9_am.twoDPlayAMConfirm', compact('twoDigits', 'remainingAmounts', 'lottery_matches'));
     }
 
-
     public function store(Request $request)
     {
         Log::info($request->all());
@@ -76,9 +75,9 @@ class TwoDplay9AMController extends Controller
 
         try {
             $rate = Currency::latest()->first()->rate;
-            if($request->currency == 'baht'){
+            if ($request->currency == 'baht') {
                 $totalAmount = $request->totalAmount * $rate;
-            }else{
+            } else {
                 $totalAmount = $request->totalAmount;
             }
 
@@ -91,12 +90,12 @@ class TwoDplay9AMController extends Controller
             /** @var \App\Models\User $user */
             $user->save();
             // commission calculation
-        
+
             $lottery = Lottery::create([
                 'pay_amount' => $totalAmount,
                 'total_amount' => $totalAmount,
                 'user_id' => $request->user_id,
-                'session' => $currentSession
+                'session' => $currentSession,
             ]);
 
             foreach ($request->amounts as $two_digit_string => $sub_amount) {
@@ -107,7 +106,7 @@ class TwoDplay9AMController extends Controller
                     ->sum('sub_amount');
 
                 //currency auto exchange
-                if($request->currency == "baht"){
+                if ($request->currency == 'baht') {
                     $sub_amount = $sub_amount * $rate;
                 }
 
@@ -116,7 +115,7 @@ class TwoDplay9AMController extends Controller
                         'lottery_id' => $lottery->id,
                         'two_digit_id' => $two_digit_id,
                         'sub_amount' => $sub_amount,
-                        'prize_sent' => false
+                        'prize_sent' => false,
                     ]);
                     $pivot->save();
                 } else {
@@ -128,7 +127,7 @@ class TwoDplay9AMController extends Controller
                             'lottery_id' => $lottery->id,
                             'two_digit_id' => $two_digit_id,
                             'sub_amount' => $withinLimit,
-                            'prize_sent' => false
+                            'prize_sent' => false,
                         ]);
                         $pivotWithin->save();
                     }
@@ -138,7 +137,7 @@ class TwoDplay9AMController extends Controller
                             'lottery_id' => $lottery->id,
                             'two_digit_id' => $two_digit_id,
                             'sub_amount' => $overLimit,
-                            'prize_sent' => false
+                            'prize_sent' => false,
                         ]);
                         $pivotOver->save();
                     }
@@ -151,7 +150,8 @@ class TwoDplay9AMController extends Controller
             return redirect()->route('user.twodHistory')->with('success', 'Data stored successfully!');
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Error in store method: ' . $e->getMessage());
+            Log::error('Error in store method: '.$e->getMessage());
+
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
+use App\Models\Admin\Withdraw;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\Admin\Withdraw;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class WithDrawController extends Controller
@@ -14,36 +14,40 @@ class WithDrawController extends Controller
     {
         return view('two_d.withdraw');
     }
+
     public function UserKpayWithdrawMoney()
     {
         // user id 1 is admin rethrive from database where kpay_no is not null
         $user = User::where('id', 1)->whereNotNull('kpay_no')->first();
+
         return view('two_d.k_pay_withdraw', compact('user'));
     }
+
     public function UserCBPayWithdrawMoney()
     {
         // user id 1 is admin rethrive from database where kpay_no is not null
         $user = User::where('id', 1)->whereNotNull('cbpay_no')->first();
+
         return view('two_d.cb_pay_withdraw', compact('user'));
-        
-        
+
     }
 
     public function UserWavePayWithdrawMoney()
     {
         // user id 1 is admin rethrive from database where kpay_no is not null
         $user = User::where('id', 1)->whereNotNull('wavepay_no')->first();
+
         return view('two_d.wave_pay_withdraw', compact('user'));
-        
-        
+
     }
+
     public function UserAYAPayWithdrawMoney()
     {
         // user id 1 is admin rethrive from database where kpay_no is not null
         $user = User::where('id', 1)->whereNotNull('ayapay_no')->first();
+
         return view('two_d.aya_pay_withdraw', compact('user'));
-        
-        
+
     }
 
     public function StoreKpayWithdrawMoney(Request $request)
@@ -52,7 +56,7 @@ class WithDrawController extends Controller
         $request->validate([
             'kpay_no' => 'required|numeric',
             'user_ph_no' => 'required|numeric',
-            'amount' => 'required|numeric'
+            'amount' => 'required|numeric',
         ]);
         $user = Auth::user();
         $user->balance -= $request->amount;
@@ -63,7 +67,7 @@ class WithDrawController extends Controller
 
         $user->save();
         // Create a new FillBalance record
-        $fillBalance = new Withdraw();
+        $fillBalance = new Withdraw;
         $fillBalance->user_id = Auth::id();
         $fillBalance->kpay_no = $request->kpay_no;
         $fillBalance->user_ph_no = $request->user_ph_no;
@@ -83,7 +87,7 @@ class WithDrawController extends Controller
         $request->validate([
             'cbpay_no' => 'required|numeric',
             'user_ph_no' => 'required|numeric',
-            'amount' => 'required|numeric'
+            'amount' => 'required|numeric',
         ]);
         $user = Auth::user();
         $user->balance -= $request->amount;
@@ -94,7 +98,7 @@ class WithDrawController extends Controller
         $user->save();
 
         // Create a new FillBalance record
-        $fillBalance = new Withdraw();
+        $fillBalance = new Withdraw;
         $fillBalance->user_id = Auth::id();
         $fillBalance->cbpay_no = $request->cbpay_no;
         $fillBalance->user_ph_no = $request->user_ph_no;
@@ -102,7 +106,7 @@ class WithDrawController extends Controller
         $fillBalance->status = 'pending';  // default to 'pending'
 
         $fillBalance->save();
-         session()->flash('SuccessRequest', 'သင့်အကောင့်သို့ငွေထုတ်ရန်တောင်းဆိုပြီးပါပီး . သင့်ထုတ်ယူသည့်ငွေပမာဏ - '.$request->amount.' MMK . ၁၀ မိနစ်အတွင်း သင့်အကောင့်သို့ ထုတ်ယူသည့်ငွေအား လွဲပေးသွားပါမည်--- please wait for 10 minutes to get your money. Thank you!');
+        session()->flash('SuccessRequest', 'သင့်အကောင့်သို့ငွေထုတ်ရန်တောင်းဆိုပြီးပါပီး . သင့်ထုတ်ယူသည့်ငွေပမာဏ - '.$request->amount.' MMK . ၁၀ မိနစ်အတွင်း သင့်အကောင့်သို့ ထုတ်ယူသည့်ငွေအား လွဲပေးသွားပါမည်--- please wait for 10 minutes to get your money. Thank you!');
 
         // Redirect back with a success message
         return redirect()->back()->with('success', 'Money fill request submitted successfully!');
@@ -114,7 +118,7 @@ class WithDrawController extends Controller
         $request->validate([
             'wavepay_no' => 'required|numeric',
             'user_ph_no' => 'required|numeric',
-            'amount' => 'required|numeric'
+            'amount' => 'required|numeric',
         ]);
         $user = Auth::user();
         $user->balance -= $request->amount;
@@ -125,7 +129,7 @@ class WithDrawController extends Controller
         $user->save();
 
         // Create a new FillBalance record
-        $fillBalance = new Withdraw();
+        $fillBalance = new Withdraw;
         $fillBalance->user_id = Auth::id();
         $fillBalance->wavepay_no = $request->wavepay_no;
         $fillBalance->user_ph_no = $request->user_ph_no;
@@ -133,7 +137,7 @@ class WithDrawController extends Controller
         $fillBalance->status = 'pending';  // default to 'pending'
 
         $fillBalance->save();
-         session()->flash('SuccessRequest', 'သင့်အကောင့်သို့ငွေထုတ်ရန်တောင်းဆိုပြီးပါပီး . သင့်ထုတ်ယူသည့်ငွေပမာဏ - '.$request->amount.' MMK . ၁၀ မိနစ်အတွင်း သင့်အကောင့်သို့ ထုတ်ယူသည့်ငွေအား လွဲပေးသွားပါမည်--- please wait for 10 minutes to get your money. Thank you!');
+        session()->flash('SuccessRequest', 'သင့်အကောင့်သို့ငွေထုတ်ရန်တောင်းဆိုပြီးပါပီး . သင့်ထုတ်ယူသည့်ငွေပမာဏ - '.$request->amount.' MMK . ၁၀ မိနစ်အတွင်း သင့်အကောင့်သို့ ထုတ်ယူသည့်ငွေအား လွဲပေးသွားပါမည်--- please wait for 10 minutes to get your money. Thank you!');
 
         // Redirect back with a success message
         return redirect()->back()->with('success', 'Money fill request submitted successfully!');
@@ -145,7 +149,7 @@ class WithDrawController extends Controller
         $request->validate([
             'ayapay_no' => 'required|numeric',
             'user_ph_no' => 'required|numeric',
-            'amount' => 'required|numeric'
+            'amount' => 'required|numeric',
         ]);
         $user = Auth::user();
         $user->balance -= $request->amount;
@@ -156,7 +160,7 @@ class WithDrawController extends Controller
         $user->save();
 
         // Create a new FillBalance record
-        $fillBalance = new Withdraw();
+        $fillBalance = new Withdraw;
         $fillBalance->user_id = Auth::id();
         $fillBalance->ayapay_no = $request->ayapay_no;
         $fillBalance->user_ph_no = $request->user_ph_no;

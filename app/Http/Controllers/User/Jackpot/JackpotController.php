@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\User\Jackpot;
 
-use Carbon\Carbon;
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Admin\Commission;
 use App\Models\Admin\Currency;
 use App\Models\Admin\TwoDigit;
-use App\Models\User\Jackmatch;
 use App\Models\Jackpot\Jackpot;
-use App\Models\Admin\Commission;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
 use App\Models\Jackpot\JackpotLimit;
+use App\Models\User;
+use App\Models\User\Jackmatch;
 use App\Models\User\JackpotTwoDigit;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User\JackpotTwoDigitCopy;
 use App\Models\User\JackpotTwoDigitOver;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class JackpotController extends Controller
 {
@@ -59,7 +59,6 @@ class JackpotController extends Controller
         return view('jackpot.jackpot_play_confirm', compact('twoDigits', 'remainingAmounts', 'lottery_matches', 'limitAmount'));
     }
 
-
     public function Quickindex()
     {
         $twoDigits = TwoDigit::all();
@@ -98,8 +97,6 @@ class JackpotController extends Controller
         return view('jackpot.jackpot_play_confirm', compact('twoDigits', 'remainingAmounts', 'lottery_matches', 'limitAmount'));
     }
 
-
-
     public function store(Request $request)
     {
         Log::info($request->all());
@@ -118,9 +115,9 @@ class JackpotController extends Controller
 
         try {
             $rate = Currency::latest()->first()->rate;
-            if($request->currency == 'baht'){
+            if ($request->currency == 'baht') {
                 $totalAmount = $request->totalAmount * $rate;
-            }else{
+            } else {
                 $totalAmount = $request->totalAmount;
             }
 
@@ -133,7 +130,7 @@ class JackpotController extends Controller
             /** @var \App\Models\User $user */
             $user->save();
             // commission calculation
-            if($totalAmount >= 1000){
+            if ($totalAmount >= 1000) {
                 $commission = ($totalAmount * $commission_percent) / 100;
                 $user->commission_balance += $commission;
                 $user->save();
@@ -141,7 +138,7 @@ class JackpotController extends Controller
             $lottery = Jackpot::create([
                 'pay_amount' => $totalAmount,
                 'total_amount' => $totalAmount,
-                'user_id' => $request->user_id
+                'user_id' => $request->user_id,
             ]);
 
             foreach ($request->amounts as $two_digit_string => $sub_amount) {
@@ -150,10 +147,10 @@ class JackpotController extends Controller
                 $totalBetAmountForTwoDigit = DB::table('jackpot_two_digit_copy')
                     ->where('two_digit_id', $two_digit_id)
                     ->sum('sub_amount');
-                 $withinLimit = $limitAmount - $totalBetAmountForTwoDigit;
+                $withinLimit = $limitAmount - $totalBetAmountForTwoDigit;
                 $overLimit = $sub_amount - $withinLimit;
                 //currency auto exchange
-                if($request->currency == "baht"){
+                if ($request->currency == 'baht') {
                     $sub_amount = $sub_amount * $rate;
                 }
 
@@ -162,21 +159,21 @@ class JackpotController extends Controller
                         'jackpot_id' => $lottery->id,
                         'two_digit_id' => $two_digit_id,
                         'sub_amount' => $sub_amount,
-                        'prize_sent' => false
+                        'prize_sent' => false,
                     ]);
                     $pivot->save();
-                } 
+                }
 
-                    if ($overLimit > 0) {
-                        $pivotOver = new JackpotTwoDigitOver([
-                            'jackpot_id' => $lottery->id,
-                            'two_digit_id' => $two_digit_id,
-                            'sub_amount' => $overLimit,
-                            'prize_sent' => false
-                        ]);
-                        $pivotOver->save();
-                    }
-               
+                if ($overLimit > 0) {
+                    $pivotOver = new JackpotTwoDigitOver([
+                        'jackpot_id' => $lottery->id,
+                        'two_digit_id' => $two_digit_id,
+                        'sub_amount' => $overLimit,
+                        'prize_sent' => false,
+                    ]);
+                    $pivotOver->save();
+                }
+
             }
 
             DB::commit();
@@ -185,7 +182,8 @@ class JackpotController extends Controller
             return redirect()->route('user.jackport-play-history')->with('success', 'Data stored successfully!');
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Error in store method: ' . $e->getMessage());
+            Log::error('Error in store method: '.$e->getMessage());
+
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -208,9 +206,9 @@ class JackpotController extends Controller
 
         try {
             $rate = Currency::latest()->first()->rate;
-            if($request->currency == 'baht'){
+            if ($request->currency == 'baht') {
                 $totalAmount = $request->totalAmount * $rate;
-            }else{
+            } else {
                 $totalAmount = $request->totalAmount;
             }
 
@@ -223,7 +221,7 @@ class JackpotController extends Controller
             /** @var \App\Models\User $user */
             $user->save();
             // commission calculation
-            if($totalAmount >= 1000){
+            if ($totalAmount >= 1000) {
                 $commission = ($totalAmount * $commission_percent) / 100;
                 $user->commission_balance += $commission;
                 $user->save();
@@ -231,7 +229,7 @@ class JackpotController extends Controller
             $lottery = Jackpot::create([
                 'pay_amount' => $totalAmount,
                 'total_amount' => $totalAmount,
-                'user_id' => $request->user_id
+                'user_id' => $request->user_id,
             ]);
 
             foreach ($request->amounts as $two_digit_string => $sub_amount) {
@@ -240,10 +238,10 @@ class JackpotController extends Controller
                 $totalBetAmountForTwoDigit = DB::table('jackpot_two_digit_copy')
                     ->where('two_digit_id', $two_digit_id)
                     ->sum('sub_amount');
-                 $withinLimit = $limitAmount - $totalBetAmountForTwoDigit;
+                $withinLimit = $limitAmount - $totalBetAmountForTwoDigit;
                 $overLimit = $sub_amount - $withinLimit;
                 //currency auto exchange
-                if($request->currency == "baht"){
+                if ($request->currency == 'baht') {
                     $sub_amount = $sub_amount * $rate;
                 }
 
@@ -252,21 +250,21 @@ class JackpotController extends Controller
                         'jackpot_id' => $lottery->id,
                         'two_digit_id' => $two_digit_id,
                         'sub_amount' => $sub_amount,
-                        'prize_sent' => false
+                        'prize_sent' => false,
                     ]);
                     $pivot->save();
-                } 
+                }
 
-                    if ($overLimit > 0) {
-                        $pivotOver = new JackpotTwoDigitOver([
-                            'jackpot_id' => $lottery->id,
-                            'two_digit_id' => $two_digit_id,
-                            'sub_amount' => $overLimit,
-                            'prize_sent' => false
-                        ]);
-                        $pivotOver->save();
-                    }
-               
+                if ($overLimit > 0) {
+                    $pivotOver = new JackpotTwoDigitOver([
+                        'jackpot_id' => $lottery->id,
+                        'two_digit_id' => $two_digit_id,
+                        'sub_amount' => $overLimit,
+                        'prize_sent' => false,
+                    ]);
+                    $pivotOver->save();
+                }
+
             }
 
             DB::commit();
@@ -275,14 +273,17 @@ class JackpotController extends Controller
             return redirect()->route('user.jackport-play-history')->with('success', 'Data stored successfully!');
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Error in store method: ' . $e->getMessage());
+            Log::error('Error in store method: '.$e->getMessage());
+
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-     public function OnceWeekJackpotHistory()
+
+    public function OnceWeekJackpotHistory()
     {
         $userId = auth()->id(); // Get logged in user's ID
         $displayJackpotDigit = User::getUserJackpotDigits($userId);
+
         return view('jackpot.onec_week_jackpot_history', [
             'displayThreeDigits' => $displayJackpotDigit,
         ]);
@@ -292,6 +293,7 @@ class JackpotController extends Controller
     {
         $userId = auth()->id(); // Get logged in user's ID
         $displayJackpotDigit = User::getUserOneMonthJackpotDigits($userId);
+
         return view('jackpot.onec_month_jackpot_history', [
             'displayThreeDigits' => $displayJackpotDigit,
         ]);

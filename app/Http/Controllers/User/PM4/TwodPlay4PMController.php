@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\User\PM4;
 
-use App\Models\Lottery;
-use Illuminate\Http\Request;
-use App\Models\Admin\TwoDigit;
+use App\Http\Controllers\Controller;
 use App\Models\Admin\LotteryMatch;
+use App\Models\Admin\TwoDigit;
+use App\Models\Lottery;
+use App\Models\LotteryTwoDigitPivot;
+use App\Models\Two\LotteryTwoDigitOverLimit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
-use App\Models\LotteryTwoDigitPivot;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Two\LotteryTwoDigitOverLimit;
 
 class TwodPlay4PMController extends Controller
 {
@@ -51,7 +51,6 @@ class TwodPlay4PMController extends Controller
         return view('frontend.two_d.4_pm.twoDPlay4PMConfirm', compact('twoDigits', 'remainingAmounts', 'lottery_matches'));
     }
 
-
     public function store(Request $request)
     {
 
@@ -84,7 +83,7 @@ class TwodPlay4PMController extends Controller
                 'pay_amount' => $request->totalAmount,
                 'total_amount' => $request->totalAmount,
                 'user_id' => $request->user_id,
-                'session' => $currentSession
+                'session' => $currentSession,
             ]);
 
             foreach ($request->amounts as $two_digit_string => $sub_amount) {
@@ -99,7 +98,7 @@ class TwodPlay4PMController extends Controller
                         'lottery_id' => $lottery->id,
                         'two_digit_id' => $two_digit_id,
                         'sub_amount' => $sub_amount,
-                        'prize_sent' => false
+                        'prize_sent' => false,
                     ]);
                     $pivot->save();
                 } else {
@@ -111,7 +110,7 @@ class TwodPlay4PMController extends Controller
                             'lottery_id' => $lottery->id,
                             'two_digit_id' => $two_digit_id,
                             'sub_amount' => $withinLimit,
-                            'prize_sent' => false
+                            'prize_sent' => false,
                         ]);
                         $pivotWithin->save();
                     }
@@ -121,7 +120,7 @@ class TwodPlay4PMController extends Controller
                             'lottery_id' => $lottery->id,
                             'two_digit_id' => $two_digit_id,
                             'sub_amount' => $overLimit,
-                            'prize_sent' => false
+                            'prize_sent' => false,
                         ]);
                         $pivotOver->save();
                     }
@@ -130,10 +129,12 @@ class TwodPlay4PMController extends Controller
 
             DB::commit();
             session()->flash('SuccessRequest', 'Successfully placed bet.');
+
             return redirect()->route('home')->with('message', 'Data stored successfully!');
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Error in store method: ' . $e->getMessage());
+            Log::error('Error in store method: '.$e->getMessage());
+
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

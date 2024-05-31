@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ThreedDigit extends Model
 {
     use HasFactory;
-    protected $fillable = ['three_digit'];
 
+    protected $fillable = ['three_digit'];
 }

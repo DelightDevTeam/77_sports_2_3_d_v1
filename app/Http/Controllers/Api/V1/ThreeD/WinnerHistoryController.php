@@ -2,72 +2,71 @@
 
 namespace App\Http\Controllers\Api\V1\ThreeD;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Models\ThreeDigit\FirstPrizeWinner;
-use App\Models\ThreeDigit\ThirdPrizeWinner;
 use App\Models\ThreeDigit\SecondPrizeWinner;
+use App\Models\ThreeDigit\ThirdPrizeWinner;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WinnerHistoryController extends Controller
 {
     public function firstPrizeWinner()
-{
-    try {
-        $winners = FirstPrizeWinner::with('user')->orderBy('id', 'desc')->get();
-        $totalPrizeAmount = FirstPrizeWinner::sum('prize_amount');
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Prize winners fetched successfully.',
-            'winners' => $winners,
-            'totalPrizeAmount' => $totalPrizeAmount
-        ], 200);
-    } catch (\Exception $e) {
-        // Log the error or handle it appropriately
-        return response()->json(['error' => 'Something went wrong while fetching prize winners.'], 500);
-    }
-}
+    {
+        try {
+            $winners = FirstPrizeWinner::with('user')->orderBy('id', 'desc')->get();
+            $totalPrizeAmount = FirstPrizeWinner::sum('prize_amount');
 
+            return response()->json([
+                'success' => true,
+                'message' => 'Prize winners fetched successfully.',
+                'winners' => $winners,
+                'totalPrizeAmount' => $totalPrizeAmount,
+            ], 200);
+        } catch (\Exception $e) {
+            // Log the error or handle it appropriately
+            return response()->json(['error' => 'Something went wrong while fetching prize winners.'], 500);
+        }
+    }
 
     public function secondPrizeWinner()
-{
-    try {
-        $winners = SecondPrizeWinner::with('user')->orderBy('id', 'desc')->get();
-        $totalPrizeAmount = SecondPrizeWinner::sum('prize_amount');
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Prize winners fetched successfully.',
-            'winners' => $winners,
-            'totalPrizeAmount' => $totalPrizeAmount
-        ], 200);
-    } catch (\Exception $e) {
-        // Log the error or handle it appropriately
-        return response()->json(['error' => 'Something went wrong while fetching prize winners.'], 500);
+    {
+        try {
+            $winners = SecondPrizeWinner::with('user')->orderBy('id', 'desc')->get();
+            $totalPrizeAmount = SecondPrizeWinner::sum('prize_amount');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Prize winners fetched successfully.',
+                'winners' => $winners,
+                'totalPrizeAmount' => $totalPrizeAmount,
+            ], 200);
+        } catch (\Exception $e) {
+            // Log the error or handle it appropriately
+            return response()->json(['error' => 'Something went wrong while fetching prize winners.'], 500);
+        }
     }
-}
 
     public function thirdPrizeWinner()
-{
-    try {
-        $winners = ThirdPrizeWinner::with('user')->orderBy('id', 'desc')->get();
-        $totalPrizeAmount = ThirdPrizeWinner::sum('prize_amount');
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Prize winners fetched successfully.',
-            'winners' => $winners,
-            'totalPrizeAmount' => $totalPrizeAmount
-        ], 200);
-    } catch (\Exception $e) {
-        // Log the error or handle it appropriately
-        return response()->json(['error' => 'Something went wrong while fetching prize winners.'], 500);
-    }
-}
+    {
+        try {
+            $winners = ThirdPrizeWinner::with('user')->orderBy('id', 'desc')->get();
+            $totalPrizeAmount = ThirdPrizeWinner::sum('prize_amount');
 
-    // auth winner data 
-   public function firstPrizeWinnerForApk()
+            return response()->json([
+                'success' => true,
+                'message' => 'Prize winners fetched successfully.',
+                'winners' => $winners,
+                'totalPrizeAmount' => $totalPrizeAmount,
+            ], 200);
+        } catch (\Exception $e) {
+            // Log the error or handle it appropriately
+            return response()->json(['error' => 'Something went wrong while fetching prize winners.'], 500);
+        }
+    }
+
+    // auth winner data
+    public function firstPrizeWinnerForApk()
     {
         try {
             $userId = Auth::id(); // Retrieve the authenticated user's ID
@@ -79,19 +78,18 @@ class WinnerHistoryController extends Controller
 
             $totalPrizeAmount = FirstPrizeWinner::where('user_id', $userId)
                 ->sum('prize_amount');
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Prize winners fetched successfully.',
                 'winners' => $winners,
-                'totalPrizeAmount' => $totalPrizeAmount
+                'totalPrizeAmount' => $totalPrizeAmount,
             ], 200);
         } catch (\Exception $e) {
             // Log the error or handle it appropriately
             return response()->json(['error' => 'Something went wrong while fetching prize winners.'], 500);
         }
     }
-
 
     public function secondPrizeWinnerForApk()
     {
@@ -105,12 +103,12 @@ class WinnerHistoryController extends Controller
 
             $totalPrizeAmount = SecondPrizeWinner::where('user_id', $userId)
                 ->sum('prize_amount');
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Prize winners fetched successfully.',
                 'winners' => $winners,
-                'totalPrizeAmount' => $totalPrizeAmount
+                'totalPrizeAmount' => $totalPrizeAmount,
             ], 200);
         } catch (\Exception $e) {
             // Log the error or handle it appropriately
@@ -130,22 +128,16 @@ class WinnerHistoryController extends Controller
 
             $totalPrizeAmount = ThirdPrizeWinner::where('user_id', $userId)
                 ->sum('prize_amount');
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Prize winners fetched successfully.',
                 'winners' => $winners,
-                'totalPrizeAmount' => $totalPrizeAmount
+                'totalPrizeAmount' => $totalPrizeAmount,
             ], 200);
         } catch (\Exception $e) {
             // Log the error or handle it appropriately
             return response()->json(['error' => 'Something went wrong while fetching prize winners.'], 500);
         }
     }
-
-
-
-
-
-
 }

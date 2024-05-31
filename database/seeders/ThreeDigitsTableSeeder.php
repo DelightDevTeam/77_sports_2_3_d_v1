@@ -37,7 +37,7 @@ class ThreeDigitsTableSeeder extends Seeder
         }
 
         // Insert any remaining digits
-        if (!empty($digits)) {
+        if (! empty($digits)) {
             DB::table('three_digits')->insert($digits);
         }
     }

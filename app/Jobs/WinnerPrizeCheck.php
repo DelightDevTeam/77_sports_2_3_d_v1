@@ -2,14 +2,14 @@
 
 namespace App\Jobs;
 
-use Carbon\Carbon;
 use App\Models\Lotto;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 
 class WinnerPrizeCheck implements ShouldQueue
 {
@@ -24,7 +24,7 @@ class WinnerPrizeCheck implements ShouldQueue
 
     public function handle(): void
     {
-        if (!$this->isPlayingDay()) {
+        if (! $this->isPlayingDay()) {
             return;
         }
 
@@ -38,6 +38,7 @@ class WinnerPrizeCheck implements ShouldQueue
     protected function isPlayingDay(): bool
     {
         $playDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
         return in_array(Carbon::now()->englishDayOfWeek, $playDays);
     }
 

@@ -2,14 +2,14 @@
 
 namespace App\Jobs;
 
-use Carbon\Carbon;
 use App\Models\Lotto;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 
 class ThreeDPermutationPrizeSent implements ShouldQueue
 {
@@ -24,7 +24,7 @@ class ThreeDPermutationPrizeSent implements ShouldQueue
 
     public function handle(): void
     {
-        if (!$this->isPlayingDay()) {
+        if (! $this->isPlayingDay()) {
             return;
         }
 
@@ -39,18 +39,22 @@ class ThreeDPermutationPrizeSent implements ShouldQueue
     protected function isPlayingDay(): bool
     {
         $playDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
         return in_array(Carbon::now()->englishDayOfWeek, $playDays);
     }
 
-    protected function generatePermutationsExcludeOriginal($original) {
+    protected function generatePermutationsExcludeOriginal($original)
+    {
         $permutations = $this->permutation($original, $original);
         if (($key = array_search($original, $permutations)) !== false) {
             unset($permutations[$key]);
         }
+
         return array_values($permutations);
     }
 
-    protected function permutation($str, $original) {
+    protected function permutation($str, $original)
+    {
         if (strlen($str) <= 1) {
             return [$str];
         }
@@ -58,10 +62,10 @@ class ThreeDPermutationPrizeSent implements ShouldQueue
         $result = [];
         for ($i = 0; $i < strlen($str); $i++) {
             $char = $str[$i];
-            $remainingChars = substr($str, 0, $i) . substr($str, $i + 1);
+            $remainingChars = substr($str, 0, $i).substr($str, $i + 1);
             foreach ($this->permutation($remainingChars, $original) as $subPerm) {
-                $perm = $char . $subPerm;
-                if (!in_array($perm, $result)) {
+                $perm = $char.$subPerm;
+                if (! in_array($perm, $result)) {
                     $result[] = $perm;
                 }
             }
@@ -86,7 +90,7 @@ class ThreeDPermutationPrizeSent implements ShouldQueue
             DB::transaction(function () use ($entry) {
                 $lottery = Lotto::findOrFail($entry->lotto_id);
                 $user = $lottery->user;
-                $user->balance += $entry->sub_amount * 10; 
+                $user->balance += $entry->sub_amount * 10;
                 $user->save();
 
                 $lottery->threedDigits()->updateExistingPivot($entry->three_digit_id, ['prize_sent' => 2]);

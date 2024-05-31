@@ -2,15 +2,18 @@
 
 namespace App\Models\Two;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Two\LotteryOverLimitCopy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class LotteryTwoDigitOverLimit extends Model
 {
     use HasFactory;
-        protected $table = 'lottery_over_limit';
+
+    protected $table = 'lottery_over_limit';
+
     protected $fillable = ['lottery_id', 'two_digit_id', 'sub_amount', 'prize_sent'];
+
     protected static function booted()
     {
         static::created(function ($pivot) {

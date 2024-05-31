@@ -9,17 +9,19 @@ use Illuminate\Database\Eloquent\Model;
 class CashOutRequest extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'payment_method', 
-        'amount', 
+        'payment_method',
+        'amount',
         'currency',
-        'phone', 
-        'user_id',  
+        'phone',
+        'user_id',
         'status',
-        'name'
+        'name',
     ];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }

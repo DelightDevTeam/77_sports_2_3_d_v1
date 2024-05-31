@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
-    //balanceUpdate 
+    //balanceUpdate
     public function balanceUpdate(Request $request)
     {
         $user = User::find(Auth::id());
@@ -21,21 +21,22 @@ class ProfileController extends Controller
         $user->balance += $commission;
         // commission_balance deduct
         $user->commission_balance -= $commission;
-        if($request->balance > $user->commission_balance){
+        if ($request->balance > $user->commission_balance) {
             return redirect()->back()->with('error', 'Insufficient balance');
         }
         $user->save();
+
         return redirect()->back()->with('toast_success', 'Balance updated successfully');
     }
 
-    
     public function profile()
     {
         if (auth()->user()->hasRole('Admin')) {
             $currency = Currency::latest()->first();
+
             return view('admin.profile.admin_profile', compact('currency'));
-        }else{
-            return view('frontend.user-profile'); 
+        } else {
+            return view('frontend.user-profile');
         }
     }
 
@@ -43,16 +44,16 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $request->validate([
-            'profile' => 'required|image'
+            'profile' => 'required|image',
         ]);
         if ($user->profile) {
             //remove banner from localstorage
-            File::delete(public_path('assets/img/profile/' . $user->profile));
+            File::delete(public_path('assets/img/profile/'.$user->profile));
         }
         // image
         $image = $request->file('profile');
         $ext = $image->getClientOriginalExtension();
-        $filename = uniqid('profile') . '.' . $ext; // Generate a unique filename
+        $filename = uniqid('profile').'.'.$ext; // Generate a unique filename
         $image->move(public_path('assets/img/profile/'), $filename); // Save the file
 
         $user->update([
@@ -65,8 +66,8 @@ class ProfileController extends Controller
     public function editInfo(Request $request)
     {
         $request->validate([
-            "name" => "required",
-            "phone" => ['nullable', 'string', 'min:11'],
+            'name' => 'required',
+            'phone' => ['nullable', 'string', 'min:11'],
 
         ]);
 
@@ -76,20 +77,20 @@ class ProfileController extends Controller
             $request->phone !== $user->phone
         ) {
 
-            $existingPhone = User::where("phone", $request->phone)->first();
+            $existingPhone = User::where('phone', $request->phone)->first();
 
             if ($existingPhone && $existingPhone->id !== $user->id) {
-                return redirect()->back()->with("error", "The phone has already been taken.");
+                return redirect()->back()->with('error', 'The phone has already been taken.');
             }
         }
 
         $user->update([
-            "name" => $request->name,
-            "phone" => $request->phone ?? $user->phone,
+            'name' => $request->name,
+            'phone' => $request->phone ?? $user->phone,
 
         ]);
 
-        return redirect()->back()->with("success", "User info updated successfully.");
+        return redirect()->back()->with('success', 'User info updated successfully.');
     }
 
     public function changePassword(Request $request)
@@ -105,16 +106,16 @@ class ProfileController extends Controller
 
         if (Hash::check($request->old_password, $user->password)) {
             $user->update([
-                'password' => Hash::make($request->password)
+                'password' => Hash::make($request->password),
             ]);
 
             if (auth()->user()->hasRole('Admin')) {
-                return redirect()->back()->with('toast_success', "Admin Password has been  Updated.");
+                return redirect()->back()->with('toast_success', 'Admin Password has been  Updated.');
             } else {
-                return redirect()->back()->with('success', "User Password has been Updated.");
+                return redirect()->back()->with('success', 'User Password has been Updated.');
             }
         } else {
-            return redirect()->back()->with('error', "Old password does not match!");
+            return redirect()->back()->with('error', 'Old password does not match!');
         }
     }
 }

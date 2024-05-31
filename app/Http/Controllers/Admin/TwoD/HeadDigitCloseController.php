@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin\TwoD;
 
-use Illuminate\Http\Request;
-use App\Models\Admin\HeadDigit;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\HeadDigit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class HeadDigitCloseController extends Controller
@@ -12,6 +12,7 @@ class HeadDigitCloseController extends Controller
     public function index()
     {
         $digits = HeadDigit::all();
+
         return view('admin.two_d.head_digit.index', compact('digits'));
     }
 
@@ -28,31 +29,30 @@ class HeadDigitCloseController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), 
-        [
-        'digit_one' => 'required|numeric',
-        'digit_two' => 'required|numeric',
-        'digit_three' => 'required|numeric',
+        $validator = Validator::make($request->all(),
+            [
+                'digit_one' => 'required|numeric',
+                'digit_two' => 'required|numeric',
+                'digit_three' => 'required|numeric',
 
-        //'body' => 'required|min:3'
-        ]);
+                //'body' => 'required|min:3'
+            ]);
 
-    if ($validator->fails()) {
-        return back()->with('toast_error', $validator->messages()->all()[0])->withInput();
-    }
+        if ($validator->fails()) {
+            return back()->with('toast_error', $validator->messages()->all()[0])->withInput();
+        }
 
         // store
         HeadDigit::create([
-            'digit_one' => $request->digit_one, 
+            'digit_one' => $request->digit_one,
             'digit_two' => $request->digit_two,
-            'digit_three' => $request->digit_three
+            'digit_three' => $request->digit_three,
         ]);
         // redirect
         //Alert::success('Premission has been Created successfully', 'WoW!');
         //toast::success('Success New Permission', 'Permission created successfully.');
 
         return redirect()->route('admin.head-digit-close.index')->with('toast_success', 'HeadDigit created successfully.');
-    
 
     }
 
@@ -83,10 +83,11 @@ class HeadDigitCloseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
- public function destroy($id)
+    public function destroy($id)
     {
         $limit = HeadDigit::findOrFail($id);
         $limit->delete();
+
         return redirect()->route('admin.head-digit-close.index')->with('toast_success', 'HeadDigit deleted successfully.');
     }
 }

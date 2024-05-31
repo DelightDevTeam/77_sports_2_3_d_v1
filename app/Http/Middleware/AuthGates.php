@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Admin\Role;
 use Auth;
 use Closure;
-use App\Models\Admin\Role;
 use Illuminate\Support\Facades\Gate;
 
 class AuthGates
@@ -14,7 +14,7 @@ class AuthGates
         $user = \Auth::user();
 
         if ($user) {
-            $roles            = Role::with('permissions')->get();
+            $roles = Role::with('permissions')->get();
             $permissionsArray = [];
 
             foreach ($roles as $role) {

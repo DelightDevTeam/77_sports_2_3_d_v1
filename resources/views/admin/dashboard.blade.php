@@ -333,7 +333,7 @@
                     </div>
             </div>
             {{-- session reset 2 --}}
-            <div class="col-lg-6 col-md-6 col-sm-6 mb-2 mt-lg-0 mt-4">
+            {{-- <div class="col-lg-6 col-md-6 col-sm-6 mb-2 mt-lg-0 mt-4">
               <div class="card  mb-2 p-3">
                 <div class="d-flex mt-n2">
                             <div class="avatar avatar-xl bg-{{ $lottery_matches->is_active ? 'success' : 'danger' }} border-radius-xl p-2 mt-n4">
@@ -344,17 +344,7 @@
                                 <div class="avatar-group mt-2">
                                         <form action="{{ route('admin.OpenCloseTwoD' , $lottery_matches->id) }}" method="post">
                                             @csrf
-                                            {{-- @method('PUT') --}}
-                                            {{-- <input type="hidden" name="is_active" value="{{ $lottery_matches->id }}"> --}}
-                                            {{-- <div class="form-check form-switch ps-0">
-                                              <div class="d-flex">
-                                                <input class="form-check-input ms-auto d-block" type="checkbox"
-                                                    id="flexSwitchCheckDefault" name="flexSwitchCheckDefault"
-                                                    {{ $lottery_matches->is_active ? 'checked' : '' }}>
-                                                <label class="form-check-label text-body ms-3 d-block text-truncate w-80 mb-0"
-                                                    for="flexSwitchCheckDefault">Close For 2D Session</label>
-                                              </div>
-                                            </div> --}}
+                                            
                                             <button class="btn mt-2" type="submit">
                                               <i class="fas fa-toggle-{{ $lottery_matches->is_active ? 'on' : 'off' }} fa-2x text-{{ $lottery_matches->is_active ? 'success' : 'danger' }}"></i>
                                             </button>
@@ -367,7 +357,7 @@
                   <p class="mb-0 "><span class="text-success text-sm font-weight-bolder">2D အဖွင့်အပိတ်ကို ဤနေရာတွင်လုပ်ဆောင်ရန်</p>
                 </div>
               </div>
-            </div>
+            </div> --}}
             <div class="col-lg-6 col-md-6 col-sm-6 mb-2">
               <div class="card p-3">
                 {{-- 3d reset --}}

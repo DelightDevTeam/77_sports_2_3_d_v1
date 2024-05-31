@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ThreedClose extends Model
 {
     use HasFactory;
+
     protected $fillable = ['digit'];
-    
 }

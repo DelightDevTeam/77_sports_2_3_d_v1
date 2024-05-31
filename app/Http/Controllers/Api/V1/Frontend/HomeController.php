@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     use HttpResponses;
+
     public function index()
     {
         $user = Auth::user();
@@ -21,12 +22,13 @@ class HomeController extends Controller
         $banner_text = BannerText::latest()->first();
         $game_links = Game::latest()->get();
         $rate = Currency::latest()->first()->rate;
+
         return $this->success([
             'user' => $user,
-            "banners" => $banners,
-            "banner_text" => $banner_text,
-            "game_links" => $game_links,
-            "rate" => $rate,
+            'banners' => $banners,
+            'banner_text' => $banner_text,
+            'game_links' => $game_links,
+            'rate' => $rate,
         ]);
     }
 }

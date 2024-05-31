@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Admin\ThreeD;
 
-use Carbon\Carbon;
+use App\Http\Controllers\Controller;
 use App\Models\Lotto;
+use App\Models\ThreeDigit\FirstPrizeWinner;
+use App\Models\ThreeDigit\SecondPrizeWinner;
+use App\Models\ThreeDigit\ThirdPrizeWinner;
+use App\Models\ThreeDigit\ThreeWinner;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
-use App\Models\ThreeDigit\ThreeWinner;
-use App\Models\ThreeDigit\FirstPrizeWinner;
-use App\Models\ThreeDigit\ThirdPrizeWinner;
-use App\Models\ThreeDigit\SecondPrizeWinner;
 
 class ThreeDWinnerController extends Controller
 {
@@ -19,14 +19,14 @@ class ThreeDWinnerController extends Controller
         $lotteries = Lotto::with('threedDigitWinner')->get();
 
         $prize_no_morning = ThreeWinner::whereDate('created_at', Carbon::today())
-                                     ->whereBetween('created_at', [Carbon::now()->startOfDay()->addHours(10), Carbon::now()->startOfDay()->addHours(24)])
-                                     ->orderBy('id', 'desc')
-                                     ->first();
-       
-                                     $prize_no = ThreeWinner::whereDate('created_at', Carbon::today())->orderBy('id', 'desc')->first();
+            ->whereBetween('created_at', [Carbon::now()->startOfDay()->addHours(10), Carbon::now()->startOfDay()->addHours(24)])
+            ->orderBy('id', 'desc')
+            ->first();
+
+        $prize_no = ThreeWinner::whereDate('created_at', Carbon::today())->orderBy('id', 'desc')->first();
+
         return view('admin.three_d.three_d_winner', compact('lotteries', 'prize_no_morning', 'prize_no'));
     }
-
 
     // public function getWinnersHistoryForAdmin()
     // {
@@ -38,26 +38,26 @@ class ThreeDWinnerController extends Controller
     //     ->join('three_winners', 'three_digits.three_digit', '=', 'three_winners.prize_no')
     //     ->whereDate('three_winners.created_at', '>=', $oneMonthAgo)
     //     ->groupBy(
-    //         'lottos.user_id', 
-    //         'users.name',
-    //         'users.profile',
-    //         'users.phone',
-    //         'lotto_three_digit_pivot.sub_amount', 
-    //         'lotto_three_digit_pivot.prize_sent',
-    //         'lottos.total_amount', 
-    //         'three_winners.prize_no', 
-    //         'three_winners.created_at',  
-    //     )
-    //     ->select(
-    //         'lottos.user_id', 
+    //         'lottos.user_id',
     //         'users.name',
     //         'users.profile',
     //         'users.phone',
     //         'lotto_three_digit_pivot.sub_amount',
     //         'lotto_three_digit_pivot.prize_sent',
     //         'lottos.total_amount',
-    //         'three_winners.prize_no', 
-    //         'three_winners.created_at', 
+    //         'three_winners.prize_no',
+    //         'three_winners.created_at',
+    //     )
+    //     ->select(
+    //         'lottos.user_id',
+    //         'users.name',
+    //         'users.profile',
+    //         'users.phone',
+    //         'lotto_three_digit_pivot.sub_amount',
+    //         'lotto_three_digit_pivot.prize_sent',
+    //         'lottos.total_amount',
+    //         'three_winners.prize_no',
+    //         'three_winners.created_at',
     //      DB::raw('lotto_three_digit_pivot.sub_amount * 600 as prize_amount')
     //     )
     //     ->orderBy('prize_amount', 'desc') // Add this line to sort by prize_amount in descending order
@@ -70,29 +70,32 @@ class ThreeDWinnerController extends Controller
 
     //     return view('admin.three_d.three_d_winner_history', compact('winners'));
     // }
-       public function FirstPrizeWinner()
-       {
+    public function FirstPrizeWinner()
+    {
         //$winners = FirstPrizeWinner::orderBy('id', 'desc')->get();
         $winners = FirstPrizeWinner::with('user')->orderBy('id', 'desc')->get();
-         $totalPrizeAmount = FirstPrizeWinner::sum('prize_amount');
-        return view('admin.three_d.three_d_winner_history', compact('winners', 'totalPrizeAmount'));
-       }
+        $totalPrizeAmount = FirstPrizeWinner::sum('prize_amount');
 
-       public function SecondPrizeWinner()
-       {
+        return view('admin.three_d.three_d_winner_history', compact('winners', 'totalPrizeAmount'));
+    }
+
+    public function SecondPrizeWinner()
+    {
         $winners = SecondPrizeWinner::with('user')->orderBy('id', 'desc')->get();
         $totalPrizeAmount = SecondPrizeWinner::sum('prize_amount');
+
         return view('admin.three_d.three_d_permutation_winner_history', compact('winners', 'totalPrizeAmount'));
 
-       }
+    }
 
-       public function ThirdPrizeWinner()
-       {
+    public function ThirdPrizeWinner()
+    {
         $winners = ThirdPrizeWinner::with('user')->orderBy('id', 'desc')->get();
         $totalPrizeAmount = ThirdPrizeWinner::sum('prize_amount');
-       return view('admin.three_d.prize_winner_history', compact('winners', 'totalPrizeAmount'));
 
-       }
+        return view('admin.three_d.prize_winner_history', compact('winners', 'totalPrizeAmount'));
+
+    }
 
     // public function getPermutationWinnersHistoryForAdmin()
     // {
@@ -104,26 +107,26 @@ class ThreeDWinnerController extends Controller
     //     ->join('permutations', 'three_digits.three_digit', '=', 'permutations.digit')
     //     ->whereDate('permutations.created_at', '>=', $oneMonthAgo)
     //     ->groupBy(
-    //         'lottos.user_id', 
-    //         'users.name',
-    //         'users.profile',
-    //         'users.phone',
-    //         'lotto_three_digit_pivot.sub_amount', 
-    //         'lotto_three_digit_pivot.prize_sent',
-    //         'lottos.total_amount', 
-    //         'permutations.digit', 
-    //         'permutations.created_at',  
-    //     )
-    //     ->select(
-    //         'lottos.user_id', 
+    //         'lottos.user_id',
     //         'users.name',
     //         'users.profile',
     //         'users.phone',
     //         'lotto_three_digit_pivot.sub_amount',
     //         'lotto_three_digit_pivot.prize_sent',
     //         'lottos.total_amount',
-    //         'permutations.digit', 
-    //         'permutations.created_at', 
+    //         'permutations.digit',
+    //         'permutations.created_at',
+    //     )
+    //     ->select(
+    //         'lottos.user_id',
+    //         'users.name',
+    //         'users.profile',
+    //         'users.phone',
+    //         'lotto_three_digit_pivot.sub_amount',
+    //         'lotto_three_digit_pivot.prize_sent',
+    //         'lottos.total_amount',
+    //         'permutations.digit',
+    //         'permutations.created_at',
     //      DB::raw('lotto_three_digit_pivot.sub_amount * 10 as prize_amount')
     //     )
     //     ->orderBy('prize_amount', 'desc') // Add this line to sort by prize_amount in descending order
@@ -147,26 +150,26 @@ class ThreeDWinnerController extends Controller
     //     ->join('three_winners', 'three_digits.three_digit', '=', 'three_winners.prize_no')
     //     ->whereDate('three_winners.created_at', '>=', $oneMonthAgo)
     //     ->groupBy(
-    //         'lottos.user_id', 
-    //         'users.name',
-    //         'users.profile',
-    //         'users.phone',
-    //         'lotto_three_digit_pivot.sub_amount', 
-    //         'lotto_three_digit_pivot.prize_sent',
-    //         'lottos.total_amount', 
-    //         'three_winners.prize_no', 
-    //         'three_winners.created_at',  
-    //     )
-    //     ->select(
-    //         'lottos.user_id', 
+    //         'lottos.user_id',
     //         'users.name',
     //         'users.profile',
     //         'users.phone',
     //         'lotto_three_digit_pivot.sub_amount',
     //         'lotto_three_digit_pivot.prize_sent',
     //         'lottos.total_amount',
-    //         'three_winners.prize_no', 
-    //         'three_winners.created_at', 
+    //         'three_winners.prize_no',
+    //         'three_winners.created_at',
+    //     )
+    //     ->select(
+    //         'lottos.user_id',
+    //         'users.name',
+    //         'users.profile',
+    //         'users.phone',
+    //         'lotto_three_digit_pivot.sub_amount',
+    //         'lotto_three_digit_pivot.prize_sent',
+    //         'lottos.total_amount',
+    //         'three_winners.prize_no',
+    //         'three_winners.created_at',
     //      DB::raw('lotto_three_digit_pivot.sub_amount * 10 as prize_amount')
     //     )
     //     ->orderBy('prize_amount', 'desc') // Add this line to sort by prize_amount in descending order
@@ -179,13 +182,13 @@ class ThreeDWinnerController extends Controller
     //     return view('admin.three_d.three_d_permutation_winner_history', compact('winners'));
     // }
 
-     public function updatePrizeSentDate($winnerId)
+    public function updatePrizeSentDate($winnerId)
     {
         // Find the lottery_two_digit_pivot record
         $lotteryTwoDigitPivot = DB::table('lotto_three_digit_pivot')->where('lotto_id', $winnerId)->first();
 
         // Check if the record exists
-        if (!$lotteryTwoDigitPivot) {
+        if (! $lotteryTwoDigitPivot) {
             return redirect()->back()->with('error', 'Record not found!');
         }
 
@@ -203,7 +206,7 @@ class ThreeDWinnerController extends Controller
         $lotteryTwoDigitPivot = DB::table('lotto_three_digit_pivot')->where('lotto_id', $winnerId)->first();
 
         // Check if the record exists
-        if (!$lotteryTwoDigitPivot) {
+        if (! $lotteryTwoDigitPivot) {
             return redirect()->back()->with('error', 'Record not found!');
         }
 
@@ -219,52 +222,52 @@ class ThreeDWinnerController extends Controller
     {
         $oneMonthAgo = Carbon::now()->subMonth();
         $winners = DB::table('lotto_three_digit_pivot')
-        ->join('three_digits', 'lotto_three_digit_pivot.three_digit_id', '=', 'three_digits.id')
-        ->join('lottos', 'lotto_three_digit_pivot.lotto_id', '=', 'lottos.id')
-        ->join('users', 'lottos.user_id', '=', 'users.id')
-        ->join('three_winners', 'three_digits.three_digit', '=', 'three_winners.prize_no')
-        ->whereDate('three_winners.created_at', '>=', $oneMonthAgo)
-        ->groupBy(
-            'lottos.user_id', 
-            'users.name',
-            'users.profile',
-            'users.phone',
-            'lotto_three_digit_pivot.sub_amount', 
-            'lotto_three_digit_pivot.prize_sent',
-            'lottos.total_amount', 
-            'three_winners.prize_no', 
-            'three_winners.created_at',  
-        )
-        ->select(
-            'lottos.user_id', 
-            'users.name',
-            'users.profile',
-            'users.phone',
-            'lotto_three_digit_pivot.sub_amount',
-            'lotto_three_digit_pivot.prize_sent',
-            'lottos.total_amount',
-            'three_winners.prize_no', 
-            'three_winners.created_at', 
-         DB::raw('lotto_three_digit_pivot.sub_amount * 600 as prize_amount')
-        )
-        ->orderBy('prize_amount', 'desc') // Add this line to sort by prize_amount in descending order
-        ->get();
-    // Update the prize_sent date for each winner
-     foreach ($winners as $winner) {
-       // $this->updatePrizeSentDateApi($winner->user_id); // Make sure user_id is the ID of the winner
-       $winner->user_id;
+            ->join('three_digits', 'lotto_three_digit_pivot.three_digit_id', '=', 'three_digits.id')
+            ->join('lottos', 'lotto_three_digit_pivot.lotto_id', '=', 'lottos.id')
+            ->join('users', 'lottos.user_id', '=', 'users.id')
+            ->join('three_winners', 'three_digits.three_digit', '=', 'three_winners.prize_no')
+            ->whereDate('three_winners.created_at', '>=', $oneMonthAgo)
+            ->groupBy(
+                'lottos.user_id',
+                'users.name',
+                'users.profile',
+                'users.phone',
+                'lotto_three_digit_pivot.sub_amount',
+                'lotto_three_digit_pivot.prize_sent',
+                'lottos.total_amount',
+                'three_winners.prize_no',
+                'three_winners.created_at',
+            )
+            ->select(
+                'lottos.user_id',
+                'users.name',
+                'users.profile',
+                'users.phone',
+                'lotto_three_digit_pivot.sub_amount',
+                'lotto_three_digit_pivot.prize_sent',
+                'lottos.total_amount',
+                'three_winners.prize_no',
+                'three_winners.created_at',
+                DB::raw('lotto_three_digit_pivot.sub_amount * 600 as prize_amount')
+            )
+            ->orderBy('prize_amount', 'desc') // Add this line to sort by prize_amount in descending order
+            ->get();
+        // Update the prize_sent date for each winner
+        foreach ($winners as $winner) {
+            // $this->updatePrizeSentDateApi($winner->user_id); // Make sure user_id is the ID of the winner
+            $winner->user_id;
+        }
+
+        return response()->json(['winners' => $winners], 200);
     }
 
-         return response()->json(['winners' => $winners], 200);
-    }
-
-     public function updatePrizeSentDateApi($winnerId)
+    public function updatePrizeSentDateApi($winnerId)
     {
         // Find the lottery_two_digit_pivot record
         $lotteryTwoDigitPivot = DB::table('lotto_three_digit_pivot')->where('lotto_id', $winnerId)->first();
 
         // Check if the record exists
-        if (!$lotteryTwoDigitPivot) {
+        if (! $lotteryTwoDigitPivot) {
             return redirect()->back()->with('error', 'Record not found!');
         }
 
@@ -273,7 +276,7 @@ class ThreeDWinnerController extends Controller
             ->where('lotto_id', $winnerId)
             ->update(['prize_sent' => true]);
 
-       return response()->json(['success' => 'Prize sent date updated successfully!'], 200);
+        return response()->json(['success' => 'Prize sent date updated successfully!'], 200);
     }
 
     // public function getPrizeWinnersHistoryForAdmin()
@@ -327,7 +330,6 @@ class ThreeDWinnerController extends Controller
     //     return view('admin.three_d.prize_winner_history', compact('winners'));
     // }
 
-
     // public function getPrizeWinnersHistoryForAdmin()
     // {
     //     $oneMonthAgo = Carbon::now()->subMonth();
@@ -338,26 +340,26 @@ class ThreeDWinnerController extends Controller
     //     ->join('three_winners', 'three_digits.three_digit', '=', 'three_winners.prize_no')
     //     ->whereDate('three_winners.created_at', '>=', $oneMonthAgo)
     //     ->groupBy(
-    //         'lottos.user_id', 
-    //         'users.name',
-    //         'users.profile',
-    //         'users.phone',
-    //         'lotto_three_digit_copy.sub_amount', 
-    //         'lotto_three_digit_copy.prize_sent',
-    //         'lottos.total_amount', 
-    //         'three_winners.prize_no', 
-    //         'three_winners.created_at',  
-    //     )
-    //     ->select(
-    //         'lottos.user_id', 
+    //         'lottos.user_id',
     //         'users.name',
     //         'users.profile',
     //         'users.phone',
     //         'lotto_three_digit_copy.sub_amount',
     //         'lotto_three_digit_copy.prize_sent',
     //         'lottos.total_amount',
-    //         'three_winners.prize_no', 
-    //         'three_winners.created_at', 
+    //         'three_winners.prize_no',
+    //         'three_winners.created_at',
+    //     )
+    //     ->select(
+    //         'lottos.user_id',
+    //         'users.name',
+    //         'users.profile',
+    //         'users.phone',
+    //         'lotto_three_digit_copy.sub_amount',
+    //         'lotto_three_digit_copy.prize_sent',
+    //         'lottos.total_amount',
+    //         'three_winners.prize_no',
+    //         'three_winners.created_at',
     //      DB::raw('lotto_three_digit_copy.sub_amount * 10 as prize_amount')
     //     )
     //     ->orderBy('prize_amount', 'desc') // Add this line to sort by prize_amount in descending order
@@ -370,13 +372,13 @@ class ThreeDWinnerController extends Controller
     //     return view('admin.three_d.prize_winner_history', compact('winners'));
     // }
 
-     public function updateGreatePrizeSentDate($winnerId)
+    public function updateGreatePrizeSentDate($winnerId)
     {
         // Find the lottery_two_digit_pivot record
         $lotteryTwoDigitPivot = DB::table('lotto_three_digit_copy')->where('lotto_id', $winnerId)->first();
 
         // Check if the record exists
-        if (!$lotteryTwoDigitPivot) {
+        if (! $lotteryTwoDigitPivot) {
             return redirect()->back()->with('error', 'Record not found!');
         }
 
@@ -387,6 +389,4 @@ class ThreeDWinnerController extends Controller
 
         return redirect()->back()->with('success', 'Prize sent date updated successfully!');
     }
-
-
 }

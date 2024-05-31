@@ -9,13 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 class Jackmatch extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'match_name',
-        'is_active'
+        'is_active',
     ];
-    public function Jackpots()
-{
-    return $this->hasMany(Jackpot::class);
-}
 
+    public function Jackpots()
+    {
+        return $this->hasMany(Jackpot::class);
+    }
 }

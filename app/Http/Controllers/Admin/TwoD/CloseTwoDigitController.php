@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Admin\TwoD;
 
-use Illuminate\Http\Request;
-use App\Models\Admin\CloseTwoDigit;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\CloseTwoDigit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class CloseTwoDigitController extends Controller
 {
-   public function index()
+    public function index()
     {
         $digits = CloseTwoDigit::all();
+
         return view('admin.two_d.two_digit_close.index', compact('digits'));
     }
 
@@ -28,21 +29,21 @@ class CloseTwoDigitController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), 
-        [
-        'digit' => 'required|numeric',
-        ]);
+        $validator = Validator::make($request->all(),
+            [
+                'digit' => 'required|numeric',
+            ]);
 
-    if ($validator->fails()) {
-        return back()->with('toast_error', $validator->messages()->all()[0])->withInput();
-    }
+        if ($validator->fails()) {
+            return back()->with('toast_error', $validator->messages()->all()[0])->withInput();
+        }
 
         // store
         CloseTwoDigit::create([
-            'digit' => $request->digit
+            'digit' => $request->digit,
         ]);
+
         return redirect()->route('admin.two-digit-close.index')->with('toast_success', 'CloseTwoDigit created successfully.');
-    
 
     }
 
@@ -73,10 +74,11 @@ class CloseTwoDigitController extends Controller
     /**
      * Remove the specified resource from storage.
      */
- public function destroy($id)
+    public function destroy($id)
     {
         $limit = CloseTwoDigit::findOrFail($id);
         $limit->delete();
+
         return redirect()->route('admin.two-digit-close.index')->with('toast_success', 'CloseTwoDigit deleted successfully.');
     }
 }

@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Admin\TransferLogController;
 use App\Http\Controllers\Home\CashInRequestController;
-
 use App\Http\Controllers\Home\CashOutRequestController;
 use App\Http\Controllers\Home\HomeController;
 // use App\Http\Controllers\twoDHistoryController;
@@ -12,24 +11,18 @@ use App\Http\Controllers\Home\WalletController;
 use App\Http\Controllers\User\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
-
-
-
 //home route
 // Route::get('/', [HomeController::class, 'index'])->name('welcome');
 
-
 // Route::middleware('auth')->group(function () {
-    Route::get('/user-profile-home', [ProfileController::class, 'profile'])->name('user-profile-home');
+Route::get('/user-profile-home', [ProfileController::class, 'profile'])->name('user-profile-home');
 //     //profile management
-    Route::post('editProfile/', [ProfileController::class, 'update'])->name('editProfile');
-    Route::post('editInfo', [ProfileController::class, 'editInfo'])->name('editInfo');
-    Route::post('changePassword', [ProfileController::class, 'changePassword'])->name('changePassword');
-//     // user balance update 
-    Route::put('balanceUpdate', [ProfileController::class, 'balanceUpdate'])->name('balanceUpdate');
+Route::post('editProfile/', [ProfileController::class, 'update'])->name('editProfile');
+Route::post('editInfo', [ProfileController::class, 'editInfo'])->name('editInfo');
+Route::post('changePassword', [ProfileController::class, 'changePassword'])->name('changePassword');
+//     // user balance update
+Route::put('balanceUpdate', [ProfileController::class, 'balanceUpdate'])->name('balanceUpdate');
 //     //profile management
-
-
 
 //     //two D history
 
@@ -77,7 +70,7 @@ use Illuminate\Support\Facades\Route;
 //         Route::get('/confirm', [WelcomeController::class, 'threedConfirm']);
 //         Route::get('/winner', [WelcomeController::class, 'threedWinner']);
 //         Route::get('/history', [WelcomeController::class, 'threedHistory']);
-        
+
 //     });
 
 //     // Twod Routes
@@ -85,7 +78,7 @@ use Illuminate\Support\Facades\Route;
 //         Route::get('/', [WelcomeController::class, 'twoD']);
 //         Route::get('/play', [WelcomeController::class, 'twoDPlay']);
 //         Route::get('/confirm', [WelcomeController::class, 'twoDConfirm']);
-        
+
 //     });
 // });
 

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ThreeDlotteryCopy extends Model
 {
     use HasFactory;
+
     protected $table = 'threed_lottery_pivot_copy';
 
     protected $fillable = [
@@ -17,5 +18,4 @@ class ThreeDlotteryCopy extends Model
         'sub_amount',
         'prize_sent',
     ];
-
 }

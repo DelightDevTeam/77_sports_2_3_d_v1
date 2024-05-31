@@ -26,9 +26,9 @@
                         </div>
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                             <div class="ms-auto my-auto">
-                                <a href="{{ route('admin.users.create') }}"
+                                {{-- <a href="{{ route('admin.users.create') }}"
                                     class="btn bg-gradient-primary btn-sm mb-0">+&nbsp; Create New
-                                    User</a>
+                                    User</a> --}}
                                 <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" data-type="csv"
                                     type="button" name="button">Export</button>
                             </div>
@@ -44,6 +44,7 @@
                             <th>Two Digits</th>
                             <th>Total Amount</th>
                             <th>Date</th>
+                            <th>Session</th>
                             <th>Action</th>
                         </thead>
                         <tbody>
@@ -73,11 +74,17 @@
                                                 class="badge badge-sm badge-circle badge-danger border border-white border-2"></span> --}}
                                         </button>
                                     </td>
+                                   
                                     {{-- <td>{{ $lottery->created_at->format('d M Y (l) h:i:s A') }}</td> --}}
                                     <td class="text-sm font-weight-normal">
 
-                                        <span
-                                            class="badge bg-gradient-info">{{ $lottery->created_at->format('d-m-Y (l) (h:i a)') }}</span>
+                                        {{-- <span
+                                            class="badge bg-gradient-info">{{ $lottery->created_at->format('d-m-Y (l) (h:i a)') }}</span> --}}
+                                            <span
+                                            class="badge bg-gradient-info">{{ $lottery->created_at->format('d-m-Y (l)') }}</span>
+                                    </td>
+                                     <td>
+                                        {{ $lottery->session }}
                                     </td>
                                     <td class="text-sm font-weight-normal">
                                         <a href="{{ route('admin.twod-records.show', $lottery->id )}}" class="btn btn-warning btn-sm">Show</a>

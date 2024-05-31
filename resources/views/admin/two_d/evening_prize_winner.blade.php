@@ -70,7 +70,7 @@
                     </h5>
                 </div>
                 <div class="card-header pb-0">
-                 <form action="{{ route('admin.PostMorningPrizeWinners') }}" method="POST">
+                 <form action="{{ route('admin.PostEveningPrizeWinners') }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-primary">2D ညနေပိုင်း ပေါက်သူများသိမ်းရန်</button>
                     </form>
@@ -78,7 +78,7 @@
                 <div class="d-lg-flex mt-2">
                     <div class="ms-auto my-auto mt-lg-0">
                         <div class="ms-auto my-auto">
-                        <form action="{{ route('admin.updateMorningwinners') }}" method="POST">
+                        <form action="{{ route('admin.updateEveningwinners') }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-primary">2D Winner Update</button>
                     </form>

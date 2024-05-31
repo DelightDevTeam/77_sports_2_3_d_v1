@@ -20,12 +20,12 @@ class ThreedPlayRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules()
-        {
-            return [
-                'totalAmount' => 'required|numeric|min:1',
-                'amounts' => 'required|array',
-                'amounts.*.num' => 'required|integer',
-                'amounts.*.amount' => 'required|integer|min:1',
-            ];
-        }
+    {
+        return [
+            'totalAmount' => 'required|numeric|min:1',
+            'amounts' => 'required|array',
+            'amounts.*.num' => 'required|integer',
+            'amounts.*.amount' => 'required|integer|min:1',
+        ];
+    }
 }

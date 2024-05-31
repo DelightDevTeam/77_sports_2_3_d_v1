@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Admin\Role;
-use Illuminate\Database\Seeder;
 use App\Models\Admin\Permission;
+use App\Models\Admin\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
 
 class PermissionRoleTableSeeder extends Seeder
 {
@@ -22,23 +22,23 @@ class PermissionRoleTableSeeder extends Seeder
 
         // Master gets specific permissions
         $master_permissions = Permission::whereIn('title', [
-            'agent_management_access', 
-            'agent_create', 
-            'agent_edit', 
-            'agent_show', 
-            'agent_delete', 
-            'agent_access'
+            'agent_management_access',
+            'agent_create',
+            'agent_edit',
+            'agent_show',
+            'agent_delete',
+            'agent_access',
         ])->pluck('id');
         Role::findOrFail(2)->permissions()->sync($master_permissions);
 
         // Agent gets specific permissions
         $agent_permissions = Permission::whereIn('title', [
-            'user_management_access', 
-            'user_create', 
-            'user_edit', 
-            'user_show', 
-            'user_delete', 
-            'user_access'
+            'user_management_access',
+            'user_create',
+            'user_edit',
+            'user_show',
+            'user_delete',
+            'user_access',
         ])->pluck('id');
         Role::findOrFail(3)->permissions()->sync($agent_permissions);
 

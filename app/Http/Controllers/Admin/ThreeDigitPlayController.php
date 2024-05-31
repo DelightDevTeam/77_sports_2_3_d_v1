@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Models\Admin\BetLottery;
+use App\Models\Admin\Matching;
+use App\Models\BetLotteryMatchingCopy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Models\Admin\Matching;
-use App\Models\Admin\BetLottery;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Models\BetLotteryMatchingCopy;
+
 class ThreeDigitPlayController extends Controller
 {
-
-     public function ThreeDigitPlaystore(Request $request)
+    public function ThreeDigitPlaystore(Request $request)
     {
         $validatedData = $request->validate([
             'digit' => 'required|array',
@@ -33,11 +33,13 @@ class ThreeDigitPlayController extends Controller
 
             DB::commit();
             session()->flash('SuccessRequest', 'Your betting was successful.');
+
             return back()->with(['success' => 'Digits played successfully.', 'new_balance' => $user->balance]);
-            
+
         } catch (\Exception $e) {
             DB::rollBack();
-            session()->flash('error', 'Error: ' . $e->getMessage());
+            session()->flash('error', 'Error: '.$e->getMessage());
+
             return back();
         }
     }
@@ -77,7 +79,7 @@ class ThreeDigitPlayController extends Controller
             }
 
             $matchTime = Matching::find($matchTimeId);
-            if (!$matchTime) {
+            if (! $matchTime) {
                 throw new \Exception('Invalid match time.');
             }
 
@@ -88,7 +90,7 @@ class ThreeDigitPlayController extends Controller
             //     'created_at' => Carbon::now(),
             //     'updated_at' => Carbon::now(),
             // ]);
-            $pivot = new BetLotteryMatchingCopy();
+            $pivot = new BetLotteryMatchingCopy;
             $pivot->matching_id = $matchTimeId;
             $pivot->bet_lottery_id = $lottery->id;
             $pivot->digit_entry = $digit;
@@ -97,140 +99,140 @@ class ThreeDigitPlayController extends Controller
             $pivot->created_at = Carbon::now();
             $pivot->updated_at = Carbon::now();
             $pivot->save();
-            
+
         }
     }
     //     public function ThreeDigitPlaystore(Request $request)
-// {
-//     // $request->validate([
-//     //     'digit' => 'required|array',
-//     //     'sub_amount' => 'required|array',
-//     //     'sub_amount.*' => 'required|integer|min:100|max:5000',
-//     //     'total_amount' => 'required|numeric|min:100',
-//     //     'user_id' => 'required|exists:users,id',
-//     //     //'matching_id' => 'required|exists:matchings,id',
-//     // ]);
-//     //dd($request->all());
-//     // Log::info($request->all());
-//     // DB::beginTransaction();
+    // {
+    //     // $request->validate([
+    //     //     'digit' => 'required|array',
+    //     //     'sub_amount' => 'required|array',
+    //     //     'sub_amount.*' => 'required|integer|min:100|max:5000',
+    //     //     'total_amount' => 'required|numeric|min:100',
+    //     //     'user_id' => 'required|exists:users,id',
+    //     //     //'matching_id' => 'required|exists:matchings,id',
+    //     // ]);
+    //     //dd($request->all());
+    //     // Log::info($request->all());
+    //     // DB::beginTransaction();
 
-//     try {
-//         $user = Auth::user();
-//         $user->balance -= $request->total_amount;
+    //     try {
+    //         $user = Auth::user();
+    //         $user->balance -= $request->total_amount;
 
-//         if ($user->balance < 0) {
-//             throw new \Exception('Not enough balance.');
-//         }
+    //         if ($user->balance < 0) {
+    //             throw new \Exception('Not enough balance.');
+    //         }
 
-//         $user->save();
+    //         $user->save();
 
-//         $betLottery = BetLottery::create([
-//             'total_amount' => $request->total_amount,
-//             'user_id' => $user->id,
-//             'lottery_match_id' => $request->matching_id,
-//         ]);
+    //         $betLottery = BetLottery::create([
+    //             'total_amount' => $request->total_amount,
+    //             'user_id' => $user->id,
+    //             'lottery_match_id' => $request->matching_id,
+    //         ]);
 
-//         foreach ($request->digit as $key => $digit) {
-//             $subAmount = $request->sub_amount[$key];
-//             $existingAmount = DB::table('bet_lottery_matching')
-//                 ->where('digit_entry', $digit)
-//                 ->where('matching_id', $request->matching_id)
-//                 ->sum('sub_amount');
+    //         foreach ($request->digit as $key => $digit) {
+    //             $subAmount = $request->sub_amount[$key];
+    //             $existingAmount = DB::table('bet_lottery_matching')
+    //                 ->where('digit_entry', $digit)
+    //                 ->where('matching_id', $request->matching_id)
+    //                 ->sum('sub_amount');
 
-//             if ($existingAmount + $subAmount > 5000) {
-//                 throw new \Exception("The bet amount limit for digit {$digit} is exceeded.");
-//             }
+    //             if ($existingAmount + $subAmount > 5000) {
+    //                 throw new \Exception("The bet amount limit for digit {$digit} is exceeded.");
+    //             }
 
-//             $betLottery->matchings()->attach($request->matching_id, [
-//                 'digit_entry' => $digit,
-//                 'sub_amount' => $subAmount,
-//                 'prize_sent' => false,
-//                 'created_at' => now(),
-//                 'updated_at' => now(),
-//             ]);
-//         }
+    //             $betLottery->matchings()->attach($request->matching_id, [
+    //                 'digit_entry' => $digit,
+    //                 'sub_amount' => $subAmount,
+    //                 'prize_sent' => false,
+    //                 'created_at' => now(),
+    //                 'updated_at' => now(),
+    //             ]);
+    //         }
 
-//         DB::commit();
-//         return back()->with('success', 'Your betting was successful. New balance: ' . $user->balance);
+    //         DB::commit();
+    //         return back()->with('success', 'Your betting was successful. New balance: ' . $user->balance);
 
-//     } catch (\Exception $e) {
-//         DB::rollBack();
-//         return back()->withErrors('error', $e->getMessage());
-//     }
-// }
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         return back()->withErrors('error', $e->getMessage());
+    //     }
+    // }
 
-// public function ThreeDigitPlaystore(Request $request)
-// {
-//         $validatedData = $request->validate([
-//         'digit' => 'required|array',
-//         'sub_amount' => 'required|array',
-//         'sub_amount.*' => 'required|integer|min:100|max:5000',
-//         'total_amount' => 'required|numeric|min:100',
-//         'user_id' => 'required|exists:users,id',
-//         //'match_time_id' => 'required|exists:matchings,id', // Assuming match_time_id is provided
-//     ]);
+    // public function ThreeDigitPlaystore(Request $request)
+    // {
+    //         $validatedData = $request->validate([
+    //         'digit' => 'required|array',
+    //         'sub_amount' => 'required|array',
+    //         'sub_amount.*' => 'required|integer|min:100|max:5000',
+    //         'total_amount' => 'required|numeric|min:100',
+    //         'user_id' => 'required|exists:users,id',
+    //         //'match_time_id' => 'required|exists:matchings,id', // Assuming match_time_id is provided
+    //     ]);
 
-//     DB::beginTransaction();
+    //     DB::beginTransaction();
 
-//     try {
-//         $user = $this->deductUserBalance($request->total_amount);
-//         $betLottery = $this->createBetLottery($request->total_amount, $request->user_id, $request->matching_id);
-//         $this->attachDigitsToBetLottery($betLottery, $request->digit, $request->sub_amount, $request->matching_id);
+    //     try {
+    //         $user = $this->deductUserBalance($request->total_amount);
+    //         $betLottery = $this->createBetLottery($request->total_amount, $request->user_id, $request->matching_id);
+    //         $this->attachDigitsToBetLottery($betLottery, $request->digit, $request->sub_amount, $request->matching_id);
 
-//         DB::commit();
-//         session()->flash('SuccessRequest', 'Your betting was successful.');
-//         return back()->with(['success' => 'Digits played successfully.', 'new_balance' => $user->balance]);
-        
-//     } catch (\Exception $e) {
-//         DB::rollBack();
-//         session()->flash('error', 'Error: ' . $e->getMessage());
-//         return back();
-//     }
-// }
+    //         DB::commit();
+    //         session()->flash('SuccessRequest', 'Your betting was successful.');
+    //         return back()->with(['success' => 'Digits played successfully.', 'new_balance' => $user->balance]);
 
-// private function deductUserBalance($totalAmount)
-// {
-//     $user = Auth::user();
-//     $user->balance -= $totalAmount;
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         session()->flash('error', 'Error: ' . $e->getMessage());
+    //         return back();
+    //     }
+    // }
 
-//     if ($user->balance < 0) {
-//         throw new \Exception('Not enough balance.');
-//     }
+    // private function deductUserBalance($totalAmount)
+    // {
+    //     $user = Auth::user();
+    //     $user->balance -= $totalAmount;
 
-//     $user->save();
+    //     if ($user->balance < 0) {
+    //         throw new \Exception('Not enough balance.');
+    //     }
 
-//     return $user;
-// }
+    //     $user->save();
 
-// private function createBetLottery($totalAmount, $userId, $matchTimeId)
-// {
-//     return BetLottery::create([
-//         'total_amount' => $totalAmount,
-//         'user_id' => $userId,
-//         'lottery_match_id' => $matchTimeId,
-//     ]);
-// }
+    //     return $user;
+    // }
 
-// private function attachDigitsToBetLottery($betLottery, $digits, $subAmounts, $matchTimeId)
-// {
-//     foreach ($digits as $key => $digit) {
-//         $totalBetAmountForDigit = DB::table('bet_lottery_matching')
-//             ->where('digit_entry', $digit)
-//             ->where('matching_id', $matchTimeId)
-//             ->sum('sub_amount');
+    // private function createBetLottery($totalAmount, $userId, $matchTimeId)
+    // {
+    //     return BetLottery::create([
+    //         'total_amount' => $totalAmount,
+    //         'user_id' => $userId,
+    //         'lottery_match_id' => $matchTimeId,
+    //     ]);
+    // }
 
-//         if ($totalBetAmountForDigit + $subAmounts[$key] > 5000) {
-//             throw new \Exception("The bet amount limit for digit {$digit} is exceeded.");
-//         }
+    // private function attachDigitsToBetLottery($betLottery, $digits, $subAmounts, $matchTimeId)
+    // {
+    //     foreach ($digits as $key => $digit) {
+    //         $totalBetAmountForDigit = DB::table('bet_lottery_matching')
+    //             ->where('digit_entry', $digit)
+    //             ->where('matching_id', $matchTimeId)
+    //             ->sum('sub_amount');
 
-//         $betLottery->matchings()->attach($matchTimeId, [
-//             'digit_entry' => $digit,
-//             'sub_amount' => $subAmounts[$key],
-//             'prize_sent' => false,
-//             'created_at' => now(),
-//             'updated_at' => now(),
-//         ]);
-//     }
-// }
+    //         if ($totalBetAmountForDigit + $subAmounts[$key] > 5000) {
+    //             throw new \Exception("The bet amount limit for digit {$digit} is exceeded.");
+    //         }
+
+    //         $betLottery->matchings()->attach($matchTimeId, [
+    //             'digit_entry' => $digit,
+    //             'sub_amount' => $subAmounts[$key],
+    //             'prize_sent' => false,
+    //             'created_at' => now(),
+    //             'updated_at' => now(),
+    //         ]);
+    //     }
+    // }
 
 }

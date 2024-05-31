@@ -2,18 +2,19 @@
 
 namespace App\Models\User;
 
-use Carbon\Carbon;
-use App\Models\User;
-use App\Models\Admin\TwoDigit;
-use App\Models\User\Jackmatch;
-use App\Models\ThreedMatchTime;
 use App\Models\Admin\LotteryMatch;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Admin\TwoDigit;
+use App\Models\ThreedMatchTime;
+use App\Models\User;
+use App\Models\User\Jackmatch;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Jackpot extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'pay_amount',
         'total_amount',
@@ -22,9 +23,10 @@ class Jackpot extends Model
         'comission',
         'commission_amount',
     ];
+
     protected $dates = ['created_at', 'updated_at'];
 
-        public function user()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -37,19 +39,19 @@ class Jackpot extends Model
     {
         return $this->belongsTo(LotteryMatch::class, 'lottery_match_id');
     }
+
     public function threedMatchTime()
     {
         return $this->hasOne(ThreedMatchTime::class, 'id', 'lottery_match_id');
     }
 
-
-    public function twoDigits() {
+    public function twoDigits()
+    {
         return $this->belongsToMany(TwoDigit::class, 'jackpot_two_digit')->withPivot('sub_amount', 'prize_sent')->withTimestamps()->orderBy('created_at', 'desc');
     }
 
-
-     public function DisplayJackpotDigitsOver()
-    { 
+    public function DisplayJackpotDigitsOver()
+    {
         return $this->belongsToMany(TwoDigit::class, 'jackpot_over', 'jackpot_id', 'two_digit_id')->withPivot('sub_amount', 'prize_sent', 'created_at');
     }
 
@@ -57,8 +59,8 @@ class Jackpot extends Model
     {
         $morningStart = Carbon::now()->startOfDay()->addHours(10);
         $morningEnd = Carbon::now()->startOfDay()->addHours(24);
-        return $this->belongsToMany(TwoDigit::class, 'jackpot_two_digit_copy', 'jackpot_id', 'two_digit_id')->withPivot('sub_amount', 'prize_sent', 'created_at')
-                    ->wherePivotBetween('created_at', [$morningStart, $morningEnd]);
-    }
 
+        return $this->belongsToMany(TwoDigit::class, 'jackpot_two_digit_copy', 'jackpot_id', 'two_digit_id')->withPivot('sub_amount', 'prize_sent', 'created_at')
+            ->wherePivotBetween('created_at', [$morningStart, $morningEnd]);
+    }
 }

@@ -74,8 +74,6 @@ return [
     'timezone' => 'Asia/Yangon',
     //'timezone' => '+06:30',
 
-
-
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

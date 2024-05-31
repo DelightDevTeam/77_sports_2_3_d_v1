@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Models\Admin\Commission;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Commission;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class CommissionController extends Controller
 {
-   public function index()
+    public function index()
     {
-       $commissions = Commission::all();
+        $commissions = Commission::all();
+
         return view('admin.commission.index', compact('commissions'));
     }
 
@@ -28,20 +29,20 @@ class CommissionController extends Controller
      */
     public function store(Request $request)
     {
-       //dd($request->all());
+        //dd($request->all());
         $validator = Validator::make($request->all(), [
-        'commission' => 'required|unique:commissions,commission',
+            'commission' => 'required|unique:commissions,commission',
 
-        //'body' => 'required|min:3'
-    ]);
+            //'body' => 'required|min:3'
+        ]);
 
-    if ($validator->fails()) {
-        return back()->with('toast_error', $validator->messages()->all()[0])->withInput();
-    }
+        if ($validator->fails()) {
+            return back()->with('toast_error', $validator->messages()->all()[0])->withInput();
+        }
 
         // store
         Commission::create([
-            'commission' => $request->commission
+            'commission' => $request->commission,
         ]);
         // redirect
         //Alert::success('Premission has been Created successfully', 'WoW!');
@@ -56,6 +57,7 @@ class CommissionController extends Controller
     public function show($id)
     {
         $commission_detail = Commission::find($id);
+
         return view('admin.commission.show', compact('commission_detail'));
     }
 
@@ -65,6 +67,7 @@ class CommissionController extends Controller
     public function edit($id)
     {
         $commission_edit = Commission::find($id);
+
         return view('admin.commission.edit', compact('commission_edit'));
     }
 
@@ -75,13 +78,14 @@ class CommissionController extends Controller
     {
         /// validate the request
         $request->validate([
-            'commission' => 'required|unique:commissions,commission,' . $id,
+            'commission' => 'required|unique:commissions,commission,'.$id,
         ]);
         // update
         $commission = Commission::findOrFail($id);
         $commission->update([
-            'commission' => $request->commission
+            'commission' => $request->commission,
         ]);
+
         // redirect
         return redirect()->route('admin.permissions.index')->with('toast_success', 'commission updated successfully.');
     }
@@ -93,6 +97,7 @@ class CommissionController extends Controller
     {
         $commission = Commission::findOrFail($id);
         $commission->delete();
+
         return redirect()->route('admin.permissions.index')->with('toast_success', 'Permission deleted successfully.');
     }
 }

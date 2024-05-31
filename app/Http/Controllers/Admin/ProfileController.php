@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Models\Admin\Currency;
-use Carbon\Carbon;
 use App\Models\User;
-use Illuminate\Support\Str;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use App\Http\Requests\UserRequest;
-use Illuminate\Support\Facades\URL;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProfileController extends Controller
@@ -28,27 +28,33 @@ class ProfileController extends Controller
         if (auth()->user()->hasRole('Admin')) {
             $user = User::find(Auth::user()->id);
             $currency = Currency::latest()->first();
+
             return view('admin.profile.admin_profile', compact('user', 'currency'));
         } else {
             $user = User::find(Auth::user()->id);
             $currency = Currency::latest()->first();
+
             return view('frontend.user_profile', compact('user', 'currency'));
         }
         //return view('admin.profile.index');
     }
+
     //UserProfile
     public function UserProfile()
     {
         if (auth()->user()->hasRole('Admin')) {
             $user = User::find(Auth::user()->id);
             $currency = Currency::latest()->first();
+
             return view('admin.profile.admin_profile', compact('user', 'currency'));
         } else {
             $user = User::find(Auth::user()->id);
+
             return view('user_profile', compact('user'));
         }
         //return view('admin.profile.index');
     }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -81,20 +87,19 @@ class ProfileController extends Controller
         //
     }
 
-
     public function update(UserRequest $request, User $user)
     {
         $request->validate([
-            'profile' => 'required|image'
+            'profile' => 'required|image',
         ]);
         if (Auth::user()->profile) {
             //remove banner from localstorage
-            File::delete(public_path('assets/img/profile/' . $user->profile));
+            File::delete(public_path('assets/img/profile/'.$user->profile));
         }
         // image
         $image = $request->file('profile');
         $ext = $image->getClientOriginalExtension();
-        $filename = uniqid('profile') . '.' . $ext; // Generate a unique filename
+        $filename = uniqid('profile').'.'.$ext; // Generate a unique filename
         $image->move(public_path('assets/img/profile/'), $filename); // Save the file
 
         Auth::user()->update([
@@ -103,6 +108,7 @@ class ProfileController extends Controller
 
         return redirect()->back()->with('toast_success', 'Profile updated successfully');
     }
+
     // new password change function
     public function newPassword(Request $request)
     {
@@ -115,12 +121,11 @@ class ProfileController extends Controller
         $user = User::find(Auth::user()->id);
 
         $user->update([
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->back()->with('toast_success', "Customer Password has been Updated.");
+        return redirect()->back()->with('toast_success', 'Customer Password has been Updated.');
     }
-
 
     // password change function
     public function changePassword(Request $request)
@@ -136,34 +141,35 @@ class ProfileController extends Controller
 
         if (Hash::check($request->old_password, $user->password)) {
             $user->update([
-                'password' => Hash::make($request->password)
+                'password' => Hash::make($request->password),
             ]);
 
             if (auth()->user()->hasRole('Admin')) {
-                return redirect()->back()->with('toast_success', "Admin Password has been  Updated.");
+                return redirect()->back()->with('toast_success', 'Admin Password has been  Updated.');
             } else {
-                return redirect()->back()->with('toast_success', "Customer Password has been Updated.");
+                return redirect()->back()->with('toast_success', 'Customer Password has been Updated.');
             }
         } else {
-            return redirect()->back()->with('error', "Old password does not match!");
+            return redirect()->back()->with('error', 'Old password does not match!');
         }
     }
+
     public function AdminUpdateBalance(Request $request)
-{
-    //dd($request->all());
-    $request->validate([
-        'balance' => 'required|numeric',
-    ]);
+    {
+        //dd($request->all());
+        $request->validate([
+            'balance' => 'required|numeric',
+        ]);
 
-    $user = User::find(Auth::user()->id);
-    // updateAdminBalance
-    $this->authorize('updateAdminBalance', $user);
-    $user->update([
-        'balance' => $user->balance + $request->balance,
-    ]);
+        $user = User::find(Auth::user()->id);
+        // updateAdminBalance
+        $this->authorize('updateAdminBalance', $user);
+        $user->update([
+            'balance' => $user->balance + $request->balance,
+        ]);
 
-    return redirect()->back()->with('toast_success', "Admin Balance has been Updated.");
-}
+        return redirect()->back()->with('toast_success', 'Admin Balance has been Updated.');
+    }
 
     // phone address update function
     public function PhoneAddressChange(Request $request)
@@ -180,13 +186,13 @@ class ProfileController extends Controller
         $user->update([
             'name' => $request->name, // 'name' => $request->name,
             'phone' => $request->phone,
-            'address' => $request->address
+            'address' => $request->address,
         ]);
 
         if (auth()->user()->hasRole('Admin')) {
-            return redirect()->back()->with('toast_success', "Admin Profile has been  Updated.");
+            return redirect()->back()->with('toast_success', 'Admin Profile has been  Updated.');
         } else {
-            return redirect()->back()->with('toast_success', "Customer Profile has been Updated.");
+            return redirect()->back()->with('toast_success', 'Customer Profile has been Updated.');
         }
     }
 
@@ -207,9 +213,9 @@ class ProfileController extends Controller
         ]);
 
         if (auth()->user()->hasRole('Admin')) {
-            return redirect()->back()->with('toast_success', "Admin Profile has been  Updated.");
+            return redirect()->back()->with('toast_success', 'Admin Profile has been  Updated.');
         } else {
-            return redirect()->back()->with('toast_success', "Customer Profile has been Updated.");
+            return redirect()->back()->with('toast_success', 'Customer Profile has been Updated.');
         }
     }
 
@@ -228,19 +234,18 @@ class ProfileController extends Controller
         ]);
 
         if (auth()->user()->hasRole('Admin')) {
-            return redirect()->back()->with('toast_success', "Admin Profile has been  Updated.");
+            return redirect()->back()->with('toast_success', 'Admin Profile has been  Updated.');
         } else {
-            return redirect()->back()->with('toast_success', "Customer Profile has been Updated.");
+            return redirect()->back()->with('toast_success', 'Customer Profile has been Updated.');
         }
     }
 
-
-    // user profile info 
+    // user profile info
     public function editInfo(Request $request)
     {
         $request->validate([
-            "name" => "required",
-            "phone" => ['nullable', 'string', 'min:11'],
+            'name' => 'required',
+            'phone' => ['nullable', 'string', 'min:11'],
 
         ]);
 
@@ -250,22 +255,21 @@ class ProfileController extends Controller
             $request->phone !== $user->phone
         ) {
 
-            $existingPhone = User::where("phone", $request->phone)->first();
+            $existingPhone = User::where('phone', $request->phone)->first();
 
             if ($existingPhone && $existingPhone->id !== $user->id) {
-                return redirect()->back()->with("error", "The phone has already been taken.");
+                return redirect()->back()->with('error', 'The phone has already been taken.');
             }
         }
 
         $user->update([
-            "name" => $request->name,
-            "phone" => $request->phone ?? $user->phone,
+            'name' => $request->name,
+            'phone' => $request->phone ?? $user->phone,
 
         ]);
 
-        return redirect()->back()->with("success", "User info updated successfully.");
+        return redirect()->back()->with('success', 'User info updated successfully.');
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -277,17 +281,17 @@ class ProfileController extends Controller
 
     public function saveImage(UploadedFile $image)
     {
-        $path = 'profile_image/' . Str::random();
+        $path = 'profile_image/'.Str::random();
         //$path = 'images/product_image';
 
-        if (!Storage::exists($path)) {
+        if (! Storage::exists($path)) {
             Storage::makeDirectory($path, 0755, true);
         }
-        if (!Storage::putFileAS('public/' . $path, $image, $image->getClientOriginalName())) {
+        if (! Storage::putFileAS('public/'.$path, $image, $image->getClientOriginalName())) {
             throw new \Exception("Unable to save file \"{$image->getClientOriginalName()}\"");
         }
 
-        return $path . '/' . $image->getClientOriginalName();
+        return $path.'/'.$image->getClientOriginalName();
     }
 
     public function fillmoney()

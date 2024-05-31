@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Models\Lottery;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\TwodWiner;
+use App\Models\Lottery;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class TwoDLotteryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function index()
+    {
+        $lotteries = Lottery::with('twoDigits')->orderBy('id', 'desc')->get();
+        $prize_no = TwodWiner::whereDate('created_at', Carbon::today())->orderBy('id', 'desc')->first();
 
-public function index()
-{
-    $lotteries = Lottery::with('twoDigits')->orderBy('id', 'desc')->get();
-    $prize_no = TwodWiner::whereDate('created_at', Carbon::today())->orderBy('id', 'desc')->first();
-    return view('admin.two_d.two_d_history', compact('lotteries', 'prize_no'));
-}
-
-
+        return view('admin.two_d.two_d_history', compact('lotteries', 'prize_no'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -46,6 +44,7 @@ public function index()
     {
         $lottery = Lottery::with('twoDigits')->findOrFail($id);
         $prize_no = TwodWiner::whereDate('created_at', Carbon::today())->orderBy('id', 'desc')->first();
+
         return view('admin.two_d.two_history_show', compact('lottery', 'prize_no'));
     }
 

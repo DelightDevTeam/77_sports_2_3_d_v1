@@ -14,7 +14,7 @@ class TwoDBreakSeeder extends Seeder
      */
     public function run(): void
     {
-        TwoDLimit::create(['two_d_limit'=>"5000"]);
-        ThreeDDLimit::create(['three_d_limit' => "5000"]);
+        TwoDLimit::create(['two_d_limit' => '5000']);
+        ThreeDDLimit::create(['three_d_limit' => '5000']);
     }
 }

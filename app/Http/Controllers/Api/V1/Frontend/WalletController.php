@@ -20,19 +20,22 @@ use Illuminate\Support\Facades\Mail;
 class WalletController extends Controller
 {
     use HttpResponses;
+
     public function banks()
     {
         $banks = Bank::all();
+
         return $this->success([
-            "banks" => $banks
+            'banks' => $banks,
         ]);
     }
 
     public function bankDetail($id)
     {
         $bank = Bank::find($id);
+
         return $this->success([
-            "bank" => $bank
+            'bank' => $bank,
         ]);
     }
 
@@ -45,23 +48,23 @@ class WalletController extends Controller
             'last_6_num' => $request->last_6_num,
             'amount' => $request->amount,
             'phone' => $request->phone,
-            'currency' => "kyat", 
+            'currency' => 'kyat',
             'user_id' => auth()->user()->id,
         ]);
         TransferLog::create([
             'user_id' => auth()->user()->id,
             'amount' => $request->amount,
             'type' => 'Deposit',
-            'created_by' => null
+            'created_by' => null,
         ]);
 
         $user = User::find(auth()->id());
-        $toMail = "mobiledeveloper117@gmail.com";
+        $toMail = 'mobiledeveloper117@gmail.com';
         $mail = [
-            'status' => "Deposit",
+            'status' => 'Deposit',
             'name' => $user->name,
             'balance' => $user->balance,
-            'payment_method'=> $request->payment_method,
+            'payment_method' => $request->payment_method,
             'phone' => $request->phone,
             'amount' => $request->amount,
             'last_6_num' => $request->last_6_num,
@@ -69,17 +72,18 @@ class WalletController extends Controller
             'rate' => 1,
         ];
         Mail::to($toMail)->send(new CashRequest($mail));
+
         return $this->success([
-            "message" => "Deposit request submitted successfully",
+            'message' => 'Deposit request submitted successfully',
         ]);
     }
 
     public function withdraw(WithdrawRequest $request)
     {
         $request->validated($request->all());
-        if($request->amount > auth()->user()->balance){
+        if ($request->amount > auth()->user()->balance) {
             return response()->json([
-                'message' => 'လက်ကျန်ငွေ မလုံလောက်ပါ။'
+                'message' => 'လက်ကျန်ငွေ မလုံလောက်ပါ။',
             ], 401);
         }
         CashOutRequest::create([
@@ -88,41 +92,43 @@ class WalletController extends Controller
             'phone' => $request->phone,
             'name' => $request->name,
             'user_id' => auth()->id(),
-            'currency' => "kyat",
+            'currency' => 'kyat',
         ]);
         TransferLog::create([
             'user_id' => auth()->user()->id,
             'amount' => $request->amount,
             'type' => 'Withdraw',
-            'created_by' => null
+            'created_by' => null,
         ]);
         $user = User::find(auth()->id());
         $user->balance -= $request->amount;
         $user->save();
 
-        $toMail = "mobiledeveloper117@gmail.com";
+        $toMail = 'mobiledeveloper117@gmail.com';
         $mail = [
-            'status' => "Withdraw",
+            'status' => 'Withdraw',
             'name' => $user->name,
             'receiver' => $request->name,
             'balance' => $user->balance,
-            'payment_method'=> $request->payment_method,
+            'payment_method' => $request->payment_method,
             'phone' => $request->phone,
             'amount' => $request->amount,
-            'currency' => "kyat",
+            'currency' => 'kyat',
             'rate' => 1,
         ];
         Mail::to($toMail)->send(new CashRequest($mail));
+
         return $this->success([
-            "message" => "Withdraw request submitted successfully",
+            'message' => 'Withdraw request submitted successfully',
         ]);
     }
 
     public function transferLog()
     {
         $logs = TransferLog::where('user_id', auth()->id())->latest()->take(20)->get();
+
         return $this->success([
-            "logs" => $logs,
+            'logs' => $logs,
         ]);
     }
 }

@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Services;
 
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Admin\Lottery;
 use App\Models\Admin\TwoDigit;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class UserHistoryService
 {
@@ -22,11 +23,11 @@ class UserHistoryService
 
         // Retrieve the user's data based on the defined time range
         $userHistory = Lottery::where('user_id', $user->id)
-                              ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
-                              ->with(['twoDigits' => function ($query) use ($startOfMonth, $endOfMonth) {
-                                  $query->wherePivotBetween('created_at', [$startOfMonth, $endOfMonth]);
-                              }])
-                              ->get();
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->with(['twoDigits' => function ($query) use ($startOfMonth, $endOfMonth) {
+                $query->wherePivotBetween('created_at', [$startOfMonth, $endOfMonth]);
+            }])
+            ->get();
 
         return [
             'status' => 'Request was successful.',

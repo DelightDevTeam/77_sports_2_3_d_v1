@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class JackpotLimit extends Model
 {
     use HasFactory;
-     protected $fillable = [
+
+    protected $fillable = [
         'jack_limit',
     ];
 }

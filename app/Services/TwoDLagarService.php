@@ -16,34 +16,34 @@ class TwoDLagarService
         $eveningEnd = Carbon::today()->setTime(16, 30, 0); // 4:30 PM
 
         // Fetch morning session data
-        $morningData = DB::table('lottery_two_digit_pivot')
-                        ->join('lotteries', 'lottery_two_digit_pivot.lottery_id', '=', 'lotteries.id')
-                        ->select(
-                            'two_digit_id',
-                            DB::raw('SUM(sub_amount) as total_sub_amount'),
-                            DB::raw('GROUP_CONCAT(DISTINCT bet_digit) as bet_digits'),
-                            DB::raw('GROUP_CONCAT(DISTINCT prize_sent) as prize_sent'),
-                            DB::raw('COUNT(*) as total_bets'),
-                            DB::raw('MAX(lottery_two_digit_pivot.created_at) as latest_bet_time')
-                        )
-                        ->whereBetween('lottery_two_digit_pivot.created_at', [$morningStart, $morningEnd])
-                        ->groupBy('two_digit_id')
-                        ->get();
+        $morningData = DB::table('lottery_two_digit_pivots')
+            ->join('lotteries', 'lottery_two_digit_pivots.lottery_id', '=', 'lotteries.id')
+            ->select(
+                'two_digit_id',
+                DB::raw('SUM(sub_amount) as total_sub_amount'),
+                DB::raw('GROUP_CONCAT(DISTINCT bet_digit) as bet_digits'),
+                DB::raw('GROUP_CONCAT(DISTINCT prize_sent) as prize_sent'),
+                DB::raw('COUNT(*) as total_bets'),
+                DB::raw('MAX(lottery_two_digit_pivots.created_at) as latest_bet_time')
+            )
+            ->whereBetween('lottery_two_digit_pivots.created_at', [$morningStart, $morningEnd])
+            ->groupBy('two_digit_id')
+            ->get();
 
         // Fetch evening session data
-        $eveningData = DB::table('lottery_two_digit_pivot')
-                        ->join('lotteries', 'lottery_two_digit_pivot.lottery_id', '=', 'lotteries.id')
-                        ->select(
-                            'two_digit_id',
-                            DB::raw('SUM(sub_amount) as total_sub_amount'),
-                            DB::raw('GROUP_CONCAT(DISTINCT bet_digit) as bet_digits'),
-                            DB::raw('GROUP_CONCAT(DISTINCT prize_sent) as prize_sent'),
-                            DB::raw('COUNT(*) as total_bets'),
-                            DB::raw('MAX(lottery_two_digit_pivot.created_at) as latest_bet_time')
-                        )
-                        ->whereBetween('lottery_two_digit_pivot.created_at', [$eveningStart, $eveningEnd])
-                        ->groupBy('two_digit_id')
-                        ->get();
+        $eveningData = DB::table('lottery_two_digit_pivots')
+            ->join('lotteries', 'lottery_two_digit_pivots.lottery_id', '=', 'lotteries.id')
+            ->select(
+                'two_digit_id',
+                DB::raw('SUM(sub_amount) as total_sub_amount'),
+                DB::raw('GROUP_CONCAT(DISTINCT bet_digit) as bet_digits'),
+                DB::raw('GROUP_CONCAT(DISTINCT prize_sent) as prize_sent'),
+                DB::raw('COUNT(*) as total_bets'),
+                DB::raw('MAX(lottery_two_digit_pivots.created_at) as latest_bet_time')
+            )
+            ->whereBetween('lottery_two_digit_pivots.created_at', [$eveningStart, $eveningEnd])
+            ->groupBy('two_digit_id')
+            ->get();
 
         return [
             'morning' => $morningData,
@@ -86,50 +86,50 @@ class TwoDLagarService
     //         'evening' => $eveningData,
     //     ];
     // }
-//     public function getGroupedDataBySession()
-// {
-    
-//  // Define time ranges for morning and evening sessions
-//     $morningStart = '06:00:00';
-//     $morningEnd = '12:00:00';
-//     $eveningStart = '12:00:00';
-//     $eveningEnd = '16:30:00';
+    //     public function getGroupedDataBySession()
+    // {
 
-//     // Fetch morning session data
-//     $morningData = DB::table('lottery_two_digit_pivot')
-//                     ->select(
-//                         'two_digit_id',
-//                         DB::raw('SUM(sub_amount) as total_sub_amount'),
-//                         DB::raw('GROUP_CONCAT(DISTINCT bet_digit) as bet_digits'),
-//                         // prize_sent 
-//                         DB::raw('GROUP_CONCAT(DISTINCT prize_sent) as prize_sent'), // Add this line to get the prize_sent values
-//                         DB::raw('COUNT(*) as total_bets'),
-//                         DB::raw('MAX(created_at) as latest_bet_time') // Get the latest `created_at` time for each group
-//                     )
-//                     ->whereBetween(DB::raw('TIME(created_at)'), [$morningStart, $morningEnd])
-//                     ->groupBy('two_digit_id')
-//                     ->get();
+    //  // Define time ranges for morning and evening sessions
+    //     $morningStart = '06:00:00';
+    //     $morningEnd = '12:00:00';
+    //     $eveningStart = '12:00:00';
+    //     $eveningEnd = '16:30:00';
 
-//     // Fetch evening session data
-//     $eveningData = DB::table('lottery_two_digit_pivot')
-//                     ->select(
-//                         'two_digit_id',
-//                         DB::raw('SUM(sub_amount) as total_sub_amount'),
-//                         DB::raw('GROUP_CONCAT(DISTINCT bet_digit) as bet_digits'),
-//                         DB::raw('COUNT(*) as total_bets'),
-//                         DB::raw('MAX(created_at) as latest_bet_time') // Get the latest `created_at` time for each group
-//                     )
-//                     ->whereBetween(DB::raw('TIME(created_at)'), [$eveningStart, $eveningEnd])
-//                     ->groupBy('two_digit_id')
-//                     ->get();
+    //     // Fetch morning session data
+    //     $morningData = DB::table('lottery_two_digit_pivot')
+    //                     ->select(
+    //                         'two_digit_id',
+    //                         DB::raw('SUM(sub_amount) as total_sub_amount'),
+    //                         DB::raw('GROUP_CONCAT(DISTINCT bet_digit) as bet_digits'),
+    //                         // prize_sent
+    //                         DB::raw('GROUP_CONCAT(DISTINCT prize_sent) as prize_sent'), // Add this line to get the prize_sent values
+    //                         DB::raw('COUNT(*) as total_bets'),
+    //                         DB::raw('MAX(created_at) as latest_bet_time') // Get the latest `created_at` time for each group
+    //                     )
+    //                     ->whereBetween(DB::raw('TIME(created_at)'), [$morningStart, $morningEnd])
+    //                     ->groupBy('two_digit_id')
+    //                     ->get();
 
-//     return [
-//         'morning' => $morningData,
-//         'evening' => $eveningData,
-//     ];
-// }
-   
- // public function getGroupedDataBySession($session)
+    //     // Fetch evening session data
+    //     $eveningData = DB::table('lottery_two_digit_pivot')
+    //                     ->select(
+    //                         'two_digit_id',
+    //                         DB::raw('SUM(sub_amount) as total_sub_amount'),
+    //                         DB::raw('GROUP_CONCAT(DISTINCT bet_digit) as bet_digits'),
+    //                         DB::raw('COUNT(*) as total_bets'),
+    //                         DB::raw('MAX(created_at) as latest_bet_time') // Get the latest `created_at` time for each group
+    //                     )
+    //                     ->whereBetween(DB::raw('TIME(created_at)'), [$eveningStart, $eveningEnd])
+    //                     ->groupBy('two_digit_id')
+    //                     ->get();
+
+    //     return [
+    //         'morning' => $morningData,
+    //         'evening' => $eveningData,
+    //     ];
+    // }
+
+    // public function getGroupedDataBySession($session)
     // {
     //     // Define start and end times for morning and evening sessions
     //     $times = [
@@ -150,24 +150,24 @@ class TwoDLagarService
 
     //     return $data;
     // }
-//     public function getAllSessionsData()
-// {
-//     $morningTimes = ['start' => '06:00:00', 'end' => '12:00:00'];
-//     $eveningTimes = ['start' => '12:00:00', 'end' => '16:30:00'];
+    //     public function getAllSessionsData()
+    // {
+    //     $morningTimes = ['start' => '06:00:00', 'end' => '12:00:00'];
+    //     $eveningTimes = ['start' => '12:00:00', 'end' => '16:30:00'];
 
-//     $morningData = DB::table('lottery_two_digit_pivot')
-//                     ->select(DB::raw('DATE(created_at) as bet_date'), 'lottery_id', 'two_digit_id', 'bet_digit', DB::raw('SUM(sub_amount) as total_sub_amount'))
-//                     ->whereBetween(DB::raw('TIME(created_at)'), [$morningTimes['start'], $morningTimes['end']])
-//                     ->groupBy('bet_date', 'lottery_id', 'two_digit_id', 'bet_digit')
-//                     ->get();
+    //     $morningData = DB::table('lottery_two_digit_pivot')
+    //                     ->select(DB::raw('DATE(created_at) as bet_date'), 'lottery_id', 'two_digit_id', 'bet_digit', DB::raw('SUM(sub_amount) as total_sub_amount'))
+    //                     ->whereBetween(DB::raw('TIME(created_at)'), [$morningTimes['start'], $morningTimes['end']])
+    //                     ->groupBy('bet_date', 'lottery_id', 'two_digit_id', 'bet_digit')
+    //                     ->get();
 
-//     $eveningData = DB::table('lottery_two_digit_pivot')
-//                     ->select(DB::raw('DATE(created_at) as bet_date'), 'lottery_id', 'two_digit_id', 'bet_digit', DB::raw('SUM(sub_amount) as total_sub_amount'))
-//                     ->whereBetween(DB::raw('TIME(created_at)'), [$eveningTimes['start'], $eveningTimes['end']])
-//                     ->groupBy('bet_date', 'lottery_id', 'two_digit_id', 'bet_digit')
-//                     ->get();
+    //     $eveningData = DB::table('lottery_two_digit_pivot')
+    //                     ->select(DB::raw('DATE(created_at) as bet_date'), 'lottery_id', 'two_digit_id', 'bet_digit', DB::raw('SUM(sub_amount) as total_sub_amount'))
+    //                     ->whereBetween(DB::raw('TIME(created_at)'), [$eveningTimes['start'], $eveningTimes['end']])
+    //                     ->groupBy('bet_date', 'lottery_id', 'two_digit_id', 'bet_digit')
+    //                     ->get();
 
-//     return ['morning' => $morningData, 'evening' => $eveningData];
-// }
+    //     return ['morning' => $morningData, 'evening' => $eveningData];
+    // }
 
 }

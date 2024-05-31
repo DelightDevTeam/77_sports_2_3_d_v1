@@ -17,7 +17,7 @@ class PasswordCheck implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $user = Auth::user();
-        if(!Hash::check($value, $user->password)){
+        if (! Hash::check($value, $user->password)) {
             $fail('The old password is incorrect.');
         }
     }

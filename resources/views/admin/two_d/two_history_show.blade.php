@@ -41,6 +41,7 @@
                                 <th>2D</th>
                                 <th>Sub Amount</th>
                                 <th>Date</th>
+                                <th>Session</th>
                                 <th>Prize</th>
                             </tr>
                         </thead>
@@ -51,16 +52,19 @@
                                     <td>{{ $twoDigit->pivot->sub_amount }}</td>
                                     <td class="text-sm font-weight-normal">
                                         <span
-                                            class="badge bg-gradient-info">{{ $lottery->created_at->format('d-m-Y (l) (h:i a)') }}</span>
+                                            class="badge bg-gradient-info">{{ $lottery->created_at->format('d-m-Y (l) ') }}</span>
                                     </td>
+                                    <td>{{ $lottery->session }}</td>
                                     @if ($prize_no)
                                         <td></td>
                                     @else
                                         <td>
                                             @if ($twoDigit->two_digit == $prize_no)
                                                 <span class="badge bg-gradient-success">Win</span>
-                                            @else
+                                            @elseif($twoDigit->pivot->prize_sent == 1)
                                                 <span class="badge bg-gradient-danger">Lose</span>
+                                                @else
+                                                <span class="badge bg-gradient-danger">Pending</span>
                                             @endif
                                         </td>
                                     @endif

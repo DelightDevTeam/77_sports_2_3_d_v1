@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\Admin\Commission;
 
+use App\Http\Controllers\Controller;
+use App\Models\Admin\Commission;
+use App\Models\Admin\Lottery;
+use App\Models\ThreeDigit\Lotto;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\Admin\Lottery;
-use App\Models\Admin\Commission;
-use App\Models\ThreeDigit\Lotto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
 
 class ThreeDCommissionController extends Controller
 {
-    
     // public function getThreeDTotalAmountPerUser()
     // {
     //     $totalAmounts = Lotto::join('users', 'lottos.user_id', '=', 'users.id')
@@ -34,31 +33,30 @@ class ThreeDCommissionController extends Controller
 
     public function getThreeDTotalAmountPerUser()
     {
-       
-    $totalAmounts = Lotto::join('users', 'lottos.user_id', '=', 'users.id')
-        ->select([
-            DB::raw('MAX(users.name) as name'),
-            DB::raw('MAX(users.phone) as phone'),
-            DB::raw('MAX(lottos.id) as lottery_id'),
-            DB::raw('MAX(lottos.comission) as comission'),
-            DB::raw('MAX(lottos.commission_amount) as commission_amount'),
-            DB::raw('MAX(lottos.status) as status'),
-            'lottos.user_id',
-            DB::raw('SUM(lottos.total_amount) as total_amount')
-        ])
-        ->groupBy('lottos.user_id')
-        ->get();
+
+        $totalAmounts = Lotto::join('users', 'lottos.user_id', '=', 'users.id')
+            ->select([
+                DB::raw('MAX(users.name) as name'),
+                DB::raw('MAX(users.phone) as phone'),
+                DB::raw('MAX(lottos.id) as lottery_id'),
+                DB::raw('MAX(lottos.comission) as comission'),
+                DB::raw('MAX(lottos.commission_amount) as commission_amount'),
+                DB::raw('MAX(lottos.status) as status'),
+                'lottos.user_id',
+                DB::raw('SUM(lottos.total_amount) as total_amount'),
+            ])
+            ->groupBy('lottos.user_id')
+            ->get();
         $commission_percent = Commission::latest()->first();
 
         //$commission = $commission_percent ? $commission_percent->commission : 0;
 
-         return view('admin.commission.three_d_commission_index',
-         [
-            'totalAmounts' => $totalAmounts,
-           // 'commission_percent' => $commission
-        ]);
+        return view('admin.commission.three_d_commission_index',
+            [
+                'totalAmounts' => $totalAmounts,
+                // 'commission_percent' => $commission
+            ]);
     }
-
 
     public function show($id)
     {
@@ -75,102 +73,101 @@ class ThreeDCommissionController extends Controller
         return view('admin.commission.three_d_commission_show', compact('lotto', 'user'));
     }
 
-//     public function update(Request $request, $id)
-// {
-//     //Log::info($request->all());
-//     // Validate the request data
-//     $validatedData = $request->validate([
-//         'commission' => 'required|numeric',
-//         'commission_amount' => 'required|numeric',
-//         'status' => 'string',
-//     ]);
+    //     public function update(Request $request, $id)
+    // {
+    //     //Log::info($request->all());
+    //     // Validate the request data
+    //     $validatedData = $request->validate([
+    //         'commission' => 'required|numeric',
+    //         'commission_amount' => 'required|numeric',
+    //         'status' => 'string',
+    //     ]);
 
-//     // Find the Lotto record by its id
-//     $lotto = Lotto::findOrFail($id);
+    //     // Find the Lotto record by its id
+    //     $lotto = Lotto::findOrFail($id);
 
-//     // update with group by user_id
-    
-//     // Update the commission field
-//     $lotto->comission = $validatedData['commission'];
-//     $lotto->commission_amount = $validatedData['commission_amount'];
-//     $lotto->status = $validatedData['status'];
+    //     // update with group by user_id
 
-//     // Save the changes to the database
-//     $lotto->save();
+    //     // Update the commission field
+    //     $lotto->comission = $validatedData['commission'];
+    //     $lotto->commission_amount = $validatedData['commission_amount'];
+    //     $lotto->status = $validatedData['status'];
 
-//     // Redirect back with a success message
-//     return redirect()->back()->with('success', 'Commission updated successfully.');
-// }
+    //     // Save the changes to the database
+    //     $lotto->save();
 
-public function update(Request $request, $userId)
-{
-    // Validate the request data
-    $validatedData = $request->validate([
-        'commission' => 'required|numeric',
-        'commission_amount' => 'required|numeric',
-        'status' => 'required|string',
-    ]);
+    //     // Redirect back with a success message
+    //     return redirect()->back()->with('success', 'Commission updated successfully.');
+    // }
 
-    // Update records by user_id
-    Lotto::where('user_id', $userId)
-         ->update([
-             'comission' => $validatedData['commission'],
-             'commission_amount' => $validatedData['commission_amount'],
-             'status' => $validatedData['status'],
-         ]);
+    public function update(Request $request, $userId)
+    {
+        // Validate the request data
+        $validatedData = $request->validate([
+            'commission' => 'required|numeric',
+            'commission_amount' => 'required|numeric',
+            'status' => 'required|string',
+        ]);
 
-    // Redirect back with a success message
-    return redirect()->back()->with('success', 'Commissions updated successfully.');
-}
+        // Update records by user_id
+        Lotto::where('user_id', $userId)
+            ->update([
+                'comission' => $validatedData['commission'],
+                'commission_amount' => $validatedData['commission_amount'],
+                'status' => $validatedData['status'],
+            ]);
 
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Commissions updated successfully.');
+    }
 
     public function ThreeDtransferCommission(Request $request)
-{
-    Log::info($request->all());
-    //dd($request->all());
-    // Validate the request
-    $validatedData = $request->validate([
-        //'lotto_id' => 'required|exists:lottos,id',
-        'commission_amount' => 'required|numeric|min:0',
-    ]);
+    {
+        Log::info($request->all());
+        //dd($request->all());
+        // Validate the request
+        $validatedData = $request->validate([
+            //'lotto_id' => 'required|exists:lottos,id',
+            'commission_amount' => 'required|numeric|min:0',
+        ]);
 
-    // Start a database transaction
-    DB::beginTransaction();
+        // Start a database transaction
+        DB::beginTransaction();
 
-    try {
-        $id = $request->lotto_id;
-        $lotto = Lotto::findOrFail($id);
+        try {
+            $id = $request->lotto_id;
+            $lotto = Lotto::findOrFail($id);
 
-        // if ($validatedData['commission'] > $lotto->commission) {
-        //     // Make sure we do not transfer more than available commission
-        //     return response()->json(['message' => 'Transfer amount exceeds available commission.'], 422);
-        // }
+            // if ($validatedData['commission'] > $lotto->commission) {
+            //     // Make sure we do not transfer more than available commission
+            //     return response()->json(['message' => 'Transfer amount exceeds available commission.'], 422);
+            // }
 
-        // Find the associated User record
-        $user = User::findOrFail($lotto->user_id);
+            // Find the associated User record
+            $user = User::findOrFail($lotto->user_id);
 
-        // Transfer commission
-        $user->balance += $validatedData['commission_amount'];
-        $lotto->commission_amount -= $validatedData['commission_amount'];
+            // Transfer commission
+            $user->balance += $validatedData['commission_amount'];
+            $lotto->commission_amount -= $validatedData['commission_amount'];
 
-        // Save the changes to the database
-        $user->save();
-        $lotto->save();
+            // Save the changes to the database
+            $user->save();
+            $lotto->save();
 
-        // Commit the transaction
-        DB::commit();
+            // Commit the transaction
+            DB::commit();
 
-        //return response()->json(['message' => 'Commission transferred successfully.']);
-        session()->flash('success', 'Commission transferred successfully.');
-        return redirect()->back()->with('success', 'Commission transferred successfully.');
-    } catch (\Exception $e) {
-    // Rollback the transaction on error
-    DB::rollback();
-    // Log the exception message
-    Log::error($e->getMessage());
-    return response()->json(['message' => 'Failed to transfer commission.'], 500);
-}
-}
+            //return response()->json(['message' => 'Commission transferred successfully.']);
+            session()->flash('success', 'Commission transferred successfully.');
 
+            return redirect()->back()->with('success', 'Commission transferred successfully.');
+        } catch (\Exception $e) {
+            // Rollback the transaction on error
+            DB::rollback();
+            // Log the exception message
+            Log::error($e->getMessage());
 
+            return response()->json(['message' => 'Failed to transfer commission.'], 500);
+        }
+    }
 }

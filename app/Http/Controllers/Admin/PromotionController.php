@@ -15,6 +15,7 @@ class PromotionController extends Controller
     public function index()
     {
         $promotions = Promotion::latest()->get();
+
         return view('admin.promotions.index', compact('promotions'));
     }
 
@@ -32,22 +33,23 @@ class PromotionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'image'=> 'required',
-            'title'=> 'required',
-            'description'=> 'required'
+            'image' => 'required',
+            'title' => 'required',
+            'description' => 'required',
         ]);
         // image
         $image = $request->file('image');
         $ext = $image->getClientOriginalExtension();
-        $filename = uniqid('promotion') . '.' . $ext; // Generate a unique filename
+        $filename = uniqid('promotion').'.'.$ext; // Generate a unique filename
         $image->move(public_path('assets/img/promotions/'), $filename); // Save the file
 
         $promotion = Promotion::create([
-            'image'=> $filename,
-            'title'=> $request->title,
-            'description'=> $request->description
+            'image' => $filename,
+            'title' => $request->title,
+            'description' => $request->description,
         ]);
-        return redirect()->route('admin.promotions.index')->with('success','New Promotion Created Successfully.');
+
+        return redirect()->route('admin.promotions.index')->with('success', 'New Promotion Created Successfully.');
     }
 
     /**
@@ -72,26 +74,28 @@ class PromotionController extends Controller
     public function update(Request $request, Promotion $promotion)
     {
         $request->validate([
-            'title'=> 'required',
-            'description'=> 'required'
+            'title' => 'required',
+            'description' => 'required',
         ]);
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $image = $request->file('image');
             $ext = $image->getClientOriginalExtension();
-            $filename = uniqid('promotion') . '.' . $ext;
+            $filename = uniqid('promotion').'.'.$ext;
             $image->move(public_path('assets/img/promotions/'), $filename);
             $promotion->update([
-                'image'=> $filename,
-                'title'=> $request->title,
-                'description'=> $request->description
+                'image' => $filename,
+                'title' => $request->title,
+                'description' => $request->description,
             ]);
-            return redirect()->route('admin.promotions.index')->with('success','Promotion Updated');
-        }else{
+
+            return redirect()->route('admin.promotions.index')->with('success', 'Promotion Updated');
+        } else {
             $promotion->update([
-                'title'=> $request->title,
-                'description'=> $request->description
+                'title' => $request->title,
+                'description' => $request->description,
             ]);
-            return redirect()->route('admin.promotions.index')->with('success','Promotion Updated');
+
+            return redirect()->route('admin.promotions.index')->with('success', 'Promotion Updated');
         }
     }
 
@@ -102,6 +106,7 @@ class PromotionController extends Controller
     {
         File::delete(public_path('assets/img/promotions/'.$promotion->image));
         $promotion->delete();
-        return redirect()->route('admin.promotions.index')->with('success','Promotion Deleted.');
+
+        return redirect()->route('admin.promotions.index')->with('success', 'Promotion Deleted.');
     }
 }

@@ -108,7 +108,8 @@
             @endif
            </td>
            <td class="text-sm font-weight-normal">
-             {{ Carbon\Carbon::parse($digit->created_at)->format('h:i A') }}  
+             {{-- {{ Carbon\Carbon::parse($digit->created_at)->format('h:i A') }}   --}}
+             {{ $digit->play_time }}
             <span class="badge bg-gradient-info">
              {{ Carbon\Carbon::parse($digit->created_at)->format('d-m-Y') }}
             </span>

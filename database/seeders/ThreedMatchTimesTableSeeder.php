@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use Carbon\Carbon;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ThreedMatchTimesTableSeeder extends Seeder
 {
@@ -13,7 +13,7 @@ class ThreedMatchTimesTableSeeder extends Seeder
      * Run the database seeds.
      */
     public function run()
-{
+    {
         $openTimes = [
             '1: Time',
             '2: Time',
@@ -41,23 +41,21 @@ class ThreedMatchTimesTableSeeder extends Seeder
             '24: Time',
         ];
 
-    // Define months and their days
-    $months = [
-        'January' => 31,
-        'February' => 28, // You need to handle leap years separately
-        'March' => 31,
-        'April' => 30,
-        'May' => 31,
-        'June' => 30,
-        'July' => 31,
-        'August' => 31,
-        'September' => 30,
-        'October' => 31,
-        'November' => 30,
-        'December' => 31,
-    ];
-
-    
+        // Define months and their days
+        $months = [
+            'January' => 31,
+            'February' => 28, // You need to handle leap years separately
+            'March' => 31,
+            'April' => 30,
+            'May' => 31,
+            'June' => 30,
+            'July' => 31,
+            'August' => 31,
+            'September' => 30,
+            'October' => 31,
+            'November' => 30,
+            'December' => 31,
+        ];
 
         // Adjust February for leap year if necessary
         $year = date('Y');
@@ -123,66 +121,65 @@ class ThreedMatchTimesTableSeeder extends Seeder
     //         'created_at' => now(),
     //         'updated_at' => now(),
     //     ]);
-    }
-    // foreach ($matchDates as $key => $date) {
-    //     DB::table('threed_match_times')->insert([
-            
-    //         'match_time' => $date,
-    //         'created_at' => now(),
-    //         'updated_at' => now(),
-    //         // Assuming 'open_time' is a column in your table, you need to pass a value here
-    //     // If 'open_time' should be one of the values from $openTimes based on $key
-    //     'open_time' => $openTimes[$key % count($openTimes)], // This will cycle through $openTimes for each $matchDates
-    //     ]);
-    // }
+}
+// foreach ($matchDates as $key => $date) {
+//     DB::table('threed_match_times')->insert([
 
-    // To retrieve the dates
-    // $storedMatchTimes = DB::table('threed_match_times')->get();
+//         'match_time' => $date,
+//         'created_at' => now(),
+//         'updated_at' => now(),
+//         // Assuming 'open_time' is a column in your table, you need to pass a value here
+//     // If 'open_time' should be one of the values from $openTimes based on $key
+//     'open_time' => $openTimes[$key % count($openTimes)], // This will cycle through $openTimes for each $matchDates
+//     ]);
+// }
 
-    // // Format and output the dates
-    // foreach ($storedMatchTimes as $matchTime) {
-    //     echo $matchTime->match_time . "\n"; // or however you wish to output them
-    // }
+// To retrieve the dates
+// $storedMatchTimes = DB::table('threed_match_times')->get();
 
+// // Format and output the dates
+// foreach ($storedMatchTimes as $matchTime) {
+//     echo $matchTime->match_time . "\n"; // or however you wish to output them
+// }
 
 // Call the function
 
-    //  public function run()
-    // {
-    //     // Define the match times
-    //     $matchTimes = [
-    //         '1: Time',
-    //         '2: Time',
-    //         '3: Time',
-    //         '4: Time',
-    //         '5: Time',
-    //         '6: Time',
-    //         '7: Time',
-    //         '8: Time',
-    //         '9: Time',
-    //         '10: Time',
-    //         '11: Time',
-    //         '12: Time',
-    //         '13: Time',
-    //         '14: Time',
-    //         '15: Time',
-    //         '16: Time',
-    //         '17: Time',
-    //         '18: Time',
-    //         '19: Time',
-    //         '20: Time',
-    //         '21: Time',
-    //         '22: Time',
-    //         '23: Time',
-    //         '24: Time',
-    //     ];
+//  public function run()
+// {
+//     // Define the match times
+//     $matchTimes = [
+//         '1: Time',
+//         '2: Time',
+//         '3: Time',
+//         '4: Time',
+//         '5: Time',
+//         '6: Time',
+//         '7: Time',
+//         '8: Time',
+//         '9: Time',
+//         '10: Time',
+//         '11: Time',
+//         '12: Time',
+//         '13: Time',
+//         '14: Time',
+//         '15: Time',
+//         '16: Time',
+//         '17: Time',
+//         '18: Time',
+//         '19: Time',
+//         '20: Time',
+//         '21: Time',
+//         '22: Time',
+//         '23: Time',
+//         '24: Time',
+//     ];
 
-    //     // Insert the match times into the database
-    //     foreach ($matchTimes as $time) {
-    //         DB::table('threed_match_times')->insert([
-    //             'match_time' => $time,
-    //             'created_at' => now(),
-    //             'updated_at' => now(),
-    //         ]);
-    //     }
-    // }
+//     // Insert the match times into the database
+//     foreach ($matchTimes as $time) {
+//         DB::table('threed_match_times')->insert([
+//             'match_time' => $time,
+//             'created_at' => now(),
+//             'updated_at' => now(),
+//         ]);
+//     }
+// }

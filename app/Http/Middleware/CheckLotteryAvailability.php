@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Models\Admin\LotteryMatch;
+use Carbon\Carbon;
+use Closure;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckLotteryAvailability
@@ -30,7 +30,7 @@ class CheckLotteryAvailability
         $workingDays = [1, 2, 3, 4, 5];
 
         // Check if today is a working day.
-        if (!in_array($day, $workingDays)) {
+        if (! in_array($day, $workingDays)) {
             return response()->json(['error' => 'Today is not a working day.']);
         }
 
@@ -48,7 +48,7 @@ class CheckLotteryAvailability
 
         // Check if the lottery match is active.
         $lotteryMatch = LotteryMatch::first(); // Adjust this to fetch the right lottery match.
-        if (!$lotteryMatch || !$lotteryMatch->is_active) {
+        if (! $lotteryMatch || ! $lotteryMatch->is_active) {
             return response()->json(['error' => 'The lottery is currently not active. Please try again later.']);
         }
 

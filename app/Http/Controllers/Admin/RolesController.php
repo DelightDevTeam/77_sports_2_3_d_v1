@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Models\Admin\Permission;
 use App\Models\Admin\Role;
 use Illuminate\Http\Request;
-use App\Models\Admin\Permission;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
+
 class RolesController extends Controller
 {
     /**
@@ -18,7 +19,7 @@ class RolesController extends Controller
         abort_if(Gate::denies('role_access'), Response::HTTP_FORBIDDEN, '403 Forbidden |You cannot  Access this page because you do not have permission');
         //$roles = Role::all();
         $roles = Role::latest()->get();
-    
+
         return view('admin.roles.index', compact('roles'));
     }
 
@@ -29,6 +30,7 @@ class RolesController extends Controller
     {
         abort_if(Gate::denies('role_create'), Response::HTTP_FORBIDDEN, '403 Forbidden |You cannot  Access this page because you do not have permission');
         $permissions = Permission::all()->pluck('title', 'id');
+
         return response()->view('admin.roles.create', compact('permissions'));
     }
 
@@ -36,16 +38,16 @@ class RolesController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $request->validate([
-        'title' => 'required|unique:roles,title'
-    ]);
+    {
+        $request->validate([
+            'title' => 'required|unique:roles,title',
+        ]);
 
-    $role = Role::create($request->all());
-    $role->permissions()->sync($request->input('permissions', []));
+        $role = Role::create($request->all());
+        $role->permissions()->sync($request->input('permissions', []));
 
-    return response()->json(['success' => true, 'message' => 'Role created successfully.']);
-}
+        return response()->json(['success' => true, 'message' => 'Role created successfully.']);
+    }
 
     // public function store(Request $request)
     // {
@@ -63,10 +65,11 @@ class RolesController extends Controller
      */
     public function show(Role $role)
     {
-    abort_if(Gate::denies('role_show'), Response::HTTP_FORBIDDEN, '403 Forbidden |You cannot  Access this page because you do not have permission');
+        abort_if(Gate::denies('role_show'), Response::HTTP_FORBIDDEN, '403 Forbidden |You cannot  Access this page because you do not have permission');
         $role_detail = $role; // Remove the unnecessary find() method
-    $permissions = Permission::all();
-    return response()->view('admin.roles.show', compact('role_detail', 'permissions'));
+        $permissions = Permission::all();
+
+        return response()->view('admin.roles.show', compact('role_detail', 'permissions'));
     }
 
     /**
@@ -77,6 +80,7 @@ class RolesController extends Controller
         abort_if(Gate::denies('role_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden |You cannot  Access this page because you do not have permission');
         $role = Role::find($id);
         $permissions = Permission::all()->pluck('title', 'id');
+
         return view('admin.roles.edit', compact('role', 'permissions'));
     }
 
@@ -87,7 +91,8 @@ class RolesController extends Controller
     {
         $role->update($request->all());
         $role->permissions()->sync($request->input('permissions', []));
-         return redirect()->route('admin.roles.index')->with('toast_success', 'Role updated successfully.');
+
+        return redirect()->route('admin.roles.index')->with('toast_success', 'Role updated successfully.');
     }
 
     /**
@@ -99,6 +104,7 @@ class RolesController extends Controller
         // delete
         //$role = Role::find($role);
         $role->delete();
+
         // redirect
         return redirect()->route('admin.roles.index')->with('success', 'Role deleted successfully.');
     }

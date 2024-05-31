@@ -8,15 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Promotion extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        "image",
-        "title",
-        "description",
+        'image',
+        'title',
+        'description',
     ];
+
     protected $appends = ['img_url'];
 
     public function getImgUrlAttribute()
     {
-        return asset('assets/img/promotions/' . $this->image);
+        return asset('assets/img/promotions/'.$this->image);
     }
 }

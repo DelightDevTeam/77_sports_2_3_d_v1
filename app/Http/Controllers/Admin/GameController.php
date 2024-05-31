@@ -15,6 +15,7 @@ class GameController extends Controller
     public function index()
     {
         $games = Game::latest()->get();
+
         return view('admin.games.index', compact('games'));
     }
 
@@ -34,21 +35,22 @@ class GameController extends Controller
         $request->validate([
             'name' => 'required',
             'image' => 'required',
-            'link' => 'required'
+            'link' => 'required',
         ]);
 
         // image
         $image = $request->file('image');
         $ext = $image->getClientOriginalExtension();
-        $filename = uniqid('game') . '.' . $ext; // Generate a unique filename
+        $filename = uniqid('game').'.'.$ext; // Generate a unique filename
         $image->move(public_path('assets/img/games/'), $filename); // Save the file
 
         Game::create([
             'name' => $request->name,
             'image' => $filename,
-            'link' => $request->link
+            'link' => $request->link,
         ]);
-        return redirect(route('admin.games.index'))->with('success', "New Game Created Successfully.");
+
+        return redirect(route('admin.games.index'))->with('success', 'New Game Created Successfully.');
     }
 
     /**
@@ -75,25 +77,26 @@ class GameController extends Controller
         $request->validate([
             'name' => 'required',
             'image' => 'nullable',
-            'link' => 'required'
+            'link' => 'required',
         ]);
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             //file delete
-            File::delete(public_path('assets/img/games/' . $game->image));
+            File::delete(public_path('assets/img/games/'.$game->image));
             // image
             $image = $request->file('image');
             $ext = $image->getClientOriginalExtension();
-            $filename = uniqid('game') . '.' . $ext; // Generate a unique filename
+            $filename = uniqid('game').'.'.$ext; // Generate a unique filename
             $image->move(public_path('assets/img/games/'), $filename); // Save the file
-        }else{
+        } else {
             $filename = $game->image;
         }
         $game->update([
             'name' => $request->name,
             'link' => $request->link,
-            'image' => $filename
+            'image' => $filename,
         ]);
-        return redirect(route('admin.games.index'))->with('success', "Game Link Updated Successfully.");
+
+        return redirect(route('admin.games.index'))->with('success', 'Game Link Updated Successfully.');
     }
 
     /**
@@ -101,8 +104,9 @@ class GameController extends Controller
      */
     public function destroy(Game $game)
     {
-        File::delete(public_path('assets/img/games/' . $game->image));
+        File::delete(public_path('assets/img/games/'.$game->image));
         $game->delete();
-        return redirect()->back()->with('success', "Game Link Deleted Successfully.");
+
+        return redirect()->back()->with('success', 'Game Link Deleted Successfully.');
     }
 }

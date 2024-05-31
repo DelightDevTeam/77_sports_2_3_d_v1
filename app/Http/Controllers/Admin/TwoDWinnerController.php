@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Models\Admin\TwodWiner;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\TwodWiner;
+use Illuminate\Http\Request;
 
 class TwoDWinnerController extends Controller
 {
@@ -15,9 +15,10 @@ class TwoDWinnerController extends Controller
     {
         date_default_timezone_set('Asia/Yangon');
     }
+
     public function index()
     {
-        
+
         $morningData = TwodWiner::where('session', 'morning')->orderBy('id', 'desc')->first();
         $eveningData = TwodWiner::where('session', 'evening')->orderBy('id', 'desc')->first();
 
@@ -29,7 +30,7 @@ class TwoDWinnerController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -38,7 +39,7 @@ class TwoDWinnerController extends Controller
     public function store(Request $request)
     {
         //
-    $currentSession = date('H') < 12 ? 'morning' : 'evening';  // before 1 pm is morning
+        $currentSession = date('H') < 12 ? 'morning' : 'evening';  // before 1 pm is morning
 
         TwodWiner::create([
             'prize_no' => $request->prize_no,

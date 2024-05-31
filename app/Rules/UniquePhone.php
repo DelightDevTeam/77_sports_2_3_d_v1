@@ -17,7 +17,7 @@ class UniquePhone implements ValidationRule
     {
         $countryCode = request()->input('country_code');
         $exists = User::where('country_code', $countryCode)->where('phone', $value)->exists();
-        if (!$exists) {
+        if (! $exists) {
             $fail('The phone is not registered yet.');
         }
     }

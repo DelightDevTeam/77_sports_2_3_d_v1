@@ -14,6 +14,7 @@ class BannerTextController extends Controller
     public function index()
     {
         $texts = BannerText::latest()->get();
+
         return view('admin.banner_text.index', compact('texts'));
     }
 
@@ -31,12 +32,13 @@ class BannerTextController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'text' => 'required'
+            'text' => 'required',
         ]);
         BannerText::create([
-            'text' => $request->text
+            'text' => $request->text,
         ]);
-        return redirect(route('admin.text.index'))->with('success', "New Text Created Successfully.");
+
+        return redirect(route('admin.text.index'))->with('success', 'New Text Created Successfully.');
     }
 
     /**
@@ -61,12 +63,13 @@ class BannerTextController extends Controller
     public function update(Request $request, BannerText $text)
     {
         $request->validate([
-            'text' => 'required'
+            'text' => 'required',
         ]);
         $text->update([
-            'text' => $request->text
+            'text' => $request->text,
         ]);
-        return redirect(route('admin.text.index'))->with('success', "Marquee Text Updated Successfully.");
+
+        return redirect(route('admin.text.index'))->with('success', 'Marquee Text Updated Successfully.');
     }
 
     /**
@@ -75,6 +78,7 @@ class BannerTextController extends Controller
     public function destroy(BannerText $text)
     {
         $text->delete();
-        return redirect()->back()->with('success', "Marquee Text Deleted Successfully.");
+
+        return redirect()->back()->with('success', 'Marquee Text Deleted Successfully.');
     }
 }

@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
-use App\Models\User;
 use App\Models\Admin\LotteryMatch;
-use App\Models\ThreedMatchTime;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\ThreedLotteryEntry;
+use App\Models\ThreedMatchTime;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
 class ThreedLottery extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'total_amount',
         'user_id',
@@ -24,7 +25,7 @@ class ThreedLottery extends Model
      */
     protected $dates = ['created_at', 'updated_at'];
 
-        public function user()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -38,10 +39,11 @@ class ThreedLottery extends Model
     {
         return $this->belongsToMany(ThreedLotteryEntry::class);
     }
-    public function threedMatchTimes()
-{
-    return $this->belongsToMany(ThreedMatchTime::class, 'threed_lottery_pivot_copy', 'threed_lottery_id', 'threed_match_time_id');
-}
 
-// to copy to ThreedLotteryEntry model with booted method
+    public function threedMatchTimes()
+    {
+        return $this->belongsToMany(ThreedMatchTime::class, 'threed_lottery_pivot_copy', 'threed_lottery_id', 'threed_match_time_id');
+    }
+
+    // to copy to ThreedLotteryEntry model with booted method
 }

@@ -8,13 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Banner extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'image'
+        'image',
     ];
+
     protected $appends = ['img_url'];
 
     public function getImgUrlAttribute()
     {
-        return asset('assets/img/banners/' . $this->image);
+        return asset('assets/img/banners/'.$this->image);
     }
 }

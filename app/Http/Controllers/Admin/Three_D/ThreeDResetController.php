@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Admin\ThreeD;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ThreeDigit\LotteryThreeDigitCopy;
+use Illuminate\Http\Request;
 
 class ThreeDResetController extends Controller
 {
-     public function ThreeDReset()
+    public function ThreeDReset()
     {
-         LotteryThreeDigitCopy::truncate();
+        LotteryThreeDigitCopy::truncate();
         session()->flash('SuccessRequest', 'Successfully 3D Reset.');
-    return redirect()->back()->with('message', 'Data reset successfully!');
+
+        return redirect()->back()->with('message', 'Data reset successfully!');
     }
 }

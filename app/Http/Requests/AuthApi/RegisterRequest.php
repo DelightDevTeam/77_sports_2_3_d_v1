@@ -30,6 +30,7 @@ class RegisterRequest extends FormRequest
             'password' => ['required', 'min:6'],
         ];
     }
+
     protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
     {
         $response = response()->json([

@@ -1,56 +1,48 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BankController;
-
-use App\Http\Controllers\Admin\GameController;
-use App\Http\Controllers\Admin\RolesController;
-use App\Http\Controllers\Admin\UsersController;
-
-
 use App\Http\Controllers\Admin\BannerController;
-
-use App\Http\Controllers\Admin\ProfileController;
-
-use App\Http\Controllers\Admin\CurrencyController;
-use App\Http\Controllers\Admin\PlayTwoDController;
-use App\Http\Controllers\Admin\TwoDigitController;
-use App\Http\Controllers\Admin\PromotionController;
-
-use App\Http\Controllers\Admin\TwoDLimitController;
-
-
 use App\Http\Controllers\Admin\BannerTextController;
 use App\Http\Controllers\Admin\CommissionController;
-use App\Http\Controllers\Admin\PermissionController;
-use App\Http\Controllers\Admin\ThreeDListController;
-use App\Http\Controllers\Admin\TwoDWinnerController;
-use App\Http\Controllers\Admin\ThreeDLimitController;
-use App\Http\Controllers\Admin\TransferLogController;
-use App\Http\Controllers\Admin\TwoDLotteryController;
-
-use App\Http\Controllers\Admin\TwoDMorningController;
-use App\Http\Controllers\Home\CashInRequestController;
-use App\Http\Controllers\Admin\ThreedHistoryController;
-use App\Http\Controllers\Home\CashOutRequestController;
-use App\Http\Controllers\Admin\TwoD\DataLejarController;
-use App\Http\Controllers\Admin\TwoD\TwoDLagarController;
-use App\Http\Controllers\Admin\ThreedMatchTimeController;
+use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\FillBalanceReplyController;
+use App\Http\Controllers\Admin\GameController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\PlayTwoDController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\PromotionController;
+use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\ThreeD\ThreeDCloseController;
 use App\Http\Controllers\Admin\ThreeD\ThreeDLegarController;
-use App\Http\Controllers\Admin\TwoD\CloseTwoDigitController;
-use App\Http\Controllers\Admin\TwoD\HeadDigitCloseController;
-use App\Http\Controllers\Admin\TwoD\TwoDWinnersPrizeController;
 use App\Http\Controllers\Admin\ThreeD\ThreeDPrizeNumberCreateController;
+use App\Http\Controllers\Admin\ThreedHistoryController;
+use App\Http\Controllers\Admin\ThreeDLimitController;
+use App\Http\Controllers\Admin\ThreeDListController;
+use App\Http\Controllers\Admin\ThreedMatchTimeController;
+use App\Http\Controllers\Admin\TransferLogController;
+use App\Http\Controllers\Admin\TwoD\CloseTwoDigitController;
+use App\Http\Controllers\Admin\TwoD\DataLejarController;
+use App\Http\Controllers\Admin\TwoD\HeadDigitCloseController;
+use App\Http\Controllers\Admin\TwoD\TwoDLagarController;
+use App\Http\Controllers\Admin\TwoD\TwoDSettingController;
+use App\Http\Controllers\Admin\TwoD\TwoDWinnersPrizeController;
+use App\Http\Controllers\Admin\TwoDigitController;
+use App\Http\Controllers\Admin\TwoDLimitController;
+use App\Http\Controllers\Admin\TwoDLotteryController;
+use App\Http\Controllers\Admin\TwoDMorningController;
+use App\Http\Controllers\Admin\TwoDWinnerController;
+use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Home\CashInRequestController;
+use App\Http\Controllers\Home\CashOutRequestController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // sub route
-require __DIR__ . '/auth.php';
-require __DIR__ . '/two_d_play.php';
-require __DIR__ . '/frontend.php';
+require __DIR__.'/auth.php';
+require __DIR__.'/two_d_play.php';
+require __DIR__.'/frontend.php';
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['auth']], function () {
     // Permissions
@@ -69,7 +61,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::post('/first-prize-store', [ThreeDPrizeNumberCreateController::class, 'storeFirstPrizeWinners'])->name('PostFirstPrizeWinners');
     Route::post('/update-first-prize', [ThreeDPrizeNumberCreateController::class, 'updateFirstPrizeWinners'])->name('updateFirstwinners');
 
-    //second prize winner 
+    //second prize winner
     Route::get('/second-prize', [ThreeDPrizeNumberCreateController::class, 'getSecondPrizeWinnersWithUserInfo'])->name('GetSecondPrizeWinner');
     Route::post('/second-prize-store', [ThreeDPrizeNumberCreateController::class, 'storeSecondPrizeWinners'])->name('PostSecondPrizeWinners');
     Route::post('/update-second-prize', [ThreeDPrizeNumberCreateController::class, 'updateSecondPrizeWinners'])->name('updateSecondwinners');
@@ -78,16 +70,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::post('/third-prize-store', [ThreeDPrizeNumberCreateController::class, 'storeThirdPrizeWinners'])->name('PostThirdPrizeWinners');
     Route::post('/update-third-prize', [ThreeDPrizeNumberCreateController::class, 'updateThirdPrizeWinners'])->name('updateThirdwinners');
 
-    // two d morning 
+    // two d morning
     Route::get('/morning-prize', [TwoDWinnersPrizeController::class, 'getMorningPrizeWinnersWithUserInfo'])->name('TwoDMorningPrize');
     Route::post('/morning-prize-store', [TwoDWinnersPrizeController::class, 'storeMorningPrizeWinners'])->name('PostMorningPrizeWinners');
     Route::post('/update-morning-prize', [TwoDWinnersPrizeController::class, 'updateMorningPrizeWinners'])->name('updateMorningwinners');
 
-    // two d evening 
+    // two d evening
     Route::get('/evening-prize', [TwoDWinnersPrizeController::class, 'getEveningPrizeWinnersWithUserInfo'])->name('TwoDEveningPrize');
     Route::post('/evening-prize-store', [TwoDWinnersPrizeController::class, 'storeEveningPrizeWinners'])->name('PostEveningPrizeWinners');
     Route::post('/update-evening-prize', [TwoDWinnersPrizeController::class, 'updateEveningPrizeWinners'])->name('updateEveningwinners');
-
 
     //Banners
     Route::resource('banners', BannerController::class);
@@ -101,14 +92,21 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::resource('/two-digit-limit', TwoDLimitController::class);
     // three Ditgit Limit
     Route::resource('/three-digit-limit', ThreeDLimitController::class);
-    // two digit close 
+    // two digit close
     Route::resource('two-digit-close', CloseTwoDigitController::class);
-    // morning - lajar 
+    Route::get('2-d-settings', [TwoDSettingController::class, 'index']);
+    Route::get('2-d-more-settings', [TwoDSettingController::class, 'getCurrentMonthSettings']);
+    Route::patch('/two-2-status/{id}/status', [TwoDSettingController::class, 'updateStatus'])->name('twodStatusOpenClose');
+    Route::patch('/two-2-status/{id}/evening', [TwoDSettingController::class, 'updateStatusEvening'])->name('twodStatusOpenCloseEvening');
+    Route::patch('/two-d-results/{id}/status', [TwoDSettingController::class, 'updateResultNumber'])
+        ->name('update_result_number');
+
+    // morning - lajar
     Route::get('/morning-lajar', [TwoDLagarController::class, 'showData'])->name('morning-lajar');
     // two digit data
     Route::get('/two-digit-lejar-data', [DataLejarController::class, 'showData'])->name('two-digit-lejar-data');
 
-    // morning - lajar 
+    // morning - lajar
     Route::get('/evening-lajar', [TwoDLagarController::class, 'showDataEvening'])->name('evening-lajar');
     // two digit data
     Route::get('/evening-two-digit-lejar-data', [DataLejarController::class, 'showDataEvening'])->name('evening-two-digit-lejar-data');
@@ -116,17 +114,17 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::resource('three-digit-close', ThreeDCloseController::class);
     // three digit legar
     Route::get('/three-digit-lejar', [ThreeDLegarController::class, 'showData'])->name('three-digit-lejar');
-    // display limit 
+    // display limit
     Route::get('/three-d-display-limit-amount', [App\Http\Controllers\Admin\ThreeDLimitController::class, 'overLimit'])->name('three-d-display-limit-amount');
     Route::get('/three-d-same-id-display-limit-amount', [App\Http\Controllers\Admin\ThreeDLimitController::class, 'SameThreeDigitIDoverLimit'])->name('three-d-display-same-id-limit-amount');
-    // head digit close 
+    // head digit close
     Route::resource('head-digit-close', HeadDigitCloseController::class);
     //cash in lists
     Route::get('/cashIn', [CashInRequestController::class, 'index'])->name('cashIn');
     Route::get('/cashIn/{id}', [CashInRequestController::class, 'show'])->name('cashIn.show');
     Route::post('/cashIn/accept/{id}', [CashInRequestController::class, 'accept'])->name('acceptCashIn');
     Route::post('/cashIn/reject/{id}', [CashInRequestController::class, 'reject'])->name('rejectCashIn');
-    Route::post('/transfer/{id}', [CashInRequestController::class, "transfer"]);
+    Route::post('/transfer/{id}', [CashInRequestController::class, 'transfer']);
     //cash out lists
     Route::get('/cashOut', [CashOutRequestController::class, 'index'])->name('cashOut');
     Route::get('/cashOut/{id}', [CashOutRequestController::class, 'show'])->name('cashOut.show');
@@ -135,8 +133,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     // Route::post('/withdraw/{id}', [CashOutRequestController::class, "withdraw"]);
     //transfer logs lists
     Route::get('/transferlogs', [TransferLogController::class, 'index'])->name('transferLog');
-    
-    
+
     //Currency
     Route::resource('currency', CurrencyController::class);
     // profile resource rotues
@@ -151,7 +148,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::get('/three-d-play', [App\Http\Controllers\Admin\ThreeDPlayController::class, 'ThreeDigitPlay'])->name('ThreeDigitPlay');
     Route::get('/three-d-play-confirm', [App\Http\Controllers\Admin\ThreeDPlayController::class, 'ThreeDigitPlayConfirm'])->name('ThreeDigitPlayConfirm');
     Route::get('/three-d-play-confirm-api-format', [App\Http\Controllers\Admin\ThreeDPlayController::class, 'ThreeDigitPlayConfirmApi'])->name('ThreeDigitPlayConfirmApi');
-    
+
     Route::post('/three-digit-play-confirm', [App\Http\Controllers\Admin\ThreeDigitPlayController::class, 'ThreeDigitPlaystore'])->name('ThreeDigitPlaystore');
 
     Route::get('/quick-morning-play-two-d', [App\Http\Controllers\Admin\TwoDPlayController::class, 'QuickMorningPlayTwoDigit'])->name('QuickMorningPlayTwoDigit');
@@ -226,7 +223,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::get('/evening-play-two-d', [App\Http\Controllers\Admin\TwoDPlayController::class, 'EveningPlayTwoDigit'])->name('EveningPlayTwoDigit');
 
     Route::post('lotteries-two-d-play', [TwoDigitController::class, 'store'])->name('StorePlayTwoD');
-   
+
     Route::post('/two-d-play', [App\Http\Controllers\Admin\TwoDPlayController::class, 'store'])->name('two-d-play.store');
     Route::get('/quick-morning-play-two-d', [App\Http\Controllers\Admin\TwoDPlayController::class, 'QuickMorningPlayTwoDigit'])->name('QuickMorningPlayTwoDigit');
     Route::get('/quick-odd-morning-play-two-d', [App\Http\Controllers\Admin\TwoDPlayController::class, 'QuickOddMorningPlayTwoDigit'])->name('QuickOddMorningPlayTwoDigit');
@@ -273,7 +270,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     // 3d prize number create
     Route::get('/three-d-prize-number-create', [App\Http\Controllers\Admin\ThreeD\ThreeDPrizeNumberCreateController::class, 'index'])->name('three-d-prize-number-create');
     // store_permutations
-    Route::post('/store-permutations', [App\Http\Controllers\Admin\ThreeD\ThreeDPrizeNumberCreateController::class, 'PermutationStore'])->name('storePermutations'); 
+    Route::post('/store-permutations', [App\Http\Controllers\Admin\ThreeD\ThreeDPrizeNumberCreateController::class, 'PermutationStore'])->name('storePermutations');
     //deletePermutation
     Route::delete('/delete-permutation/{id}', [App\Http\Controllers\Admin\ThreeD\ThreeDPrizeNumberCreateController::class, 'deletePermutation'])->name('deletePermutation');
     Route::post('/three-d-prize-number-create', [App\Http\Controllers\Admin\ThreeD\ThreeDPrizeNumberCreateController::class, 'store'])->name('three-d-prize-number-create.store');
@@ -287,9 +284,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::get('/three-d-list-show/{id}', [App\Http\Controllers\Admin\ThreeD\ThreeDListController::class, 'show'])->name('three-d-list-show');
     // 3d winner list
     Route::get('/three-d-winner', [App\Http\Controllers\Admin\ThreeD\ThreeDWinnerController::class, 'index'])->name('three-d-winner');
-    
+
     Route::post('/two-d-session-over-amount-limit-reset', [App\Http\Controllers\Admin\SessionResetControlller::class, 'OverAmountLimitSessionReset'])->name('OverAmountLimitSessionReset');
-        // three d reset
+    // three d reset
     Route::post('/three-d-reset', [App\Http\Controllers\Admin\ThreeD\ThreeDResetController::class, 'ThreeDReset'])->name('ThreeDReset');
 
     Route::post('/permutation-reset', [App\Http\Controllers\Admin\ThreeD\PermutationResetController::class, 'PermutationReset'])->name('PermutationReset');
@@ -315,39 +312,39 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     // jackpot prize number store
     Route::post('/jackpot-prize-number-store', [App\Http\Controllers\Admin\Jackpot\JackpotController::class, 'store'])->name('jackpot-prize-number-create.store');
 
-     Route::post('/jackpot-reset', [App\Http\Controllers\Admin\Jackpot\JackpotController::class, 'JackpotReset'])->name('JackpotReset');
-     // jackpot one week history conclude
-        Route::get('/jackpot-one-week-history-conclude', [App\Http\Controllers\Admin\Jackpot\JackpotController::class, 'OnceWeekJackpotHistoryConclude'])->name('JackpotHistoryConclude');
-        // three digit history conclude
-        Route::get('/three-digit-history-conclude', [App\Http\Controllers\Admin\ThreeD\ThreeDRecordHistoryController::class, 'OnceWeekThreedigitHistoryConclude'])->name('ThreeDigitHistoryConclude');
-        // three digit one month history conclude
-        Route::get('/three-digit-one-month-history-conclude', [App\Http\Controllers\Admin\ThreeD\ThreeDRecordHistoryController::class, 'OnceMonthThreedigitHistoryConclude'])->name('ThreeDigitOneMonthHistoryConclude');
-        // jackpot history 
-        Route::get('/jackpot-history', [App\Http\Controllers\Admin\Jackpot\JackpotWinnerHistoryController::class, 'getWinnersHistoryForAdmin'])->name('JackpotHistory');
-        // three d winners history
-        Route::get('/three-d-winners-history', [App\Http\Controllers\Admin\ThreeD\ThreeDWinnerController::class, 'FirstPrizeWinner'])->name('ThreeDWinnersHistory'); 
-        // three d permutation winners history
-        Route::get('/permutation-winners-history', [App\Http\Controllers\Admin\ThreeD\ThreeDWinnerController::class, 'SecondPrizeWinner'])->name('PermutationWinnersHistory'); 
-        // greater than less than winner prize
-        Route::resource('winner-prize', App\Http\Controllers\Admin\ThreeD\GreatherThanLessThanWinnerPrizeController::class);
-        // three d permutation winner prize
-        Route::get('/prize-winners', [App\Http\Controllers\Admin\ThreeD\ThreeDWinnerController::class, 'ThirdPrizeWinner'])->name('getPrizeWinnersHistory'); 
-        // two d winner history
-        Route::get('/admin-two-d-winners-history', [App\Http\Controllers\Admin\TwoDWinnerHistoryController::class, 'getWinnersHistoryForAdmin'])->name('winnerHistoryForAdmin');
-        Route::get('/admin-two-d-winners-history-group-by-session', [App\Http\Controllers\Admin\TwoDWinnerHistoryController::class, 'getWinnersHistoryForAdminGroupBySession'])->name('winnerHistoryForAdminSession');
+    Route::post('/jackpot-reset', [App\Http\Controllers\Admin\Jackpot\JackpotController::class, 'JackpotReset'])->name('JackpotReset');
+    // jackpot one week history conclude
+    Route::get('/jackpot-one-week-history-conclude', [App\Http\Controllers\Admin\Jackpot\JackpotController::class, 'OnceWeekJackpotHistoryConclude'])->name('JackpotHistoryConclude');
+    // three digit history conclude
+    Route::get('/three-digit-history-conclude', [App\Http\Controllers\Admin\ThreeD\ThreeDRecordHistoryController::class, 'OnceWeekThreedigitHistoryConclude'])->name('ThreeDigitHistoryConclude');
+    // three digit one month history conclude
+    Route::get('/three-digit-one-month-history-conclude', [App\Http\Controllers\Admin\ThreeD\ThreeDRecordHistoryController::class, 'OnceMonthThreedigitHistoryConclude'])->name('ThreeDigitOneMonthHistoryConclude');
+    // jackpot history
+    Route::get('/jackpot-history', [App\Http\Controllers\Admin\Jackpot\JackpotWinnerHistoryController::class, 'getWinnersHistoryForAdmin'])->name('JackpotHistory');
+    // three d winners history
+    Route::get('/three-d-winners-history', [App\Http\Controllers\Admin\ThreeD\ThreeDWinnerController::class, 'FirstPrizeWinner'])->name('ThreeDWinnersHistory');
+    // three d permutation winners history
+    Route::get('/permutation-winners-history', [App\Http\Controllers\Admin\ThreeD\ThreeDWinnerController::class, 'SecondPrizeWinner'])->name('PermutationWinnersHistory');
+    // greater than less than winner prize
+    Route::resource('winner-prize', App\Http\Controllers\Admin\ThreeD\GreatherThanLessThanWinnerPrizeController::class);
+    // three d permutation winner prize
+    Route::get('/prize-winners', [App\Http\Controllers\Admin\ThreeD\ThreeDWinnerController::class, 'ThirdPrizeWinner'])->name('getPrizeWinnersHistory');
+    // two d winner history
+    Route::get('/admin-two-d-winners-history', [App\Http\Controllers\Admin\TwoDWinnerHistoryController::class, 'getWinnersHistoryForAdmin'])->name('winnerHistoryForAdmin');
+    Route::get('/admin-two-d-winners-history-group-by-session', [App\Http\Controllers\Admin\TwoDWinnerHistoryController::class, 'getWinnersHistoryForAdminGroupBySession'])->name('winnerHistoryForAdminSession');
 
     // two d commission route
-    Route::get('/two-d-commission', [App\Http\Controllers\Admin\Commission\TwoDCommissionController::class, 'getTwoDTotalAmountPerUser'])->name('two-d-commission'); 
+    Route::get('/two-d-commission', [App\Http\Controllers\Admin\Commission\TwoDCommissionController::class, 'getTwoDTotalAmountPerUser'])->name('two-d-commission');
 
     // show details
     Route::get('/two-d-commission-show/{id}', [App\Http\Controllers\Admin\Commission\TwoDCommissionController::class, 'show'])->name('two-d-commission-show');
     Route::put('/two-d-commission-update/{id}', [App\Http\Controllers\Admin\Commission\TwoDCommissionController::class, 'update'])->name('two-d-commission-update');
     // commission update
-   Route::post('two-d-transfer-commission/{id}', [App\Http\Controllers\Admin\Commission\TwoDCommissionController::class, 'TwoDtransferCommission'])->name('two-d-transfer-commission');
-    
+    Route::post('two-d-transfer-commission/{id}', [App\Http\Controllers\Admin\Commission\TwoDCommissionController::class, 'TwoDtransferCommission'])->name('two-d-transfer-commission');
+
     // three d commission route
     Route::get('/three-d-commission', [App\Http\Controllers\Admin\Commission\ThreeDCommissionController::class, 'getThreeDTotalAmountPerUser'])->name('three-d-commission');
-    // show details 
+    // show details
     Route::get('/three-d-commission-show/{id}', [App\Http\Controllers\Admin\Commission\ThreeDCommissionController::class, 'show'])->name('three-d-commission-show');
     // three_d_commission_update
     Route::put('/three-d-commission-update/{id}', [App\Http\Controllers\Admin\Commission\ThreeDCommissionController::class, 'update'])->name('three-d-commission-update');
@@ -355,15 +352,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::post('/three-d-transfer-commission/{id}', [App\Http\Controllers\Admin\Commission\ThreeDCommissionController::class, 'ThreeDtransferCommission'])->name('three-d-transfer-commission');
     // show transfer commission
 
-
     // jackpot commission route
     Route::get('/jackpot-commission', [App\Http\Controllers\Admin\Commission\JackpotCommissionController::class, 'getJackpotTotalAmountPerUser'])->name('jackpot-commission');
     Route::get('/jackpot-commission-show/{id}', [App\Http\Controllers\Admin\Commission\JackpotCommissionController::class, 'show'])->name('jackpot-commission-show');
     Route::put('/jackpot-commission-update/{id}', [App\Http\Controllers\Admin\Commission\JackpotCommissionController::class, 'update'])->name('jackpot-commission-update');
     // commission update
-   Route::post('jackpot-transfer-commission/{id}', [App\Http\Controllers\Admin\Commission\JackpotCommissionController::class, 'JackpottransferCommission'])->name('jackpot-transfer-commission');
-    
-   // TwodDailyMorningHistory
+    Route::post('jackpot-transfer-commission/{id}', [App\Http\Controllers\Admin\Commission\JackpotCommissionController::class, 'JackpottransferCommission'])->name('jackpot-transfer-commission');
+
+    // TwodDailyMorningHistory
     Route::get('/twod-daily-morning-history', [App\Http\Controllers\Admin\DailyMorningHistoryController::class, 'TwodDailyMorningHistory'])->name('TwodDailyMorningHistory');
     // TwodDailyEveningHistory
     Route::get('/twod-daily-evening-history', [App\Http\Controllers\Admin\DailyMorningHistoryController::class, 'TwodDailyEveningHistory'])->name('TwodDailyEveningHistory');

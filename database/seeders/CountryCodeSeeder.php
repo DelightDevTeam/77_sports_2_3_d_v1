@@ -14,10 +14,10 @@ class CountryCodeSeeder extends Seeder
     public function run(): void
     {
         $countryCodes = [
-            ["name" => "MM(+95)", "code" => "+95"],
-            ["name" => "THA(+66)", "code" => "+66"],
+            ['name' => 'MM(+95)', 'code' => '+95'],
+            ['name' => 'THA(+66)', 'code' => '+66'],
         ];
-        
+
         foreach ($countryCodes as $country) {
             CountryCode::create($country);
         }

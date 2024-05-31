@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class MatchTableSeeder extends Seeder
 {
@@ -13,7 +13,7 @@ class MatchTableSeeder extends Seeder
      */
     public function run(): void
     {
-         DB::table('lottery_matches')->insert([
+        DB::table('lottery_matches')->insert([
             [
                 'match_name' => '2D',
                 'is_active' => true,
@@ -26,7 +26,7 @@ class MatchTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-             [
+            [
                 'match_name' => 'Jackpot',
                 'is_active' => true,
                 'created_at' => now(),

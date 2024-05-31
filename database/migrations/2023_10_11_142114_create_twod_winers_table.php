@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('twod_winers', function (Blueprint $table) {
             $table->id();
             $table->string('prize_no')->default('0');
-            $table->enum('session', ['morning', 'evening']); 
+            $table->enum('session', ['morning', 'evening']);
             $table->timestamps();
         });
     }

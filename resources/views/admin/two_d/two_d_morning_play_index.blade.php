@@ -42,6 +42,7 @@
                                 <th>Lottery ID</th>
                                 <th>PlayerName</th>
                                 <th>Two Digits</th>
+                                <th>Session</th>
                                 {{-- <th>Pay Amount</th> --}}
                                 {{-- <th>Total Amount</th> --}}
                                 {{-- <th>6AM-12PM Prize No</th> --}}
@@ -61,11 +62,13 @@
                                             @foreach ($lottery->twoDigits as $twoDigit)
                                                 <li>
                                                     {{ $twoDigit->two_digit }} Amount: {{ $twoDigit->pivot->sub_amount }} -
-                                                    {{ $twoDigit->pivot->created_at->format('d M Y (l) (h:i a)') }}
+                                                    {{ $twoDigit->pivot->created_at->format('d M Y (l)') }}
                                                 </li>
                                             @endforeach
                                         </ul>
                                     </td>
+                                    <td>{{ $lottery->session }}</td>
+
                                     <td>
                                         <ul>
                                             @foreach ($lottery->twoDigitsMorning as $twoDigit)

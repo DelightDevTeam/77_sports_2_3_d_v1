@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Admin\Role;
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
 
 class RolesTableSeeder extends Seeder
 {
@@ -13,34 +13,33 @@ class RolesTableSeeder extends Seeder
      */
     public function run(): void
     {
-         $roles = [
+        $roles = [
             [
-                'id'         => 1,
-                'title'      => 'Admin',
+                'id' => 1,
+                'title' => 'Admin',
                 'created_at' => '2023-08-10 14:00:26',
                 'updated_at' => '2023-08-10 14:00:26',
             ],
-             [
-                'id'         => 2,
-                'title'      => 'Master',
-                'created_at' => '2023-08-10 14:00:26',
-                'updated_at' => '2023-08-10 14:00:26',
-            ],
-            
             [
-                'id'         => 3,
-                'title'      => 'Agent',
+                'id' => 2,
+                'title' => 'Master',
                 'created_at' => '2023-08-10 14:00:26',
                 'updated_at' => '2023-08-10 14:00:26',
             ],
-             [
-                'id'         => 4,
-                'title'      => 'User',
+
+            [
+                'id' => 3,
+                'title' => 'Agent',
                 'created_at' => '2023-08-10 14:00:26',
                 'updated_at' => '2023-08-10 14:00:26',
             ],
-            
-            
+            [
+                'id' => 4,
+                'title' => 'User',
+                'created_at' => '2023-08-10 14:00:26',
+                'updated_at' => '2023-08-10 14:00:26',
+            ],
+
         ];
 
         Role::insert($roles);

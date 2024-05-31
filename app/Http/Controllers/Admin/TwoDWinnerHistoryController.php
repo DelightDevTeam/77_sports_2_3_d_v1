@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 
 class TwoDWinnerHistoryController extends Controller
 {
@@ -13,114 +13,111 @@ class TwoDWinnerHistoryController extends Controller
     {
         $oneMonthAgo = Carbon::now()->subMonth();
 
-        
-            $winners = DB::table('lottery_two_digit_pivot')
-    ->join('two_digits', 'lottery_two_digit_pivot.two_digit_id', '=', 'two_digits.id')
-    ->join('lotteries', 'lottery_two_digit_pivot.lottery_id', '=', 'lotteries.id')
-    ->join('users', 'lotteries.user_id', '=', 'users.id')
-    ->join('twod_winers', 'two_digits.two_digit', '=', 'twod_winers.prize_no')
-    ->whereDate('twod_winers.created_at', '>=', $oneMonthAgo)
-    ->groupBy(
-        'lotteries.user_id', 
-        'twod_winers.session', 
-        'users.name',
-        'users.profile',
-        'lottery_two_digit_pivot.sub_amount', // Add this
-        'lotteries.total_amount', // And this
-        'twod_winers.prize_no', // And this
-        'twod_winers.created_at',  // Add this
-    )
-    ->select(
-        'lotteries.user_id', 
-        'twod_winers.session', 
-        'users.name',
-        'users.profile',
-        'lottery_two_digit_pivot.sub_amount',
-        'lotteries.total_amount',
-         'twod_winers.prize_no', // Add this
-        'twod_winers.created_at', // Add this
-        DB::raw('lottery_two_digit_pivot.sub_amount * 85 as prize_amount')
-    )
-    ->get();
-
-        return view('twod_winners_history', compact('winners'));
-    }
-    
-
-    public function getWinnersHistoryForAdmin()
-    {
-        $oneMonthAgo = Carbon::now()->subMonth();
-        $winners = DB::table('lottery_two_digit_pivot')
-        ->join('two_digits', 'lottery_two_digit_pivot.two_digit_id', '=', 'two_digits.id')
-        ->join('lotteries', 'lottery_two_digit_pivot.lottery_id', '=', 'lotteries.id')
-        ->join('users', 'lotteries.user_id', '=', 'users.id')
-        ->join('twod_winers', 'two_digits.two_digit', '=', 'twod_winers.prize_no')
-        ->whereDate('twod_winers.created_at', '>=', $oneMonthAgo)
-        ->groupBy(
-            'lotteries.user_id', 
-            'twod_winers.session', 
-            'users.name',
-            'users.profile',
-            'users.phone',
-            'lottery_two_digit_pivot.sub_amount', 
-            'lotteries.total_amount', 
-            'twod_winers.prize_no', 
-            'twod_winers.created_at',  
-        )
-        ->select(
-            'lotteries.user_id', 
-            'twod_winers.session', 
-            'users.name',
-            'users.profile',
-            'users.phone',
-            'lottery_two_digit_pivot.sub_amount',
-            'lotteries.total_amount',
-            'twod_winers.prize_no', 
-            'twod_winers.created_at', 
-            DB::raw('lottery_two_digit_pivot.sub_amount * 85 as prize_amount')
-        )
-        ->get();
-    // Update the prize_sent date for each winner
-     foreach ($winners as $winner) {
-        $this->updatePrizeSentDate($winner->user_id); // Make sure user_id is the ID of the winner
-    }
-
-        return view('admin.two_d.winner_history', compact('winners'));
-    }
-    
-
-    public function getWinnersHistoryForAdminGroupBySession()
-    {
-        $oneMonthAgo = Carbon::now()->subMonth();
-        $winners = DB::table('lottery_two_digit_pivot')
-            ->join('two_digits', 'lottery_two_digit_pivot.two_digit_id', '=', 'two_digits.id')
-            ->join('lotteries', 'lottery_two_digit_pivot.lottery_id', '=', 'lotteries.id')
+        $winners = DB::table('lottery_two_digit_pivots')
+            ->join('two_digits', 'lottery_two_digit_pivots.two_digit_id', '=', 'two_digits.id')
+            ->join('lotteries', 'lottery_two_digit_pivots.lottery_id', '=', 'lotteries.id')
             ->join('users', 'lotteries.user_id', '=', 'users.id')
             ->join('twod_winers', 'two_digits.two_digit', '=', 'twod_winers.prize_no')
             ->whereDate('twod_winers.created_at', '>=', $oneMonthAgo)
             ->groupBy(
-            'lotteries.user_id', 
-            'twod_winers.session', 
-            'users.name',
-            'users.profile',
-            'users.phone',
-            'lottery_two_digit_pivot.sub_amount', 
-            'lotteries.total_amount', 
-            'twod_winers.prize_no', 
-            'twod_winers.created_at', 
+                'lotteries.user_id',
+                'twod_winers.session',
+                'users.name',
+                'users.profile',
+                'lottery_two_digit_pivots.sub_amount', // Add this
+                'lotteries.total_amount', // And this
+                'twod_winers.prize_no', // And this
+                'twod_winers.created_at',  // Add this
             )
             ->select(
-            'twod_winers.session', 
-            'lotteries.user_id', 
-            'users.name',
-            'users.profile',
-            'users.phone',
-            'lottery_two_digit_pivot.sub_amount',
-            'lotteries.total_amount',
-            'twod_winers.prize_no', 
-            'twod_winers.created_at',
+                'lotteries.user_id',
+                'twod_winers.session',
+                'users.name',
+                'users.profile',
+                'lottery_two_digit_pivots.sub_amount',
+                'lotteries.total_amount',
+                'twod_winers.prize_no', // Add this
+                'twod_winers.created_at', // Add this
+                DB::raw('lottery_two_digit_pivots.sub_amount * 85 as prize_amount')
+            )
+            ->get();
+
+        return view('twod_winners_history', compact('winners'));
+    }
+
+    public function getWinnersHistoryForAdmin()
+    {
+        $oneMonthAgo = Carbon::now()->subMonth();
+        $winners = DB::table('lottery_two_digit_pivots')
+            ->join('two_digits', 'lottery_two_digit_pivots.two_digit_id', '=', 'two_digits.id')
+            ->join('lotteries', 'lottery_two_digit_pivots.lottery_id', '=', 'lotteries.id')
+            ->join('users', 'lotteries.user_id', '=', 'users.id')
+            ->join('twod_winers', 'two_digits.two_digit', '=', 'twod_winers.prize_no')
+            ->whereDate('twod_winers.created_at', '>=', $oneMonthAgo)
+            ->groupBy(
+                'lotteries.user_id',
+                'twod_winers.session',
+                'users.name',
+                'users.profile',
+                'users.phone',
+                'lottery_two_digit_pivots.sub_amount',
+                'lotteries.total_amount',
+                'twod_winers.prize_no',
+                'twod_winers.created_at',
+            )
+            ->select(
+                'lotteries.user_id',
+                'twod_winers.session',
+                'users.name',
+                'users.profile',
+                'users.phone',
+                'lottery_two_digit_pivots.sub_amount',
+                'lotteries.total_amount',
+                'twod_winers.prize_no',
+                'twod_winers.created_at',
+                DB::raw('lottery_two_digit_pivots.sub_amount * 85 as prize_amount')
+            )
+            ->get();
+        // Update the prize_sent date for each winner
+        foreach ($winners as $winner) {
+            $this->updatePrizeSentDate($winner->user_id); // Make sure user_id is the ID of the winner
+        }
+
+        return view('admin.two_d.winner_history', compact('winners'));
+    }
+
+    public function getWinnersHistoryForAdminGroupBySession()
+    {
+        $oneMonthAgo = Carbon::now()->subMonth();
+        $winners = DB::table('lottery_two_digit_pivots')
+            ->join('two_digits', 'lottery_two_digit_pivots.two_digit_id', '=', 'two_digits.id')
+            ->join('lotteries', 'lottery_two_digit_pivots.lottery_id', '=', 'lotteries.id')
+            ->join('users', 'lotteries.user_id', '=', 'users.id')
+            ->join('twod_winers', 'two_digits.two_digit', '=', 'twod_winers.prize_no')
+            ->whereDate('twod_winers.created_at', '>=', $oneMonthAgo)
+            ->groupBy(
+                'lotteries.user_id',
+                'twod_winers.session',
+                'users.name',
+                'users.profile',
+                'users.phone',
+                'lottery_two_digit_pivots.sub_amount',
+                'lotteries.total_amount',
+                'twod_winers.prize_no',
+                'twod_winers.created_at',
+            )
+            ->select(
+                'twod_winers.session',
+                'lotteries.user_id',
+                'users.name',
+                'users.profile',
+                'users.phone',
+                'lottery_two_digit_pivots.sub_amount',
+                'lotteries.total_amount',
+                'twod_winers.prize_no',
+                'twod_winers.created_at',
                 DB::raw('COUNT(*) as count'),
-                DB::raw('SUM(lottery_two_digit_pivot.sub_amount * 85) as total_prize_amount')
+                DB::raw('SUM(lottery_two_digit_pivots.sub_amount * 85) as total_prize_amount')
             )
             ->get();
 
@@ -143,9 +140,9 @@ class TwoDWinnerHistoryController extends Controller
 
         if ($session) {
             // Join with the lotteries table to access the session column
-            DB::table('lottery_two_digit_pivot')
-                ->join('lotteries', 'lottery_two_digit_pivot.lottery_id', '=', 'lotteries.id')
-                ->where('lottery_two_digit_pivot.lottery_id', $winnerId)
+            DB::table('lottery_two_digit_pivots')
+                ->join('lotteries', 'lottery_two_digit_pivots.lottery_id', '=', 'lotteries.id')
+                ->where('lottery_two_digit_pivots.lottery_id', $winnerId)
                 ->where('lotteries.session', $session)
                 ->update(['prize_sent' => true]);
 
@@ -214,41 +211,41 @@ class TwoDWinnerHistoryController extends Controller
     public function getWinnersHistoryForAdminGroupBySessionApi()
     {
         $oneMonthAgo = Carbon::now()->subMonth();
-        $winners = DB::table('lottery_two_digit_pivot')
-            ->join('two_digits', 'lottery_two_digit_pivot.two_digit_id', '=', 'two_digits.id')
-            ->join('lotteries', 'lottery_two_digit_pivot.lottery_id', '=', 'lotteries.id')
+        $winners = DB::table('lottery_two_digit_pivots')
+            ->join('two_digits', 'lottery_two_digit_pivots.two_digit_id', '=', 'two_digits.id')
+            ->join('lotteries', 'lottery_two_digit_pivots.lottery_id', '=', 'lotteries.id')
             ->join('users', 'lotteries.user_id', '=', 'users.id')
             ->join('twod_winers', 'two_digits.two_digit', '=', 'twod_winers.prize_no')
             ->whereDate('twod_winers.created_at', '>=', $oneMonthAgo)
             ->groupBy(
-            'lotteries.user_id', 
-            'twod_winers.session', 
-            'users.name',
-            'users.profile',
-            'users.phone',
-            'lottery_two_digit_pivot.bet_digit', 
-            'lottery_two_digit_pivot.sub_amount',
-            'lottery_two_digit_pivot.play_date', 
-            'lottery_two_digit_pivot.play_time', 
-            'lotteries.total_amount', 
-            'twod_winers.prize_no', 
-            'twod_winers.created_at', 
+                'lotteries.user_id',
+                'twod_winers.session',
+                'users.name',
+                'users.profile',
+                'users.phone',
+                'lottery_two_digit_pivots.bet_digit',
+                'lottery_two_digit_pivots.sub_amount',
+                'lottery_two_digit_pivots.play_date',
+                'lottery_two_digit_pivots.play_time',
+                'lotteries.total_amount',
+                'twod_winers.prize_no',
+                'twod_winers.created_at',
             )
             ->select(
-            'twod_winers.session', 
-            'lotteries.user_id', 
-            'users.name',
-            'users.profile',
-            'users.phone',
-            'lottery_two_digit_pivot.bet_digit', 
-            'lottery_two_digit_pivot.sub_amount',
-            'lottery_two_digit_pivot.play_date', 
-            'lottery_two_digit_pivot.play_time', 
-            'lotteries.total_amount',
-            'twod_winers.prize_no', 
-            'twod_winers.created_at',
+                'twod_winers.session',
+                'lotteries.user_id',
+                'users.name',
+                'users.profile',
+                'users.phone',
+                'lottery_two_digit_pivots.bet_digit',
+                'lottery_two_digit_pivots.sub_amount',
+                'lottery_two_digit_pivots.play_date',
+                'lottery_two_digit_pivots.play_time',
+                'lotteries.total_amount',
+                'twod_winers.prize_no',
+                'twod_winers.created_at',
                 DB::raw('COUNT(*) as count'),
-                DB::raw('SUM(lottery_two_digit_pivot.sub_amount * 85) as prize_amount')
+                DB::raw('SUM(lottery_two_digit_pivots.sub_amount * 85) as prize_amount')
             )
             ->get();
 
@@ -257,10 +254,10 @@ class TwoDWinnerHistoryController extends Controller
             $this->updatePrizeSentDateApi($winner->user_id); // Make sure user_id is the ID of the winner
         }
 
-       return response()->json(['winners' => $winners], 200);
+        return response()->json(['winners' => $winners], 200);
     }
 
-     public function updatePrizeSentDateApi($winnerId)
+    public function updatePrizeSentDateApi($winnerId)
     {
         $currentTime = Carbon::now()->format('H:i');
         $morningSessionEnd = Carbon::createFromTimeString('12:00')->format('H:i');
@@ -271,16 +268,16 @@ class TwoDWinnerHistoryController extends Controller
 
         if ($session) {
             // Join with the lotteries table to access the session column
-            DB::table('lottery_two_digit_pivot')
-                ->join('lotteries', 'lottery_two_digit_pivot.lottery_id', '=', 'lotteries.id')
-                ->where('lottery_two_digit_pivot.lottery_id', $winnerId)
+            DB::table('lottery_two_digit_pivots')
+                ->join('lotteries', 'lottery_two_digit_pivots.lottery_id', '=', 'lotteries.id')
+                ->where('lottery_two_digit_pivots.lottery_id', $winnerId)
                 ->where('lotteries.session', $session)
                 ->update(['prize_sent' => true]);
 
             return response()->json(['success' => 'Prize sent date updated successfully!'], 200);
         } else {
             return response()->json(['error' => 'Record not found!'], 404);
-            
+
         }
     }
 
@@ -327,6 +324,5 @@ class TwoDWinnerHistoryController extends Controller
 
     //     return response()->json(['success' => 'Prize sent date updated successfully!'], 200);
     // }
-
 
 }

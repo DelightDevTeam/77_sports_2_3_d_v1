@@ -23,7 +23,7 @@ class PasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'old_password' => 'required|min:6', new PasswordCheck(),
+            'old_password' => 'required|min:6', new PasswordCheck,
             'password' => 'required|min:6',
         ];
     }

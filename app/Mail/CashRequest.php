@@ -17,6 +17,7 @@ class CashRequest extends Mailable
      * Create a new message instance.
      */
     public $mail;
+
     public function __construct($data)
     {
         $this->mail = $data;
