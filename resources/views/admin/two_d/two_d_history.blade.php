@@ -52,7 +52,7 @@
                                 <tr>
                                     <td class="text-sm font-weight-normal">{{ $lottery->id }}</td>
                                     <td class="text-sm font-weight-normal">
-                                        <span class="badge badge-secondary">{{ $lottery->user->name }}</span>
+                                         <span class="badge badge-secondary">{{ $lottery->user->name ?? '' }}</span>
                                     </td>
                                     <td class="text-sm font-weight-normal">
                                         <ul class="navbar-nav">
