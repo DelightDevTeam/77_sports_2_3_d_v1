@@ -127,7 +127,7 @@ class TwoDController extends Controller
             'status' => 'Request was successful.',
             'message' => null,
             'data' => [
-                'break' => $over_all_break,
+                'default_break' => $over_all_break,
                 'two_digits' => $two_digits,
                 'lottery_matches' => [
                     'id' => 1,
