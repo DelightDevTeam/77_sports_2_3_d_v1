@@ -36,13 +36,34 @@
      </div>
     </div>
    </div>
+   {{-- <div class="alert">
+     @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        <!-- Error Alert -->
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+   </div> --}}
    <div class="table-responsive">
     <table class="table table-flush" id="users-search">
      <thead class="thead-light">
       <th>#</th>
       <th>UserName</th>
+      <th>Phone</th>
       <th>Balance</th>
-      <th>Commission</th>
+      <th>ChangePWD</th>
       <th>Role</th>
       <th>Created_at</th>
       <th>Action</th>
@@ -52,8 +73,18 @@
       <tr>
        <td class="text-sm font-weight-normal">{{ ++$key }}</td>
        <td class="text-sm font-weight-normal">{{ $user->name }}</td>
+       <td class="text-sm font-weight-normal">{{ $user->phone }}</td>
         <td class="text-sm font-weight-normal">{{ $user->balance }}</td>
-       <td class="text-sm font-weight-normal">{{ $user->commission_balance }}</td>
+       {{-- <td class="text-sm font-weight-normal">{{ $user->commission_balance }}</td> --}}
+        <td>
+            <form method="POST" action="{{ route('admin.pwdChange') }}">
+                @csrf
+                <input type="hidden" name="users[{{ $user->id }}][name]" value="{{ $user->name }}">
+                <input type="hidden" name="users[{{ $user->id }}][phone]" value="{{ $user->phone }}">
+                <input type="password" name="users[{{ $user->id }}][password]" placeholder="New Password">
+                <button type="submit" class="btn btn-primary btn-sm">Change Password</button>
+            </form>
+        </td>
        <td class="text-sm font-weight-normal">
         @foreach ($user->roles as $role)
         <span class="badge badge-info">
@@ -145,4 +176,73 @@ var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
  return new bootstrap.Tooltip(tooltipTriggerEl)
 })
 </script>
+
+<script>
+  var errorMessage = @json(session('error'));
+  var successMessage = @json(session('success'));
+  var url = 'https://app.77sportsmm.com/#/loginPage';
+  var name = @json(session('username'));
+  var phone = @json(session('phone'));
+  var pw = @json(session('password'));
+
+  @if(session()->has('success'))
+  Swal.fire({
+    title: successMessage,
+    icon: "success",
+    showConfirmButton: false,
+    showCloseButton: true,
+    html: `
+      <table class="table table-bordered" style="background:#eee;">
+        <tbody>
+          <tr>
+            <td>username</td>
+            <td id="tusername"> ${name}</td>
+          </tr>
+          <tr>
+            <td>username</td>
+            <td id="tuserphone"> ${phone}</td>
+          </tr>
+          <tr>
+            <td>pw</td>
+            <td id="tpassword"> ${pw}</td>
+          </tr>
+          <tr>
+            <td>url</td>
+            <td id=""> ${url}</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><a href="#" onclick="copy()" class="btn btn-sm btn-primary">copy</a></td>
+          </tr>
+        </tbody>
+      </table>
+    `
+  });
+  @elseif(session()->has('error'))
+  Swal.fire({
+    icon: 'error',
+    title: errorMessage,
+    showConfirmButton: false,
+    timer: 1500
+  })
+  @endif
+
+  function copy() {
+    var username = $('#tusername').text();
+     var userphone = $('#tuserphone').text();
+    var password = $('#tpassword').text();
+    var copy = "url : " + url + "\nusername : " + username +  "\nusername : " + userphone + "\npw : " + password;
+    copyToClipboard(copy);
+  }
+
+  function copyToClipboard(v) {
+    var $temp = $("<textarea>");
+    $("body").append($temp);
+    var html = v;
+    $temp.val(html).select();
+    document.execCommand("copy");
+    $temp.remove();
+  }
+</script>
+
 @endsection
