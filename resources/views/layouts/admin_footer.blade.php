@@ -5,7 +5,7 @@
               <div class="copyright text-center text-sm text-muted text-lg-start">
                 ©Copyright <script>
                   document.write(new Date().getFullYear())
-                </script>, by <a href="https://delightmyanmar.pro" target='__blank'>Delight Myanmar</a>
+                </script>, by <a href="https://77sportsmm.com" target='__blank'>77 Sport 2D 3D</a>
                 {{-- made with <i class="fa fa-heart"></i> by
                 <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
                 for a better web. --}}
