@@ -132,7 +132,7 @@ class TwoDController extends Controller
                 'lottery_matches' => [
                     'id' => 1,
                     'match_name' => '2D',
-                    'is_active' => 1,
+                    'is_active' => '1',
                 ],
             ],
         ];
