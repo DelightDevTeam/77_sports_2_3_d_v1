@@ -21,74 +21,74 @@
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
                         <div>
-                            <h5 class="mb-0">2D Morning Winner Dashboards
-                                <span>
-                                    <button type="button" class="btn btn-primary">
-                                        @if ($prize_no_morning)
-                                            <span>{{ $prize_no->created_at->format('d-m-Y (l) (h:i a)') }}</span>
-                                            <span class="badge badge-warning"
-                                                style="font-size: 15px; color:white">{{ $prize_no->prize_no }}</span>
-                                        @else
-                                            <span>No Prize Number Yet</span>
-                                        @endif
-                                    </button>
-                                </span>
+                            <h5 class="mb-0">
+                                2D မနက်(12:1) မနက်ပိုင်း ပေါက်သူများစာရင်း Dashboards
                             </h5>
 
                         </div>
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                             <div class="ms-auto my-auto">
-                                <a href="{{ route('admin.users.create') }}"
+                                {{-- <a href="{{ route('admin.users.create') }}"
                                     class="btn bg-gradient-primary btn-sm mb-0">+&nbsp; Create New
-                                    User</a>
+                                    User</a> --}}
                                 <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" data-type="csv"
                                     type="button" name="button">Export</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-flush" id="users-search">
-                        <thead class="thead-light">
-                            <th>PlayerName</th>
-                            <th>Winning Two Digits</th>
-                            <th>Bet Amount</th>
-                            <th>6AM-12PM Prize No</th>
-                            <th>Prize Amount</th>
-                            <th>SendToAccBalance</th>
-                        </thead>
-                        <tbody>
-                            <!-- Loop through each lottery -->
-                            @foreach ($lotteries as $lottery)
-                                <!-- Loop through each two digits for the lottery -->
-                                @foreach ($lottery->twoDigitsMorning as $twoDigit)
-                                    <!-- Check if it's a winner -->
-                                    @if ($prize_no_morning && $twoDigit->two_digit == $prize_no_morning->prize_no)
-                                        <tr>
-                                            <td>{{ $lottery->user->name }}</td>
-                                            <td>{{ $twoDigit->two_digit }}</td>
-                                            <td>{{ $twoDigit->pivot->sub_amount }}</td>
-                                            <td><span class="badge badge-success">WINNER</span></td>
-                                            <td>{{ $twoDigit->pivot->sub_amount * 85 }}</td>
-                                            <td>
+    @if (isset($error))
+    <div class="alert alert-danger">
+        {{ $error }}
+    </div>
+@else
+        <div class="card mt-1">
+            <div class="card-header">
+        <p style="color: #f5bd02" class="text-center">Total Morning Prize Amount: {{ $totalPrizeAmount }}</p>
 
-                                                @if ($twoDigit->pivot->prize_sent == 1)
-                                                    <button type="button" class="btn btn-success" disabled>Sent - လျော်ပြီး</button>
-                                                @else
-                                                    <button type="button" class="btn btn-danger" disabled>Not Send
-                                                        {{ $twoDigit->pivot->prize_sent }}</button>
-                                                @endif
-
-
-                                            </td>
-                                        </tr>
-                                    @endif
-                                @endforeach
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
             </div>
+        </div>
+    <div class="table-responsive">
+         <pre>
+            {{ print_r($results, true) }}
+            Total Prize Amount: {{ $totalPrizeAmount }}
+        </pre>
+        <table class="table table-flush" id="users-search">
+             <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>User Phone</th>
+                    <th>Bet Digit</th>
+                    <th>Res Date</th>
+                    <th>Sub Amount</th>
+                    <th>Session</th>
+                    <th>Res Time</th>
+                    <th>Prize Sent</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($results as $result)
+                    <tr>
+                        <td>{{ $result->user_name }}</td>
+                        <td>{{ $result->user_phone }}</td>
+                        <td>{{ $result->bet_digit }}</td>
+                        <td>{{ $result->res_date }}</td>
+                        <td>{{ $result->sub_amount }}</td>
+                        <td>{{ $result->session }}</td>
+                        <td>{{ $result->res_time }}</td>
+                        <td>{{ $result->prize_sent ? 'Yes' : 'No' }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+@endif
+        </div>
+        <div class="card">
+            <div class="card-header">
+                {{-- <p>Total Prize Amount: {{ $totalPrizeAmount }}</p> --}}
+            </div>
+        </div>
         </div>
     </div>
 @endsection
@@ -118,7 +118,7 @@
                     };
 
                     if (type === "csv") {
-                        data.columnDelimiter = ",";
+                        data.columnDelimiter = "|";
                     }
 
                     dataTableSearch.export(data);

@@ -4,7 +4,7 @@
 
 namespace App\Services;
 
-use App\Models\Admin\Lottery;
+use App\Models\TwoD\Lottery;
 use Carbon\Carbon;
 
 class TwoDLotteryService

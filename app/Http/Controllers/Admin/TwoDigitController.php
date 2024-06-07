@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Lottery;
 use App\Models\Admin\LotteryMatch;
 use App\Models\Admin\TwoDigit;
 use App\Models\LotteryTwoDigitPivot;
+use App\Models\TwoD\Lottery;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

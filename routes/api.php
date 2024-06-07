@@ -11,6 +11,9 @@ use App\Http\Controllers\Api\V1\Frontend\TwoDController;
 use App\Http\Controllers\Api\V1\Frontend\TwoDRemainingAmountController;
 use App\Http\Controllers\Api\V1\Frontend\WalletController;
 use App\Http\Controllers\Api\V1\TestController;
+use App\Http\Controllers\Api\V1\TwoD\AllWinnerPrizeSentController;
+use App\Http\Controllers\Api\V1\TwoD\EveningWinPrizeController;
+use App\Http\Controllers\Api\V1\TwoD\MorningWinPrizeController;
 use App\Http\Controllers\Api\V1\TwoD\TwoDLotteryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -84,10 +87,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/auth-td-second-win-history', [App\Http\Controllers\Api\V1\ThreeD\WinnerHistoryController::class, 'secondPrizeWinnerForApk'])->name('TdsecondPrizeWinner');
     Route::get('/auth-td-third-win-history', [App\Http\Controllers\Api\V1\ThreeD\WinnerHistoryController::class, 'thirdPrizeWinnerForApk'])->name('TdthirdPrizeWinner');
     // twod morning prize winner history confirm
-    Route::get('/morning-two-win-history', [App\Http\Controllers\Api\V1\TwoD\TwoDPrizeController::class, 'MorningPrizeWinnerForApk'])->name('TwoMorningPrizeWinner');
-    Route::get('/evening-two-win-history', [App\Http\Controllers\Api\V1\TwoD\TwoDPrizeController::class, 'EveningPrizeWinnerForApk'])->name('TwoEveningPrizeWinner');
+    //Route::get('/morning-two-win-history', [App\Http\Controllers\Api\V1\TwoD\TwoDPrizeController::class, 'MorningPrizeWinnerForApk'])->name('TwoMorningPrizeWinner');
+    //Route::get('/evening-two-win-history', [App\Http\Controllers\Api\V1\TwoD\TwoDPrizeController::class, 'EveningPrizeWinnerForApk'])->name('TwoEveningPrizeWinner');
 
-    Route::get('test-two-history', [TestController::class, 'getUserHistory']);
+    //Route::get('test-two-history', [TestController::class, 'getUserHistory']);
+
+    Route::get('2d-morning-winner-prize', [MorningWinPrizeController::class, 'getMorningPrizeSent']);
+    Route::get('2d-evening-winner-prize', [EveningWinPrizeController::class, 'getEveningPrizeSent']);
+    Route::get('2d-all-winner-history', [AllWinnerPrizeSentController::class, 'getAllWinnerPrizeSent']);
 
 });
 

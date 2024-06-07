@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\TwodWiner;
-use App\Models\Lottery;
+use App\Models\TwoD\Lottery;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\Admin\Lottery;
+use App\Models\TwoD\Lottery;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -11,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class CheckForMorningWinners implements ShouldQueue
 {
@@ -55,11 +55,11 @@ class CheckForMorningWinners implements ShouldQueue
             ->select('lottery_two_digit_copies.*')
             ->get();
 
-        // if ($winningEntries->isEmpty()) {
-        //     \Log::info('No winning entries found.');
-        // } else {
-        //     \Log::info('Processing ' . $winningEntries->count() . ' winning entries.');
-        // }
+        if ($winningEntries->isEmpty()) {
+            Log::info('No winning entries found.');
+        } else {
+            Log::info('Processing '.$winningEntries->count().' winning entries.');
+        }
 
         foreach ($winningEntries as $entry) {
             DB::transaction(function () use ($entry) {
@@ -69,7 +69,7 @@ class CheckForMorningWinners implements ShouldQueue
                 $user->save();
 
                 // Update prize_sent to true for the winning entry
-                $lottery->twoDigits()->updateExistingPivot($entry->two_digit_id, ['prize_sent' => true]);
+                $lottery->twoDigitCopies()->updateExistingPivot($entry->two_digit_id, ['prize_sent' => true]);
             });
         }
     }

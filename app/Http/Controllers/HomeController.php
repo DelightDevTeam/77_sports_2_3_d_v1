@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin\Currency;
-use App\Models\Admin\Lottery;
 use App\Models\Admin\LotteryMatch;
-use App\Models\Jackpot\Jackpot;
 use App\Models\ThreeDigit\Lotto;
+use App\Models\TwoD\Lottery;
 use App\Models\User;
 use Illuminate\Http\Request;
 

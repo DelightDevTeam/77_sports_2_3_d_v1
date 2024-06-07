@@ -111,34 +111,32 @@ class UsersController extends Controller
     }
 
     public function UserPwdChange(Request $request)
-{
-    $data = $request->input('users', []);
+    {
+        $data = $request->input('users', []);
 
-    try {
-        foreach ($data as $userId => $userData) {
-            if (isset($userData['password'])) {
-                $user = User::findOrFail($userId);
-                $user->update([
-                    'password' => Hash::make($userData['password']),
-                ]);
+        try {
+            foreach ($data as $userId => $userData) {
+                if (isset($userData['password'])) {
+                    $user = User::findOrFail($userId);
+                    $user->update([
+                        'password' => Hash::make($userData['password']),
+                    ]);
+                }
             }
+
+            // Assuming you are updating the password for a single user in the form
+            $user = User::findOrFail(array_key_first($data));
+            $password = $data[$user->id]['password'];
+
+            return redirect()->route('admin.users.index')
+                ->with('success', 'User password updated successfully.')
+                ->with('username', $user->name)
+                ->with('phone', $user->phone)
+                ->with('password', $password);
+        } catch (\Exception $e) {
+            return redirect()->route('admin.users.index')->with('error', 'An error occurred while updating user password: '.$e->getMessage());
         }
-
-        // Assuming you are updating the password for a single user in the form
-        $user = User::findOrFail(array_key_first($data));
-        $password = $data[$user->id]['password'];
-
-        return redirect()->route('admin.users.index')
-            ->with('success', 'User password updated successfully.')
-            ->with('username', $user->name)
-            ->with('phone', $user->phone)
-            ->with('password', $password);
-    } catch (\Exception $e) {
-        return redirect()->route('admin.users.index')->with('error', 'An error occurred while updating user password: ' . $e->getMessage());
     }
-}
-
-
 
     /**
      * Remove the specified resource from storage.
