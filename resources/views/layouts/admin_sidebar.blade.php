@@ -299,14 +299,14 @@
             </a>
           </li>
           @endcan --}}
-          @can('user_access')
+          {{-- @can('user_access')
           <li class="nav-item ">
             <a class="nav-link text-white " href="{{ url('admin/morning-prize') }}">
               <span class="sidenav-mini-icon"> 2D </span>
               <span class="sidenav-normal  ms-2  ps-1">  MorningPrize </span>
             </a>
           </li>
-          @endcan
+          @endcan --}}
           @can('user_access')
           <li class="nav-item ">
             <a class="nav-link text-white " href="{{ route('admin.morningWinner') }}">
@@ -339,14 +339,14 @@
             </a>
           </li>
           @endcan --}}
-           @can('user_access')
+           {{-- @can('user_access')
           <li class="nav-item ">
             <a class="nav-link text-white " href="{{ url('admin/evening-prize') }}">
               <span class="sidenav-mini-icon"> 2D </span>
               <span class="sidenav-normal  ms-2  ps-1">(4:30) EveningPrize </span>
             </a>
           </li>
-          @endcan
+          @endcan --}}
           @can('user_access')
           <li class="nav-item ">
             <a class="nav-link text-white " href="{{ route('admin.eveningWinner') }}">

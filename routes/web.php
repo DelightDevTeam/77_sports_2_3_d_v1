@@ -72,14 +72,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::post('/update-third-prize', [ThreeDPrizeNumberCreateController::class, 'updateThirdPrizeWinners'])->name('updateThirdwinners');
 
     // two d morning
-    Route::get('/morning-prize', [TwoDWinnersPrizeController::class, 'getMorningPrizeWinnersWithUserInfo'])->name('TwoDMorningPrize');
-    Route::post('/morning-prize-store', [TwoDWinnersPrizeController::class, 'storeMorningPrizeWinners'])->name('PostMorningPrizeWinners');
-    Route::post('/update-morning-prize', [TwoDWinnersPrizeController::class, 'updateMorningPrizeWinners'])->name('updateMorningwinners');
+    // Route::get('/morning-prize', [TwoDWinnersPrizeController::class, 'getMorningPrizeWinnersWithUserInfo'])->name('TwoDMorningPrize');
+    // Route::post('/morning-prize-store', [TwoDWinnersPrizeController::class, 'storeMorningPrizeWinners'])->name('PostMorningPrizeWinners');
+    // Route::post('/update-morning-prize', [TwoDWinnersPrizeController::class, 'updateMorningPrizeWinners'])->name('updateMorningwinners');
 
-    // two d evening
-    Route::get('/evening-prize', [TwoDWinnersPrizeController::class, 'getEveningPrizeWinnersWithUserInfo'])->name('TwoDEveningPrize');
-    Route::post('/evening-prize-store', [TwoDWinnersPrizeController::class, 'storeEveningPrizeWinners'])->name('PostEveningPrizeWinners');
-    Route::post('/update-evening-prize', [TwoDWinnersPrizeController::class, 'updateEveningPrizeWinners'])->name('updateEveningwinners');
+    // // two d evening
+    // Route::get('/evening-prize', [TwoDWinnersPrizeController::class, 'getEveningPrizeWinnersWithUserInfo'])->name('TwoDEveningPrize');
+    // Route::post('/evening-prize-store', [TwoDWinnersPrizeController::class, 'storeEveningPrizeWinners'])->name('PostEveningPrizeWinners');
+    // Route::post('/update-evening-prize', [TwoDWinnersPrizeController::class, 'updateEveningPrizeWinners'])->name('updateEveningwinners');
 
     //Banners
     Route::resource('banners', BannerController::class);

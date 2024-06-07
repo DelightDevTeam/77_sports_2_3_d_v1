@@ -4,3 +4,13 @@ php artisan migrate:rollback --path=/database/migrations/2024_04_13_145007_creat
 
 
 php artisan migrate --path=/database/migrations/2024_04_13_145007_create_first_prize_winners_table.php
+
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE cash_in_requests;
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
