@@ -58,20 +58,20 @@ class WalletController extends Controller
             'created_by' => null,
         ]);
 
-        $user = User::find(auth()->id());
-        $toMail = 'mobiledeveloper117@gmail.com';
-        $mail = [
-            'status' => 'Deposit',
-            'name' => $user->name,
-            'balance' => $user->balance,
-            'payment_method' => $request->payment_method,
-            'phone' => $request->phone,
-            'amount' => $request->amount,
-            'last_6_num' => $request->last_6_num,
-            'currency' => $request->currency,
-            'rate' => 1,
-        ];
-        Mail::to($toMail)->send(new CashRequest($mail));
+        // $user = User::find(auth()->id());
+        // $toMail = 'mobiledeveloper117@gmail.com';
+        // $mail = [
+        //     'status' => 'Deposit',
+        //     'name' => $user->name,
+        //     'balance' => $user->balance,
+        //     'payment_method' => $request->payment_method,
+        //     'phone' => $request->phone,
+        //     'amount' => $request->amount,
+        //     'last_6_num' => $request->last_6_num,
+        //     'currency' => $request->currency,
+        //     'rate' => 1,
+        // ];
+        // Mail::to($toMail)->send(new CashRequest($mail));
 
         return $this->success([
             'message' => 'Deposit request submitted successfully',
@@ -104,19 +104,19 @@ class WalletController extends Controller
         $user->balance -= $request->amount;
         $user->save();
 
-        $toMail = 'mobiledeveloper117@gmail.com';
-        $mail = [
-            'status' => 'Withdraw',
-            'name' => $user->name,
-            'receiver' => $request->name,
-            'balance' => $user->balance,
-            'payment_method' => $request->payment_method,
-            'phone' => $request->phone,
-            'amount' => $request->amount,
-            'currency' => 'kyat',
-            'rate' => 1,
-        ];
-        Mail::to($toMail)->send(new CashRequest($mail));
+        // $toMail = 'mobiledeveloper117@gmail.com';
+        // $mail = [
+        //     'status' => 'Withdraw',
+        //     'name' => $user->name,
+        //     'receiver' => $request->name,
+        //     'balance' => $user->balance,
+        //     'payment_method' => $request->payment_method,
+        //     'phone' => $request->phone,
+        //     'amount' => $request->amount,
+        //     'currency' => 'kyat',
+        //     'rate' => 1,
+        // ];
+        // Mail::to($toMail)->send(new CashRequest($mail));
 
         return $this->success([
             'message' => 'Withdraw request submitted successfully',
