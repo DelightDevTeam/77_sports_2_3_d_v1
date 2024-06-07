@@ -60,19 +60,19 @@ class CashInRequestController extends Controller
         ]);
         $user = User::find(auth()->id());
 
-        $toMail = 'delightdeveloper4@gmail.com';
-        $mail = [
-            'status' => 'Deposit',
-            'name' => $user->name,
-            'balance' => $user->balance,
-            'payment_method' => $request->payment_method,
-            'phone' => $request->phone,
-            'amount' => $request->amount,
-            'last_6_num' => $request->last_6_num,
-            'currency' => $request->currency,
-            'rate' => $rate,
-        ];
-        Mail::to($toMail)->send(new CashRequest($mail));
+        // $toMail = 'delightdeveloper4@gmail.com';
+        // $mail = [
+        //     'status' => 'Deposit',
+        //     'name' => $user->name,
+        //     'balance' => $user->balance,
+        //     'payment_method' => $request->payment_method,
+        //     'phone' => $request->phone,
+        //     'amount' => $request->amount,
+        //     'last_6_num' => $request->last_6_num,
+        //     'currency' => $request->currency,
+        //     'rate' => $rate,
+        // ];
+        // Mail::to($toMail)->send(new CashRequest($mail));
 
         return redirect()->back()->with('success', 'Cash In Request Submitted Successfully');
     }
