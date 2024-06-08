@@ -1,43 +1,43 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BankController;
-use App\Http\Controllers\Admin\GameController;
-use App\Http\Controllers\Admin\RolesController;
-use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\BannerController;
-use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\CurrencyController;
-use App\Http\Controllers\Admin\PlayTwoDController;
-use App\Http\Controllers\Admin\TwoDigitController;
-use App\Http\Controllers\Admin\PromotionController;
-use App\Http\Controllers\Admin\TwoD\SlipController;
-use App\Http\Controllers\Admin\TwoDLimitController;
 use App\Http\Controllers\Admin\BannerTextController;
 use App\Http\Controllers\Admin\CommissionController;
-use App\Http\Controllers\Admin\PermissionController;
-use App\Http\Controllers\Admin\ThreeDListController;
-use App\Http\Controllers\Admin\TwoDWinnerController;
-use App\Http\Controllers\Admin\ThreeDLimitController;
-use App\Http\Controllers\Admin\TransferLogController;
-use App\Http\Controllers\Admin\TwoDLotteryController;
-use App\Http\Controllers\Admin\TwoDMorningController;
-use App\Http\Controllers\Home\CashInRequestController;
-use App\Http\Controllers\Admin\ThreedHistoryController;
-use App\Http\Controllers\Home\CashOutRequestController;
-use App\Http\Controllers\Admin\TwoD\DataLejarController;
-use App\Http\Controllers\Admin\TwoD\TwoDLagarController;
-use App\Http\Controllers\Admin\ThreedMatchTimeController;
+use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\FillBalanceReplyController;
-use App\Http\Controllers\Admin\TwoD\TwoDSettingController;
-use App\Http\Controllers\Admin\TwoDMorningWinnerController;
+use App\Http\Controllers\Admin\GameController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\PlayTwoDController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\PromotionController;
+use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\ThreeD\ThreeDCloseController;
 use App\Http\Controllers\Admin\ThreeD\ThreeDLegarController;
-use App\Http\Controllers\Admin\TwoD\CloseTwoDigitController;
-use App\Http\Controllers\Admin\TwoD\HeadDigitCloseController;
-use App\Http\Controllers\Admin\TwoD\TwoDWinnersPrizeController;
 use App\Http\Controllers\Admin\ThreeD\ThreeDPrizeNumberCreateController;
+use App\Http\Controllers\Admin\ThreedHistoryController;
+use App\Http\Controllers\Admin\ThreeDLimitController;
+use App\Http\Controllers\Admin\ThreeDListController;
+use App\Http\Controllers\Admin\ThreedMatchTimeController;
+use App\Http\Controllers\Admin\TransferLogController;
+use App\Http\Controllers\Admin\TwoD\CloseTwoDigitController;
+use App\Http\Controllers\Admin\TwoD\DataLejarController;
+use App\Http\Controllers\Admin\TwoD\HeadDigitCloseController;
+use App\Http\Controllers\Admin\TwoD\SlipController;
+use App\Http\Controllers\Admin\TwoD\TwoDLagarController;
+use App\Http\Controllers\Admin\TwoD\TwoDSettingController;
+use App\Http\Controllers\Admin\TwoD\TwoDWinnersPrizeController;
+use App\Http\Controllers\Admin\TwoDigitController;
+use App\Http\Controllers\Admin\TwoDLimitController;
+use App\Http\Controllers\Admin\TwoDLotteryController;
+use App\Http\Controllers\Admin\TwoDMorningController;
+use App\Http\Controllers\Admin\TwoDMorningWinnerController;
+use App\Http\Controllers\Admin\TwoDWinnerController;
+use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Home\CashInRequestController;
+use App\Http\Controllers\Home\CashOutRequestController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -294,12 +294,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
 
     Route::post('/permutation-reset', [App\Http\Controllers\Admin\ThreeD\PermutationResetController::class, 'PermutationReset'])->name('PermutationReset');
 
-    
     // three digit history conclude
     Route::get('/three-digit-history-conclude', [App\Http\Controllers\Admin\ThreeD\ThreeDRecordHistoryController::class, 'OnceWeekThreedigitHistoryConclude'])->name('ThreeDigitHistoryConclude');
     // three digit one month history conclude
     Route::get('/three-digit-one-month-history-conclude', [App\Http\Controllers\Admin\ThreeD\ThreeDRecordHistoryController::class, 'OnceMonthThreedigitHistoryConclude'])->name('ThreeDigitOneMonthHistoryConclude');
-    
+
     // three d winners history
     Route::get('/three-d-winners-history', [App\Http\Controllers\Admin\ThreeD\ThreeDWinnerController::class, 'FirstPrizeWinner'])->name('ThreeDWinnersHistory');
     // three d permutation winners history
@@ -329,7 +328,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::put('/three-d-commission-update/{id}', [App\Http\Controllers\Admin\Commission\ThreeDCommissionController::class, 'update'])->name('three-d-commission-update');
     // transfer commission route
     Route::post('/three-d-transfer-commission/{id}', [App\Http\Controllers\Admin\Commission\ThreeDCommissionController::class, 'ThreeDtransferCommission'])->name('three-d-transfer-commission');
-    
+
     // TwodDailyMorningHistory
     Route::get('/twod-daily-morning-history', [App\Http\Controllers\Admin\DailyMorningHistoryController::class, 'TwodDailyMorningHistory'])->name('TwodDailyMorningHistory');
     // TwodDailyEveningHistory
@@ -338,6 +337,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::get('/2d-morning-slip', [SlipController::class, 'index'])->name('MorningSlipIndex');
     Route::get('/2d-morningslip/{userId}/{slipNo}', [SlipController::class, 'show'])->name('MorningSlipShow');
 
+    Route::get('/2d-morning-all-slip', [SlipController::class, 'AllSlipForMorningindex'])->name('MorningAllSlipIndex');
+
+    Route::get('/2d-morningallslip/{userId}/{slipNo}', [SlipController::class, 'MorningAllSlipshow'])->name('MorningAllSlipShow');
+
     Route::get('/2d-evening-slip', [SlipController::class, 'Eveningindex'])->name('EveningSlipIndex');
     Route::get('/2d-eveningslip/{userId}/{slipNo}', [SlipController::class, 'Eveningshow'])->name('EveningSlipShow');
+
+    Route::get('/2d-evening-all-slip', [SlipController::class, 'AllSlipForEveningindex'])->name('EveningAllSlipIndex');
+    Route::get('/2d-eveningallslip/{userId}/{slipNo}', [SlipController::class, 'EveningAllSlipshow'])->name('EveningAllSlipShow');
 });

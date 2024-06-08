@@ -25,12 +25,12 @@ class TwoDMorningWinnerController extends Controller
     public function MorningWinHistoryForAdmin()
     {
         // try {
-            $data = $this->prizeSentService->MorningPrizeSentForAdmin();
+        $data = $this->prizeSentService->MorningPrizeSentForAdmin();
 
-            return view('admin.two_d.morning_winner', [
-                'results' => $data['results'],
-                'totalPrizeAmount' => $data['totalPrizeAmount'],
-            ]);
+        return view('admin.two_d.morning_winner', [
+            'results' => $data['results'],
+            'totalPrizeAmount' => $data['totalPrizeAmount'],
+        ]);
 
         // } catch (\Exception $e) {
         //     return view('admin.two_d.morining_winner', [
@@ -42,12 +42,12 @@ class TwoDMorningWinnerController extends Controller
     public function EveningWinHistoryForAdmin()
     {
         // try {
-            $data = $this->adminEveningPrizeSentService->EveningPrizeForAdmin();
+        $data = $this->adminEveningPrizeSentService->EveningPrizeForAdmin();
 
-            return view('admin.two_d.evening_winner', [
-                'results' => $data['results'],
-                'totalPrizeAmount' => $data['totalPrizeAmount'],
-            ]);
+        return view('admin.two_d.evening_winner', [
+            'results' => $data['results'],
+            'totalPrizeAmount' => $data['totalPrizeAmount'],
+        ]);
 
         // } catch (\Exception $e) {
         //     return view('admin.two_d.evening_winner', [

@@ -62,6 +62,15 @@
             <div class="card-header">
                 <h5>2D Morning Prize Digit Create</h5>
             </div>
+
+            @php
+            use Carbon\Carbon;
+            $currentTime = Carbon::now();
+            $start9Time = Carbon::parse('12:00');
+            $end12Time = Carbon::parse('12:10'); //close time 11:45AM
+            $start2Time = Carbon::parse('16:30');
+            $end4Time = Carbon::parse('16:45'); //close time 3:45PM
+            @endphp
             <form action="{{ route('admin.tow-d-win-number.store') }}" method="post">
                 @csrf
                 <div class="row">
@@ -70,14 +79,18 @@
                             <label for="prize_no">Prize Number</label>
                             <input type="text" name="prize_no" id="player_name" class="form-control" placeholder="Player Name">
                         </div>
-                        {{-- <input type="hidden" name="session" value="morning"> --}}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col ms-4">
                         {{-- button --}}
                         <div class="form-group">
+                            @if ($currentTime->between($start9Time, $end12Time))
                             <button type="submit" class="btn btn-primary">Create</button>
+                            @else
+                            ထွက်ဂဏန်းထဲ့၍ မရသေးပါ | မနက်ပိုင်း ထွက်ဂဏန်းထဲ့ရန် အချိန် ၁၂ - မှ - ၁၂ - ၁၀ မိနစ်အတွင်း ထဲ့ရပါမည်
+                            @endif
+                            
                         </div>
                     </div>
                 </div>
@@ -90,12 +103,12 @@
                     <h5 class="mb-0">2D Prize Digit Create Dashboards</h5>
                 </div>
                 <div class="d-lg-flex mt-2">
-                    <div class="ms-auto my-auto mt-lg-0">
+                    {{-- <div class="ms-auto my-auto mt-lg-0">
                         <div class="ms-auto my-auto">
                             <a href="{{ route('admin.users.create') }}" class="btn bg-gradient-primary btn-sm mb-0">+&nbsp; Create New</a>
                             <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" data-type="csv" type="button" name="button">Export</button>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="table-responsive">
@@ -146,7 +159,11 @@
                     <div class="col ms-4">
                         {{-- button --}}
                         <div class="form-group">
+                            @if ($currentTime->between($start2Time, $end4Time))
                             <button type="submit" class="btn btn-primary">Create</button>
+                            @else
+                            ထွက်ဂဏန်းထဲ့၍ မရသေးပါ | ညနေပိုင်း ထွက်ဂဏန်းထဲ့ရန် အချိန် ၄:၃၀ - မှ - ၄ - ၄၅ မိနစ်အတွင်း ထဲ့ရပါမည်
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -158,14 +175,14 @@
                 <div>
                     <h5 class="mb-0">2D Prize Digit Create Dashboards</h5>
                 </div>
-                <div class="d-lg-flex mt-2">
+                {{-- <div class="d-lg-flex mt-2">
                     <div class="ms-auto my-auto mt-lg-0">
                         <div class="ms-auto my-auto">
                             <a href="{{ route('admin.users.create') }}" class="btn bg-gradient-primary btn-sm mb-0">+&nbsp; Create New</a>
                             <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" data-type="csv" type="button" name="button">Export</button>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <div class="table-responsive">
                 <table class="table table-flush" id="search">

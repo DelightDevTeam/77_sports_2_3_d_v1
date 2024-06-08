@@ -298,7 +298,7 @@ class AuthWinnerHistoryController extends Controller
                 $this->TwoDupdatePrizeSentDate($winner->user_id); // Make sure user_id is the ID of the winner
             }
 
-return response()->json([
+            return response()->json([
                 'success' => true,
                 'message' => 'Data fetched successfully',
                 'tow_d_winners' => $tow_d_winners,
