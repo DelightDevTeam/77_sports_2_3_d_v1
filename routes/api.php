@@ -1,22 +1,24 @@
 <?php
 
-use App\Http\Controllers\Api\Jackpot\JackpotController;
-use App\Http\Controllers\Api\Jackpot\JackpotOneWeekGetDataController;
-use App\Http\Controllers\Api\V1\Auth\AuthController;
-use App\Http\Controllers\Api\V1\Auth\ProfileController;
-use App\Http\Controllers\Api\V1\Frontend\HomeController;
-use App\Http\Controllers\Api\V1\Frontend\PromotionController;
-use App\Http\Controllers\Api\V1\Frontend\ThreeDController;
-use App\Http\Controllers\Api\V1\Frontend\TwoDController;
-use App\Http\Controllers\Api\V1\Frontend\TwoDRemainingAmountController;
-use App\Http\Controllers\Api\V1\Frontend\WalletController;
-use App\Http\Controllers\Api\V1\TestController;
-use App\Http\Controllers\Api\V1\TwoD\AllWinnerPrizeSentController;
-use App\Http\Controllers\Api\V1\TwoD\EveningWinPrizeController;
-use App\Http\Controllers\Api\V1\TwoD\MorningWinPrizeController;
-use App\Http\Controllers\Api\V1\TwoD\TwoDLotteryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\V1\TestController;
+use App\Http\Controllers\Api\V1\Auth\AuthController;
+use App\Http\Controllers\Api\Jackpot\JackpotController;
+use App\Http\Controllers\Api\V1\Auth\ProfileController;
+use App\Http\Controllers\Api\V1\Frontend\HomeController;
+use App\Http\Controllers\Api\V1\Frontend\TwoDController;
+use App\Http\Controllers\Api\V1\Frontend\ThreeDController;
+use App\Http\Controllers\Api\V1\Frontend\WalletController;
+use App\Http\Controllers\Api\V1\TwoD\TwoDLotteryController;
+use App\Http\Controllers\Api\V1\Frontend\PromotionController;
+use App\Http\Controllers\Api\V1\TwoD\EveningWinPrizeController;
+use App\Http\Controllers\Api\V1\TwoD\MorningWinPrizeController;
+use App\Http\Controllers\Api\V1\TwoD\AllWinnerPrizeSentController;
+use App\Http\Controllers\Api\V1\TwoD\UserEveningHistoryController;
+use App\Http\Controllers\Api\V1\TwoD\UserMorningHistoryController;
+use App\Http\Controllers\Api\Jackpot\JackpotOneWeekGetDataController;
+use App\Http\Controllers\Api\V1\Frontend\TwoDRemainingAmountController;
 
 //publish routes
 Route::get('/login', [AuthController::class, 'loginData']);
@@ -91,7 +93,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //Route::get('/evening-two-win-history', [App\Http\Controllers\Api\V1\TwoD\TwoDPrizeController::class, 'EveningPrizeWinnerForApk'])->name('TwoEveningPrizeWinner');
 
     //Route::get('test-two-history', [TestController::class, 'getUserHistory']);
-
+    // v2 
+    Route::get('2d/morning-history', [UserMorningHistoryController::class, 'index']);
+    Route::get('2d/evening-history', [UserEveningHistoryController::class, 'index']);
     Route::get('2d-morning-winner-prize', [MorningWinPrizeController::class, 'getMorningPrizeSent']);
     Route::get('2d-evening-winner-prize', [EveningWinPrizeController::class, 'getEveningPrizeSent']);
     Route::get('2d-all-winner-history', [AllWinnerPrizeSentController::class, 'getAllWinnerPrizeSent']);

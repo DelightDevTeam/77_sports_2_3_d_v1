@@ -7,7 +7,7 @@ use App\Models\Admin\BetLottery;
 use App\Models\Admin\Currency;
 use App\Models\Admin\Event;
 use App\Models\Admin\FillBalance;
-use App\Models\Admin\Lottery;
+use App\Models\TwoD\Lottery;
 use App\Models\Admin\LotteryTwoDigit;
 use App\Models\Admin\Permission;
 use App\Models\Admin\Role;

@@ -58,7 +58,7 @@ class TwoDPlayService
             $currentDate = Carbon::now()->format('Y-m-d'); // Format the date and time as needed
             $currentTime = Carbon::now()->format('H:i:s');
             $customString = '77-sport-2d';
-            $randomNumber = rand(1000, 9999); // Generate a random 4-digit number
+            $randomNumber = rand(10000000, 99999999); // Generate a random 4-digit number
             $slipNo = $randomNumber.'-'.$customString.'-'.$currentDate.'-'.$currentTime; // Combine date, string, and random number
             $current_session = SessionHelper::getCurrentSession();
 

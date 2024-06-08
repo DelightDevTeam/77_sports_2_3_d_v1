@@ -1,42 +1,43 @@
 <?php
 
-use App\Http\Controllers\Admin\BankController;
-use App\Http\Controllers\Admin\BannerController;
-use App\Http\Controllers\Admin\BannerTextController;
-use App\Http\Controllers\Admin\CommissionController;
-use App\Http\Controllers\Admin\CurrencyController;
-use App\Http\Controllers\Admin\FillBalanceReplyController;
-use App\Http\Controllers\Admin\GameController;
-use App\Http\Controllers\Admin\PermissionController;
-use App\Http\Controllers\Admin\PlayTwoDController;
-use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\PromotionController;
-use App\Http\Controllers\Admin\RolesController;
-use App\Http\Controllers\Admin\ThreeD\ThreeDCloseController;
-use App\Http\Controllers\Admin\ThreeD\ThreeDLegarController;
-use App\Http\Controllers\Admin\ThreeD\ThreeDPrizeNumberCreateController;
-use App\Http\Controllers\Admin\ThreedHistoryController;
-use App\Http\Controllers\Admin\ThreeDLimitController;
-use App\Http\Controllers\Admin\ThreeDListController;
-use App\Http\Controllers\Admin\ThreedMatchTimeController;
-use App\Http\Controllers\Admin\TransferLogController;
-use App\Http\Controllers\Admin\TwoD\CloseTwoDigitController;
-use App\Http\Controllers\Admin\TwoD\DataLejarController;
-use App\Http\Controllers\Admin\TwoD\HeadDigitCloseController;
-use App\Http\Controllers\Admin\TwoD\TwoDLagarController;
-use App\Http\Controllers\Admin\TwoD\TwoDSettingController;
-use App\Http\Controllers\Admin\TwoD\TwoDWinnersPrizeController;
-use App\Http\Controllers\Admin\TwoDigitController;
-use App\Http\Controllers\Admin\TwoDLimitController;
-use App\Http\Controllers\Admin\TwoDLotteryController;
-use App\Http\Controllers\Admin\TwoDMorningController;
-use App\Http\Controllers\Admin\TwoDMorningWinnerController;
-use App\Http\Controllers\Admin\TwoDWinnerController;
-use App\Http\Controllers\Admin\UsersController;
-use App\Http\Controllers\Home\CashInRequestController;
-use App\Http\Controllers\Home\CashOutRequestController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\BankController;
+use App\Http\Controllers\Admin\GameController;
+use App\Http\Controllers\Admin\RolesController;
+use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\CurrencyController;
+use App\Http\Controllers\Admin\PlayTwoDController;
+use App\Http\Controllers\Admin\TwoDigitController;
+use App\Http\Controllers\Admin\PromotionController;
+use App\Http\Controllers\Admin\TwoD\SlipController;
+use App\Http\Controllers\Admin\TwoDLimitController;
+use App\Http\Controllers\Admin\BannerTextController;
+use App\Http\Controllers\Admin\CommissionController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\ThreeDListController;
+use App\Http\Controllers\Admin\TwoDWinnerController;
+use App\Http\Controllers\Admin\ThreeDLimitController;
+use App\Http\Controllers\Admin\TransferLogController;
+use App\Http\Controllers\Admin\TwoDLotteryController;
+use App\Http\Controllers\Admin\TwoDMorningController;
+use App\Http\Controllers\Home\CashInRequestController;
+use App\Http\Controllers\Admin\ThreedHistoryController;
+use App\Http\Controllers\Home\CashOutRequestController;
+use App\Http\Controllers\Admin\TwoD\DataLejarController;
+use App\Http\Controllers\Admin\TwoD\TwoDLagarController;
+use App\Http\Controllers\Admin\ThreedMatchTimeController;
+use App\Http\Controllers\Admin\FillBalanceReplyController;
+use App\Http\Controllers\Admin\TwoD\TwoDSettingController;
+use App\Http\Controllers\Admin\TwoDMorningWinnerController;
+use App\Http\Controllers\Admin\ThreeD\ThreeDCloseController;
+use App\Http\Controllers\Admin\ThreeD\ThreeDLegarController;
+use App\Http\Controllers\Admin\TwoD\CloseTwoDigitController;
+use App\Http\Controllers\Admin\TwoD\HeadDigitCloseController;
+use App\Http\Controllers\Admin\TwoD\TwoDWinnersPrizeController;
+use App\Http\Controllers\Admin\ThreeD\ThreeDPrizeNumberCreateController;
 
 Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -185,8 +186,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
 
     Route::get('/two-d-early-evening-winner', [App\Http\Controllers\Admin\TwoDMorningController::class, 'TwoDEarlyEveningWinner'])->name('earlyeveningWinner');
 
-    Route::get('/two-d-evening-winner', [App\Http\Controllers\Admin\TwoDMorningController::class, 'TwoDEveningWinner'])->name('eveningWinner');
-    Route::get('/two-d-evening-winner', [App\Http\Controllers\Admin\TwoDEveningWinnerController::class, 'TwoDEveningWinner'])->name('eveningWinner');
+    Route::get('/two-d-evening-winner', [App\Http\Controllers\Admin\TwoDMorningWinnerController::class, 'EveningWinHistoryForAdmin'])->name('eveningWinner');
+    // Route::get('/two-d-evening-winner', [App\Http\Controllers\Admin\TwoDEveningWinnerController::class, 'TwoDEveningWinner'])->name('eveningWinner');
     Route::get('profile/fill_money', [ProfileController::class, 'fillmoney']);
     // kpay fill money get route
     Route::get('profile/kpay_fill_money', [ProfileController::class, 'index'])->name('kpay_fill_money');
@@ -247,8 +248,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::resource('tow-d-morning-number', TwoDMorningController::class);
 
     Route::get('/two-d-evening-number', [App\Http\Controllers\Admin\TwoDMorningController::class, 'EveningTwoD'])->name('eveningNumber');
-    Route::get('/two-d-evening-winner', [App\Http\Controllers\Admin\TwoDMorningController::class, 'TwoDEveningWinner'])->name('eveningWinner');
-    Route::get('/two-d-evening-winner', [App\Http\Controllers\Admin\TwoDEveningWinnerController::class, 'TwoDEveningWinner'])->name('eveningWinner');
+    // Route::get('/two-d-evening-winner', [App\Http\Controllers\Admin\TwoDMorningController::class, 'TwoDEveningWinner'])->name('eveningWinner');
+    // Route::get('/two-d-evening-winner', [App\Http\Controllers\Admin\TwoDEveningWinnerController::class, 'TwoDEveningWinner'])->name('eveningWinner');
     Route::get('profile/fill_money', [ProfileController::class, 'fillmoney']);
     // kpay fill money get route
     Route::get('profile/kpay_fill_money', [ProfileController::class, 'index'])->name('kpay_fill_money');
@@ -293,36 +294,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
 
     Route::post('/permutation-reset', [App\Http\Controllers\Admin\ThreeD\PermutationResetController::class, 'PermutationReset'])->name('PermutationReset');
 
-    // jack pot
-    Route::get('/once-week-jackpot-list', [App\Http\Controllers\Admin\Jackpot\JackpotController::class, 'index'])->name('displayjackpot');
-    // jackpot one month history
-    Route::get('/jackpot-one-month-history', [App\Http\Controllers\Admin\Jackpot\JackpotController::class, 'getOneMonthJackpotHistory'])->name('JackpotHistory');
-    Route::get('/jackpot-one-month-history-only-digit', [App\Http\Controllers\Admin\Jackpot\JackpotController::class, 'getOneMonthJackpotHistoryOnlyDigit'])->name('JackpotHistoryDigit');
-    // jack pot show
-    Route::get('/once-week-jackpot-show/{id}', [App\Http\Controllers\Admin\Jackpot\JackpotController::class, 'show'])->name('displayjackpotshow');
-    // jack pot history
-    Route::get('/jackpot-history', [App\Http\Controllers\Admin\Jackpot\JackpotHistoryController::class, 'JackpotHistoryindex'])->name('jackpotHistory');
-
-    // jack pot history show
-    Route::get('/jackpot-history-show/{id}', [App\Http\Controllers\Admin\Jackpot\JackpotHistoryController::class, 'JackpotHistoryshow'])->name('jackpotHistoryshow');
-    // jackpot over
-    Route::get('/jackpot-over', [App\Http\Controllers\Admin\Jackpot\JackpotOverLimitController::class, 'overLimit'])->name('jackpot-over');
-    // jackpot over same id
-    Route::get('/jackpot-over-same-id', [App\Http\Controllers\Admin\Jackpot\JackpotOverLimitController::class, 'SameThreeDigitIDoverLimit'])->name('jackpot-over-same-id');
-    // jackpot prize number create
-    Route::get('/jackpot-prize-number-create', [App\Http\Controllers\Admin\Jackpot\JackpotController::class, 'Jackpotindex'])->name('jackpot-prize-number-create');
-    // jackpot prize number store
-    Route::post('/jackpot-prize-number-store', [App\Http\Controllers\Admin\Jackpot\JackpotController::class, 'store'])->name('jackpot-prize-number-create.store');
-
-    Route::post('/jackpot-reset', [App\Http\Controllers\Admin\Jackpot\JackpotController::class, 'JackpotReset'])->name('JackpotReset');
-    // jackpot one week history conclude
-    Route::get('/jackpot-one-week-history-conclude', [App\Http\Controllers\Admin\Jackpot\JackpotController::class, 'OnceWeekJackpotHistoryConclude'])->name('JackpotHistoryConclude');
+    
     // three digit history conclude
     Route::get('/three-digit-history-conclude', [App\Http\Controllers\Admin\ThreeD\ThreeDRecordHistoryController::class, 'OnceWeekThreedigitHistoryConclude'])->name('ThreeDigitHistoryConclude');
     // three digit one month history conclude
     Route::get('/three-digit-one-month-history-conclude', [App\Http\Controllers\Admin\ThreeD\ThreeDRecordHistoryController::class, 'OnceMonthThreedigitHistoryConclude'])->name('ThreeDigitOneMonthHistoryConclude');
-    // jackpot history
-    Route::get('/jackpot-history', [App\Http\Controllers\Admin\Jackpot\JackpotWinnerHistoryController::class, 'getWinnersHistoryForAdmin'])->name('JackpotHistory');
+    
     // three d winners history
     Route::get('/three-d-winners-history', [App\Http\Controllers\Admin\ThreeD\ThreeDWinnerController::class, 'FirstPrizeWinner'])->name('ThreeDWinnersHistory');
     // three d permutation winners history
@@ -352,17 +329,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::put('/three-d-commission-update/{id}', [App\Http\Controllers\Admin\Commission\ThreeDCommissionController::class, 'update'])->name('three-d-commission-update');
     // transfer commission route
     Route::post('/three-d-transfer-commission/{id}', [App\Http\Controllers\Admin\Commission\ThreeDCommissionController::class, 'ThreeDtransferCommission'])->name('three-d-transfer-commission');
-    // show transfer commission
-
-    // jackpot commission route
-    Route::get('/jackpot-commission', [App\Http\Controllers\Admin\Commission\JackpotCommissionController::class, 'getJackpotTotalAmountPerUser'])->name('jackpot-commission');
-    Route::get('/jackpot-commission-show/{id}', [App\Http\Controllers\Admin\Commission\JackpotCommissionController::class, 'show'])->name('jackpot-commission-show');
-    Route::put('/jackpot-commission-update/{id}', [App\Http\Controllers\Admin\Commission\JackpotCommissionController::class, 'update'])->name('jackpot-commission-update');
-    // commission update
-    Route::post('jackpot-transfer-commission/{id}', [App\Http\Controllers\Admin\Commission\JackpotCommissionController::class, 'JackpottransferCommission'])->name('jackpot-transfer-commission');
-
+    
     // TwodDailyMorningHistory
     Route::get('/twod-daily-morning-history', [App\Http\Controllers\Admin\DailyMorningHistoryController::class, 'TwodDailyMorningHistory'])->name('TwodDailyMorningHistory');
     // TwodDailyEveningHistory
     Route::get('/twod-daily-evening-history', [App\Http\Controllers\Admin\DailyMorningHistoryController::class, 'TwodDailyEveningHistory'])->name('TwodDailyEveningHistory');
+
+    Route::get('/2d-morning-slip', [SlipController::class, 'index'])->name('MorningSlipIndex');
+    Route::get('/2d-morningslip/{userId}/{slipNo}', [SlipController::class, 'show'])->name('MorningSlipShow');
+
+    Route::get('/2d-evening-slip', [SlipController::class, 'Eveningindex'])->name('EveningSlipIndex');
+    Route::get('/2d-eveningslip/{userId}/{slipNo}', [SlipController::class, 'Eveningshow'])->name('EveningSlipShow');
 });

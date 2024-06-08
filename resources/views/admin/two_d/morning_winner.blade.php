@@ -21,18 +21,8 @@
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
                         <div>
-                            <h5 class="mb-0">2D ပေါက်သူများစာရင်းချုပ် Dashboards
-                                <span>
-                                    {{-- <button type="button" class="btn btn-primary mt-2 ms-2">
-                                        @if ($prize_no_morning)
-                                            <span>{{ $prize_no->created_at->format('d-m-Y (l) (h:i a)') }}</span>
-                                            <span class="badge badge-warning"
-                                                style="font-size: 15px; color:white">{{ $prize_no->prize_no }}</span>
-                                        @else
-                                            <span>No Prize Number Yet</span>
-                                        @endif
-                                    </button> --}}
-                                </span>
+                            <h5 class="mb-0">
+                                2D မနက်(12:1) မနက်ပိုင်း ပေါက်သူများစာရင်း Dashboards
                             </h5>
 
                         </div>
@@ -47,53 +37,65 @@
                         </div>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    @if($winners->isEmpty())
-   <p style="color: #f5bd02">No winners found for the past month.</p>
-   @else
-   <table class="table table-flush" id="users-search">
-    <thead>
-     <tr>
-      <th>User ID</th>
-      <th>Session</th>
-      <th>Name</th>
-      <th>Profile</th>
-      <th>Phone</th>
-      <th>ထွက်ဂဏန်း</th>
-      <th>ထိုးကြေး</th>
-      <th>စုစုပေါင်းထိုးကြေး</th>
-      <th>လျော်ငွေ</th>
-      <th>Created At</th>
-     </tr>
-    </thead>
-    <tbody>
-     @foreach ($winners as $winner)
-      <tr>
-       <td>{{ $winner->user_id }}</td>
-       <td class="text-primary">{{ $winner->session }}</td>
-       <td>{{ $winner->name }}</td>
-       <td>     
-        @if($winner->profile)
-      <img src="{{ $winner->profile }}" width="50px" height="50px" style="border-radius: 50%" alt="" />
-      @else
-      <i class="fa-regular fa-circle-user" style="font-size: 50px;"></i>
-      @endif</td>
-       <td>{{ $winner->phone }}</td>
-       <td class="text-primary">{{ $winner->prize_no }}</td>
-       <td class="text-primary">{{ $winner->sub_amount }}</td>
-       <td>{{ $winner->total_amount }}</td>
-       <td class="text-primary">{{ $winner->total_prize_amount }}</td>
-       <td class="text-primary">
-       {{ \Carbon\Carbon::parse($winner->created_at)->format('d-m-Y (l) (h:i a)') }}
-       </td>
-      </tr>
-     @endforeach
-    </tbody>
-   </table>
-   @endif
+    @if (isset($error))
+    <div class="alert alert-danger">
+        {{ $error }}
+    </div>
+@else
+        <div class="card mt-1">
+            <div class="card-header">
+        <p style="color: #f5bd02" class="text-center">Total Morning Prize Amount: {{ $totalPrizeAmount }}</p>
 
-                </div>
             </div>
+        </div>
+    <div class="table-responsive">
+         <p>
+            {{-- {{ print_r($results, true) }} --}}
+            {{-- Total Prize Amount: {{ $totalPrizeAmount }} --}}
+         </p>
+        <table class="table table-flush" id="users-search">
+             <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>User Phone</th>
+                    <th>Bet Digit</th>
+                    <th>Res Date</th>
+                    <th>Sub Amount</th>
+                    <th>Session</th>
+                    <th>Res Time</th>
+                    <th>Prize Sent</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($results as $result)
+                    <tr>
+                        <td>{{ $result->user_name }}</td>
+                        <td>{{ $result->user_phone }}</td>
+                        <td>{{ $result->bet_digit }}</td>
+                        <td>{{ $result->res_date }}</td>
+                        <td>{{ $result->sub_amount }}</td>
+                        <td>{{ $result->session }}</td>
+                        <td>{{ $result->res_time }}</td>
+                        {{-- <td><p class="text-success">{{ $result->prize_sent ? 'လျော်ပြီး' : 'No' }}</p></td> --}}
+                        <td>
+                            @if($result->prize_sent == 1)
+                            <p class="text-success">လျော်ပြီး</p>
+                            @else
+                            <p class="text-danger">မလျော်ရသေး</p>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+@endif
+        </div>
+        <div class="card">
+            <div class="card-header">
+                {{-- <p>Total Prize Amount: {{ $totalPrizeAmount }}</p> --}}
+            </div>
+        </div>
         </div>
     </div>
 @endsection

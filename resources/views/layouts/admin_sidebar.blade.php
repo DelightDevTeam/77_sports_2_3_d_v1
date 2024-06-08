@@ -287,7 +287,15 @@
           <li class="nav-item ">
             <a class="nav-link text-white " href="{{ route('admin.tow-d-morning-number.index') }}">
               <span class="sidenav-mini-icon"> 2D </span>
-              <span class="sidenav-normal  ms-2  ps-1"> 2D (12:1) မှတ်တမ်း </span>
+              <span class="sidenav-normal  ms-2  ps-1">(12:1) မှတ်တမ်း </span>
+            </a>
+          </li>
+          @endcan
+          @can('user_access')
+          <li class="nav-item ">
+            <a class="nav-link text-white " href="{{ url('admin/2d-morning-slip') }}">
+              <span class="sidenav-mini-icon"> 2D </span>
+              <span class="sidenav-normal  ms-2  ps-1">(12:1) Slip မှတ်တမ်း </span>
             </a>
           </li>
           @endcan
@@ -328,6 +336,14 @@
             <a class="nav-link text-white " href="{{ route('admin.eveningNumber') }}">
               <span class="sidenav-mini-icon"> 2D </span>
               <span class="sidenav-normal  ms-2  ps-1">  (4:30) မှတ်တမ်း </span>
+            </a>
+          </li>
+          @endcan
+          @can('user_access')
+          <li class="nav-item ">
+            <a class="nav-link text-white " href="{{ url('admin/2d-evening-slip') }}">
+              <span class="sidenav-mini-icon"> 2D </span>
+              <span class="sidenav-normal  ms-2  ps-1">  (4:30) Slip မှတ်တမ်း </span>
             </a>
           </li>
           @endcan

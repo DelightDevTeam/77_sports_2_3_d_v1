@@ -23,15 +23,6 @@ class UsersTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'name' => 'Admin',
-                'country_code' => '+95',
-                'phone' => '09690990215',
-                'password' => '$2y$10$qyxYm.2dlaXROvs0OrGHseo4qbeissRMqNWdhlcr/vUqE62vN94Fi', // password
-                'remember_token' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
 
             [
                 'name' => 'Player 2',

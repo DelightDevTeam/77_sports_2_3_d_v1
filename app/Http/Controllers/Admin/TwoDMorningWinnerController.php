@@ -24,7 +24,7 @@ class TwoDMorningWinnerController extends Controller
 
     public function MorningWinHistoryForAdmin()
     {
-        try {
+        // try {
             $data = $this->prizeSentService->MorningPrizeSentForAdmin();
 
             return view('admin.two_d.morning_winner', [
@@ -32,28 +32,28 @@ class TwoDMorningWinnerController extends Controller
                 'totalPrizeAmount' => $data['totalPrizeAmount'],
             ]);
 
-        } catch (\Exception $e) {
-            return view('admin.two_d.morining_winner', [
-                'error' => 'Failed to retrieve data. Please try again later.',
-            ]);
-        }
+        // } catch (\Exception $e) {
+        //     return view('admin.two_d.morining_winner', [
+        //         'error' => 'Failed to retrieve data. Please try again later.',
+        //     ]);
+        // }
     }
 
     public function EveningWinHistoryForAdmin()
     {
-        try {
+        // try {
             $data = $this->adminEveningPrizeSentService->EveningPrizeForAdmin();
 
-            return view('admin.two_d.evening_winner.index', [
+            return view('admin.two_d.evening_winner', [
                 'results' => $data['results'],
                 'totalPrizeAmount' => $data['totalPrizeAmount'],
             ]);
 
-        } catch (\Exception $e) {
-            return view('admin.two_d.evening_winner.index', [
-                'error' => 'Failed to retrieve data. Please try again later.',
-            ]);
-        }
+        // } catch (\Exception $e) {
+        //     return view('admin.two_d.evening_winner', [
+        //         'error' => 'Failed to retrieve data. Please try again later.',
+        //     ]);
+        // }
     }
 
     // public function TwoDMorningWinner()
