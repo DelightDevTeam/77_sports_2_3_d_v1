@@ -1,28 +1,28 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\V1\TestController;
-use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\Jackpot\JackpotController;
+use App\Http\Controllers\Api\Jackpot\JackpotOneWeekGetDataController;
+use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Auth\ProfileController;
 use App\Http\Controllers\Api\V1\Frontend\HomeController;
-use App\Http\Controllers\Api\V1\Frontend\TwoDController;
-use App\Http\Controllers\Api\V1\Frontend\ThreeDController;
-use App\Http\Controllers\Api\V1\Frontend\WalletController;
-use App\Http\Controllers\Api\V1\TwoD\TwoDLotteryController;
 use App\Http\Controllers\Api\V1\Frontend\PromotionController;
-use App\Http\Controllers\Api\V1\TwoD\EveningWinPrizeController;
-use App\Http\Controllers\Api\V1\TwoD\MorningWinPrizeController;
+use App\Http\Controllers\Api\V1\Frontend\ThreeDController;
+use App\Http\Controllers\Api\V1\Frontend\TwoDController;
+use App\Http\Controllers\Api\V1\Frontend\TwoDRemainingAmountController;
+use App\Http\Controllers\Api\V1\Frontend\WalletController;
+use App\Http\Controllers\Api\V1\TestController;
 use App\Http\Controllers\Api\V1\ThreeD\FirstPrizeWinnerController;
+use App\Http\Controllers\Api\V1\ThreeD\OneWeekRecordHistoryController;
+use App\Http\Controllers\Api\V1\ThreeD\SecondPrizeWinnerController;
 use App\Http\Controllers\Api\V1\ThreeD\ThirdPrizeWinnerController;
 use App\Http\Controllers\Api\V1\TwoD\AllWinnerPrizeSentController;
+use App\Http\Controllers\Api\V1\TwoD\EveningWinPrizeController;
+use App\Http\Controllers\Api\V1\TwoD\MorningWinPrizeController;
+use App\Http\Controllers\Api\V1\TwoD\TwoDLotteryController;
 use App\Http\Controllers\Api\V1\TwoD\UserEveningHistoryController;
 use App\Http\Controllers\Api\V1\TwoD\UserMorningHistoryController;
-use App\Http\Controllers\Api\V1\ThreeD\SecondPrizeWinnerController;
-use App\Http\Controllers\Api\Jackpot\JackpotOneWeekGetDataController;
-use App\Http\Controllers\Api\V1\ThreeD\OneWeekRecordHistoryController;
-use App\Http\Controllers\Api\V1\Frontend\TwoDRemainingAmountController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 //publish routes
 Route::get('/login', [AuthController::class, 'loginData']);

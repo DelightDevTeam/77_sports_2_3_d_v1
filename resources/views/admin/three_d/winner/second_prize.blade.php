@@ -61,7 +61,7 @@
     <div class="col-12">
         <div class="card mt-2">
          <div class="card-header">
-          <h5>3D First Prize Winner History</h5>
+          <h5>3D ပါတ်လယ်ပေါက်သူများ History</h5>
          </div>
           <div class="table-responsive">
                 <table class="table table-flush" id="twod-search">

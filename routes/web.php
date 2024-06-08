@@ -1,49 +1,51 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BankController;
-use App\Http\Controllers\Admin\GameController;
-use App\Http\Controllers\Admin\RolesController;
-use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\BannerController;
-use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\CurrencyController;
-use App\Http\Controllers\Admin\PlayTwoDController;
-use App\Http\Controllers\Admin\TwoDigitController;
-use App\Http\Controllers\Admin\PromotionController;
-use App\Http\Controllers\Admin\TwoD\SlipController;
-use App\Http\Controllers\Admin\TwoDLimitController;
 use App\Http\Controllers\Admin\BannerTextController;
 use App\Http\Controllers\Admin\CommissionController;
-use App\Http\Controllers\Admin\PermissionController;
-use App\Http\Controllers\Admin\ThreeDListController;
-use App\Http\Controllers\Admin\TwoDWinnerController;
-use App\Http\Controllers\Admin\ThreeDLimitController;
-use App\Http\Controllers\Admin\TransferLogController;
-use App\Http\Controllers\Admin\TwoDLotteryController;
-use App\Http\Controllers\Admin\TwoDMorningController;
-use App\Http\Controllers\Home\CashInRequestController;
-use App\Http\Controllers\Admin\ThreedHistoryController;
-use App\Http\Controllers\Home\CashOutRequestController;
-use App\Http\Controllers\Admin\TwoD\DataLejarController;
-use App\Http\Controllers\Admin\TwoD\TwoDLagarController;
-use App\Http\Controllers\Admin\ThreeD\SettingsController;
-use App\Http\Controllers\Admin\ThreedMatchTimeController;
+use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\FillBalanceReplyController;
-use App\Http\Controllers\Admin\TwoD\TwoDSettingController;
+use App\Http\Controllers\Admin\GameController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\PlayTwoDController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\PromotionController;
+use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\ThreeD\ALlHistoryController;
-use App\Http\Controllers\Admin\TwoDMorningWinnerController;
-use App\Http\Controllers\Admin\ThreeD\ThreeDCloseController;
-use App\Http\Controllers\Admin\ThreeD\ThreeDLegarController;
-use App\Http\Controllers\Admin\TwoD\CloseTwoDigitController;
-use App\Http\Controllers\Admin\TwoD\HeadDigitCloseController;
-use App\Http\Controllers\Admin\ThreeD\OneWeekRecordController;
-use App\Http\Controllers\Admin\ThreeD\WinnerHistoryController;
-use App\Http\Controllers\Admin\TwoD\TwoDWinnersPrizeController;
 use App\Http\Controllers\Admin\ThreeD\AllWinnerHistoryController;
 use App\Http\Controllers\Admin\ThreeD\FirstPrizeWinnerHistoryController;
+use App\Http\Controllers\Admin\ThreeD\OneWeekRecordController;
+use App\Http\Controllers\Admin\ThreeD\SecondPrizeWinnerHistoryController;
+use App\Http\Controllers\Admin\ThreeD\SettingsController;
+use App\Http\Controllers\Admin\ThreeD\ThirdPrizeWinnerHistoryController;
+use App\Http\Controllers\Admin\ThreeD\ThreeDCloseController;
+use App\Http\Controllers\Admin\ThreeD\ThreeDLegarController;
 use App\Http\Controllers\Admin\ThreeD\ThreeDPrizeNumberCreateController;
+use App\Http\Controllers\Admin\ThreeD\WinnerHistoryController;
+use App\Http\Controllers\Admin\ThreedHistoryController;
+use App\Http\Controllers\Admin\ThreeDLimitController;
+use App\Http\Controllers\Admin\ThreeDListController;
+use App\Http\Controllers\Admin\ThreedMatchTimeController;
+use App\Http\Controllers\Admin\TransferLogController;
+use App\Http\Controllers\Admin\TwoD\CloseTwoDigitController;
+use App\Http\Controllers\Admin\TwoD\DataLejarController;
+use App\Http\Controllers\Admin\TwoD\HeadDigitCloseController;
+use App\Http\Controllers\Admin\TwoD\SlipController;
+use App\Http\Controllers\Admin\TwoD\TwoDLagarController;
+use App\Http\Controllers\Admin\TwoD\TwoDSettingController;
+use App\Http\Controllers\Admin\TwoD\TwoDWinnersPrizeController;
+use App\Http\Controllers\Admin\TwoDigitController;
+use App\Http\Controllers\Admin\TwoDLimitController;
+use App\Http\Controllers\Admin\TwoDLotteryController;
+use App\Http\Controllers\Admin\TwoDMorningController;
+use App\Http\Controllers\Admin\TwoDMorningWinnerController;
+use App\Http\Controllers\Admin\TwoDWinnerController;
+use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Home\CashInRequestController;
+use App\Http\Controllers\Home\CashOutRequestController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -353,7 +355,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::get('/2d-evening-all-slip', [SlipController::class, 'AllSlipForEveningindex'])->name('EveningAllSlipIndex');
     Route::get('/2d-eveningallslip/{userId}/{slipNo}', [SlipController::class, 'EveningAllSlipshow'])->name('EveningAllSlipShow');
 
-    // 3d 
+    // 3d
     Route::get('3d-settings', [SettingsController::class, 'index']);
     Route::get('3d-more-setting', [SettingsController::class, 'getCurrentMonthResultsSetting']);
     // result date update
@@ -366,4 +368,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::get('/3d-slip-history', [ALlHistoryController::class, 'index'])->name('SlipHistoryIndex');
     Route::get('/3d-slip-no-history/{userId}/{slipNo}', [ALlHistoryController::class, 'show'])->name('SlipHistoryShow');
     Route::get('/3d-all-winner-history', [AllWinnerHistoryController::class, 'AllWinnerHistories']);
+    Route::get('/3d-first-winner-history', [FirstPrizeWinnerHistoryController::class, 'FirstWinnerHistories']);
+    Route::get('/3d-second-winner-history', [SecondPrizeWinnerHistoryController::class, 'SecondWinnerHistories']);
+    Route::get('/3d-third-winner-history', [ThirdPrizeWinnerHistoryController::class, 'ThirdWinnerHistories']);
 });

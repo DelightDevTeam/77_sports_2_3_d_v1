@@ -1,8 +1,9 @@
 <?php
+
 namespace App\Services;
 
-use Illuminate\Support\Facades\DB;
 use App\Models\ThreeDigit\LotteryThreeDigitPivot;
+use Illuminate\Support\Facades\DB;
 
 class AdminLottoWinHistoryService
 {
@@ -10,11 +11,11 @@ class AdminLottoWinHistoryService
     {
         // Retrieve records within the specified date range and include user information
         $records = LotteryThreeDigitPivot::select(
-                'lottery_three_digit_pivots.*',
-                'users.name',
-                'users.phone',
-                DB::raw('lottery_three_digit_pivots.sub_amount * 700 as prize_amount')
-            )
+            'lottery_three_digit_pivots.*',
+            'users.name',
+            'users.phone',
+            DB::raw('lottery_three_digit_pivots.sub_amount * 600 as prize_amount')
+        )
             ->join('users', 'lottery_three_digit_pivots.user_id', '=', 'users.id')
             ->where('lottery_three_digit_pivots.prize_sent', true)
             ->get();

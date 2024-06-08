@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\ThreeDigit\ThreedMatchTime;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use App\Models\ThreeDigit\ThreedMatchTime;
 
 class ThreedMatchTimeSeeder extends Seeder
 {

@@ -528,6 +528,30 @@
        <span class="sidenav-normal  ms-2  ps-1">  တပါတ်တွင်း Slip </span>
       </a>
      </li>
+     <li class="nav-item">
+      <a class="nav-link text-white " href="{{ url('/admin/3d-all-winner-history') }}">
+       <span class="sidenav-mini-icon"> 3D </span>
+       <span class="sidenav-normal  ms-2  ps-1">  ပေါက်သူများ </span>
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link text-white " href="{{ url('/admin/3d-first-winner-history') }}">
+       <span class="sidenav-mini-icon"> 3D </span>
+       <span class="sidenav-normal  ms-2  ps-1">  တပါတ်တွင်းပေါက်သူများ </span>
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link text-white " href="{{ url('/admin/3d-second-winner-history') }}">
+       <span class="sidenav-mini-icon"> 3D </span>
+       <span class="sidenav-normal  ms-2  ps-1">  ပတ်လယ်ပေါက်သူများ </span>
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link text-white " href="{{ url('/admin/3d-third-winner-history') }}">
+       <span class="sidenav-mini-icon"> 3D </span>
+       <span class="sidenav-normal  ms-2  ps-1">  သွပ်ပေါက်သူများ </span>
+      </a>
+     </li>
      
      {{-- <li class="nav-item">
       <a class="nav-link text-white " href="{{ url('/admin/three-d-same-id-display-limit-amount') }}">
@@ -541,12 +565,12 @@
        <span class="sidenav-normal  ms-2  ps-1">ဘရိတ်ကျော်ဂဏန်းအသေးစိပ်</span>
       </a>
      </li> --}}
-     <li class="nav-item">
+     {{-- <li class="nav-item">
       <a class="nav-link text-white " href="{{ url('/admin/three-d-winners-history') }}">
        <span class="sidenav-mini-icon"> 3D </span>
        <span class="sidenav-normal  ms-2  ps-1">  ပေါက်သူများ </span>
       </a>
-     </li>
+     </li> --}}
      {{-- <li class="nav-item">
       <a class="nav-link text-white " href="{{ url('/admin/first-prize') }}">
        <span class="sidenav-mini-icon"> 3D </span>
@@ -566,20 +590,18 @@
        <span class="sidenav-normal  ms-2  ps-1">  ThirdPrize </span>
       </a>
      </li> --}}
-     <li class="nav-item">
+     {{-- <li class="nav-item">
       <a class="nav-link text-white " href="{{ url('/admin/permutation-winners-history') }}">
        <span class="sidenav-mini-icon"> 3D </span>
        <span class="sidenav-normal  ms-2  ps-1">  ပတ်လယ်ပေါက်သူများ </span>
-       {{-- route - three-d-winner --}}
       </a>
-     </li>
-      <li class="nav-item">
+     </li> --}}
+      {{-- <li class="nav-item">
       <a class="nav-link text-white " href="{{ url('/admin/prize-winners') }}">
        <span class="sidenav-mini-icon"> 3D </span>
        <span class="sidenav-normal  ms-2  ps-1">  သွပ်ရရှိသူများ </span>
-       {{-- route - three-d-winner --}}
       </a>
-     </li>
+     </li> --}}
     </ul>
    </div>
   </li>

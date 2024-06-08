@@ -2,11 +2,11 @@
 
 namespace App\Models\ThreeDigit;
 
-use App\Models\User;
-use App\Models\ThreeDigit\Lotto;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\ThreeDigit\LotteryThreeDigitCopy;
+use App\Models\ThreeDigit\Lotto;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class LotteryThreeDigitPivot extends Model
 {

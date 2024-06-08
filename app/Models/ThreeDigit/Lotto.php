@@ -2,13 +2,13 @@
 
 namespace App\Models\ThreeDigit;
 
-use Carbon\Carbon;
-use App\Models\User;
 use App\Models\Admin\LotteryMatch;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\ThreeDigit\ThreedMatchTime;
 use App\Models\ThreeDigit\LotteryThreeDigitPivot;
+use App\Models\ThreeDigit\ThreedMatchTime;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Lotto extends Model
 {

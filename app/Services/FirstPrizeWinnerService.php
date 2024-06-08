@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
-use App\Models\User;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use App\Models\ThreeDigit\ThreedSetting;
 use App\Models\ThreeDigit\LotteryThreeDigitPivot;
+use App\Models\ThreeDigit\ThreedSetting;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FirstPrizeWinnerService
 {
-     public function GetRecordForOneWeek()
+    public function GetRecordForOneWeek()
     {
         // Get the authenticated user's ID
         $userId = Auth::id();
@@ -21,7 +21,7 @@ class FirstPrizeWinnerService
         $end_date = $draw_date->result_date;
 
         // Retrieve records within the specified date range and include user information
-        $records = LotteryThreeDigitPivot::select('lottery_three_digit_pivots.*', 'users.name', 'users.phone', DB::raw('lottery_three_digit_pivots.sub_amount * 700 as prize_amount'))
+        $records = LotteryThreeDigitPivot::select('lottery_three_digit_pivots.*', 'users.name', 'users.phone', DB::raw('lottery_three_digit_pivots.sub_amount * 600 as prize_amount'))
             ->join('users', 'lottery_three_digit_pivots.user_id', '=', 'users.id')
             ->where('lottery_three_digit_pivots.user_id', $userId)
             ->where('lottery_three_digit_pivots.prize_sent', true)

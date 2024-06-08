@@ -2,8 +2,8 @@
 
 namespace App\Helpers;
 
-use Carbon\Carbon;
 use App\Models\ThreeDigit\ThreedMatchTime;
+use Carbon\Carbon;
 
 class MatchTimeHelper
 {

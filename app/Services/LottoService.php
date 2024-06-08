@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use Carbon\Carbon;
-use App\Models\ThreeDigit\Lotto;
-use App\Models\ThreeDigit;
 use App\Helpers\DrawDateHelper;
 use App\Helpers\MatchTimeHelper;
 use App\Models\Admin\ThreeDDLimit;
+use App\Models\ThreeDigit;
+use App\Models\ThreeDigit\LotteryThreeDigitPivot;
+use App\Models\ThreeDigit\Lotto;
+use App\Models\ThreeDigit\ThreedSetting;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
-use App\Models\ThreeDigit\ThreedSetting;
-use App\Models\ThreeDigit\LotteryThreeDigitPivot;
 
 class LottoService
 {
@@ -122,12 +122,12 @@ class LottoService
         }
         $matchTimes = MatchTimeHelper::getCurrentYearAndMatchTimes();
 
-            if (empty($matchTimes['currentMatchTime'])) {
-                return response()->json(['message' => 'No current match time available']);
-            }
+        if (empty($matchTimes['currentMatchTime'])) {
+            return response()->json(['message' => 'No current match time available']);
+        }
 
-            $currentMatchTime = $matchTimes['currentMatchTime'];
-            //Log::info('Running Match Time ID: ' . $currentMatchTime['id'] . ' - Time: ' . $currentMatchTime['match_time']);
+        $currentMatchTime = $matchTimes['currentMatchTime'];
+        //Log::info('Running Match Time ID: ' . $currentMatchTime['id'] . ' - Time: ' . $currentMatchTime['match_time']);
 
         if ($totalBetAmount + $sub_amount <= $break) {
 

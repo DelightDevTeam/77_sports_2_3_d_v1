@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
-use App\Models\User;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use App\Models\ThreeDigit\ThreedSetting;
 use App\Models\ThreeDigit\LotteryThreeDigitPivot;
+use App\Models\ThreeDigit\ThreedSetting;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ApiLottoOneWeekRecordService
 {
-     public function GetRecordForOneWeek()
+    public function GetRecordForOneWeek()
     {
         // Get the authenticated user's ID
         $userId = Auth::id();

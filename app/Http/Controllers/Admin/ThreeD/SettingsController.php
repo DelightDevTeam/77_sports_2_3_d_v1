@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin\ThreeD;
 
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use App\Models\ThreeDigit\Prize;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\ThreeDigit\Permutation;
+use App\Models\ThreeDigit\Prize;
 use App\Models\ThreeDigit\ThreedSetting;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SettingsController extends Controller
 {

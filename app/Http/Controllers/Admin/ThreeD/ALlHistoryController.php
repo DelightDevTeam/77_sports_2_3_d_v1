@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin\ThreeD;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\ThreeDigit\LotteryThreeDigitPivot;
 use App\Models\ThreeDigit\Lotto;
+use App\Services\LottoHistoryRecordService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
-use App\Services\LottoHistoryRecordService;
-use App\Models\ThreeDigit\LotteryThreeDigitPivot;
 
 class ALlHistoryController extends Controller
 {
@@ -29,31 +29,31 @@ class ALlHistoryController extends Controller
 
     public function index()
     {
-        
-            if (! auth()->check() || ! auth()->user()->isAdmin()) {
-                return response()->json(['error' => 'Unauthorized'], 401);
-            }
 
-            // Retrieve records with the user's name
-            $records = LotteryThreeDigitPivot::with('user')
-                ->join('lottos', 'lottery_three_digit_pivots.lotto_id', '=', 'lottos.id')
-                ->select('lottery_three_digit_pivots.user_id', 'lottos.slip_no', DB::raw('SUM(lottery_three_digit_pivots.sub_amount) as total_sub_amount'))
-                ->groupBy('lottery_three_digit_pivots.user_id', 'lottos.slip_no')
-                ->get();
+        if (! auth()->check() || ! auth()->user()->isAdmin()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
 
-            // Check if records are found
-            if ($records->isEmpty()) {
-                return response()->json(['error' => 'No records found'], 404);
-            }
+        // Retrieve records with the user's name
+        $records = LotteryThreeDigitPivot::with('user')
+            ->join('lottos', 'lottery_three_digit_pivots.lotto_id', '=', 'lottos.id')
+            ->select('lottery_three_digit_pivots.user_id', 'lottos.slip_no', DB::raw('SUM(lottery_three_digit_pivots.sub_amount) as total_sub_amount'))
+            ->groupBy('lottery_three_digit_pivots.user_id', 'lottos.slip_no')
+            ->get();
 
-            // Calculate the total amount from the lottos table
-            $total_amount = Lotto::sum('total_amount');
+        // Check if records are found
+        if ($records->isEmpty()) {
+            return response()->json(['error' => 'No records found'], 404);
+        }
 
-            // Return the view with records and total amount
-            return view('admin.three_d.history.index', [
-                'records' => $records,
-                'total_amount' => $total_amount,
-            ]);
+        // Calculate the total amount from the lottos table
+        $total_amount = Lotto::sum('total_amount');
+
+        // Return the view with records and total amount
+        return view('admin.three_d.history.index', [
+            'records' => $records,
+            'total_amount' => $total_amount,
+        ]);
     }
 
     public function show($user_id, $slip_no)

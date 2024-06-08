@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\ThreeDigit\LotteryThreeDigitPivot;
+use App\Models\ThreeDigit\ThreedSetting;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use App\Models\ThreeDigit\ThreedSetting;
-use App\Models\ThreeDigit\LotteryThreeDigitPivot;
 
 class LottoOneWeekRecordService
 {

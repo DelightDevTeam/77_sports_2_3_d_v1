@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin\ThreeD;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\AdminFirstPrizeService;
+use Illuminate\Http\Request;
 
 class FirstPrizeWinnerHistoryController extends Controller
 {
@@ -15,13 +15,14 @@ class FirstPrizeWinnerHistoryController extends Controller
         $this->lottoService = $lottoService;
     }
 
-    public function showRecordsForOneWeek()
+    public function FirstWinnerHistories()
     {
         try {
             $data = $this->lottoService->GetRecordForOneWeek();
+
             return view('admin.three_d.winner.first_prize', [
                 'records' => $data['records'],
-                'total_prize_amount' => $data['total_prize_amount']
+                'total_prize_amount' => $data['total_prize_amount'],
             ]);
         } catch (\Exception $e) {
             return response()->json([

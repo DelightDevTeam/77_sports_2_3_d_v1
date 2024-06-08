@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ThreedMatchTime extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'result_date',
         'result_time',

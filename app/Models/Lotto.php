@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-// use App\Models\Admin\ThreedDigit;
-use App\Models\User;
-use App\Models\ThreeDigit;
 use App\Models\Admin\LotteryMatch;
-use Illuminate\Database\Eloquent\Model;
+// use App\Models\Admin\ThreedDigit;
+use App\Models\ThreeDigit;
 use App\Models\ThreeDigit\ThreedMatchTime;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Lotto extends Model
 {
@@ -47,8 +47,6 @@ class Lotto extends Model
     {
         return $this->belongsToMany(ThreeDigit::class, 'lotto_three_digit_copy')->withPivot('sub_amount', 'prize_sent')->withTimestamps();
     }
-
-    
 
     public function DisplayThreeDigits()
     {

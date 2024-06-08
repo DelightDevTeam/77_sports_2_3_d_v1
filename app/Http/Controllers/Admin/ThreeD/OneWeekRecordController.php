@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin\ThreeD;
 
-use Illuminate\Http\Request;
-use App\Models\ThreeDigit\Lotto;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\ThreeDigit\LotteryThreeDigitPivot;
+use App\Models\ThreeDigit\Lotto;
 use App\Models\ThreeDigit\ThreedSetting;
 use App\Services\LottoOneWeekRecordService;
-use App\Models\ThreeDigit\LotteryThreeDigitPivot;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OneWeekRecordController extends Controller
 {
