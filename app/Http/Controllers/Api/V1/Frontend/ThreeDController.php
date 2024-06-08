@@ -41,16 +41,16 @@ class ThreeDController extends Controller
     {
         $digits = ThreeDigit::all();
         $break = ThreeDDLimit::latest()->first()->three_d_limit;
-        foreach ($digits as $digit) {
-            $totalAmount = DB::table('lotto_three_digit_copy')->where('three_digit_id', $digit->id)->sum('sub_amount');
-            $break = ThreeDDLimit::latest()->first()->three_d_limit;
-            $remaining = $break - $totalAmount;
-            $digit->remaining = $remaining;
-        }
+        // foreach ($digits as $digit) {
+        //     $totalAmount = DB::table('lotto_three_digit_copy')->where('three_digit_id', $digit->id)->sum('sub_amount');
+        //     $break = ThreeDDLimit::latest()->first()->three_d_limit;
+        //     $remaining = $break - $totalAmount;
+        //     $digit->remaining = $remaining;
+        // }
         $lottery_matches = LotteryMatch::where('id', 2)->whereNotNull('is_active')->first(['id', 'match_name', 'is_active']);
 
         return $this->success([
-            'digits' => $digits,
+            // 'digits' => $digits,
             'break' => $break,
             'lottery_matches' => $lottery_matches,
         ]);
