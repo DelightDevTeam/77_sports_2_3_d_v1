@@ -21,7 +21,7 @@ class FirstPrizeWinnerService
         $end_date = $draw_date->result_date;
 
         // Retrieve records within the specified date range and include user information
-        $records = LotteryThreeDigitPivot::select('lottery_three_digit_pivots.*', 'users.name', 'users.phone')
+        $records = LotteryThreeDigitPivot::select('lottery_three_digit_pivots.*', 'users.name', 'users.phone', DB::raw('lottery_three_digit_pivots.sub_amount * 700 as prize_amount'))
             ->join('users', 'lottery_three_digit_pivots.user_id', '=', 'users.id')
             ->where('lottery_three_digit_pivots.user_id', $userId)
             ->where('lottery_three_digit_pivots.prize_sent', true)
@@ -30,12 +30,12 @@ class FirstPrizeWinnerService
             ->get();
 
         // Calculate the total sub_amount
-        $total_sub_amount = $records->sum('sub_amount');
+        //$total_sub_amount = $records->sum('sub_amount');
 
         // Return the records and total sub_amount
         return [
             'records' => $records,
-            'total_sub_amount' => $total_sub_amount,
+            //'total_sub_amount' => $total_sub_amount,
         ];
     }
 }

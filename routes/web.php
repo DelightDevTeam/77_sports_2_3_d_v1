@@ -39,7 +39,10 @@ use App\Http\Controllers\Admin\ThreeD\ThreeDLegarController;
 use App\Http\Controllers\Admin\TwoD\CloseTwoDigitController;
 use App\Http\Controllers\Admin\TwoD\HeadDigitCloseController;
 use App\Http\Controllers\Admin\ThreeD\OneWeekRecordController;
+use App\Http\Controllers\Admin\ThreeD\WinnerHistoryController;
 use App\Http\Controllers\Admin\TwoD\TwoDWinnersPrizeController;
+use App\Http\Controllers\Admin\ThreeD\AllWinnerHistoryController;
+use App\Http\Controllers\Admin\ThreeD\FirstPrizeWinnerHistoryController;
 use App\Http\Controllers\Admin\ThreeD\ThreeDPrizeNumberCreateController;
 
 Auth::routes();
@@ -362,4 +365,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
 
     Route::get('/3d-slip-history', [ALlHistoryController::class, 'index'])->name('SlipHistoryIndex');
     Route::get('/3d-slip-no-history/{userId}/{slipNo}', [ALlHistoryController::class, 'show'])->name('SlipHistoryShow');
+    Route::get('/3d-all-winner-history', [AllWinnerHistoryController::class, 'AllWinnerHistories']);
 });

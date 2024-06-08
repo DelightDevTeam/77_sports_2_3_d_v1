@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\ThreeD;
 
 use App\Http\Controllers\Controller;
-use App\Models\Lotto;
+use App\Models\ThreeDigit\Lotto;
 use App\Models\ThreeDigit\FirstPrizeWinner;
 use App\Models\ThreeDigit\SecondPrizeWinner;
 use App\Models\ThreeDigit\ThirdPrizeWinner;
