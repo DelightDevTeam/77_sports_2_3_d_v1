@@ -6,11 +6,37 @@ use App\Http\Controllers\Controller;
 use App\Models\ThreeDigit\FirstPrizeWinner;
 use App\Models\ThreeDigit\SecondPrizeWinner;
 use App\Models\ThreeDigit\ThirdPrizeWinner;
+use App\Services\AdminLottoWinHistoryService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class WinnerHistoryController extends Controller
 {
+    protected $lottoService;
+
+    public function __construct(AdminLottoWinHistoryService $lottoService)
+    {
+        $this->lottoService = $lottoService;
+    }
+
+    public function AllWinnerHistoriesJson()
+    {
+        try {
+            $data = $this->lottoService->GetRecordForOneWeek();
+
+            return response()->json([
+                'status' => 'success',
+                'win_prize' => $data['records'],
+                'total_prize_amount' => $data['total_prize_amount'],
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public function firstPrizeWinner()
     {
         try {

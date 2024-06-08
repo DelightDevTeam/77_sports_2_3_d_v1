@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\V1\ThreeD\FirstPrizeWinnerController;
 use App\Http\Controllers\Api\V1\ThreeD\OneWeekRecordHistoryController;
 use App\Http\Controllers\Api\V1\ThreeD\SecondPrizeWinnerController;
 use App\Http\Controllers\Api\V1\ThreeD\ThirdPrizeWinnerController;
+use App\Http\Controllers\Api\V1\ThreeD\WinnerHistoryController;
 use App\Http\Controllers\Api\V1\TwoD\AllWinnerPrizeSentController;
 use App\Http\Controllers\Api\V1\TwoD\EveningWinPrizeController;
 use App\Http\Controllers\Api\V1\TwoD\MorningWinPrizeController;
@@ -109,10 +110,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('3d/first-winner', [FirstPrizeWinnerController::class, 'showRecordsForOneWeek']);
     Route::get('3d/second-winner', [SecondPrizeWinnerController::class, 'showRecordsForOneWeek']);
     Route::get('3d/third-winner', [ThirdPrizeWinnerController::class, 'showRecordsForOneWeek']);
+    Route::get('3d/all-winner', [WinnerHistoryController::class, 'AllWinnerHistoriesJson']);
 
 });
-
-// first prize winner
-Route::get('/threed-first-winner-history', [App\Http\Controllers\Api\V1\ThreeD\WinnerHistoryController::class, 'firstPrizeWinner'])->name('ThreedfirstPrizeWinner');
-Route::get('/threed-second-winner-history', [App\Http\Controllers\Api\V1\ThreeD\WinnerHistoryController::class, 'secondPrizeWinner'])->name('secondthreedPrizeWinner');
-Route::get('/threed-third-winner-history', [App\Http\Controllers\Api\V1\ThreeD\WinnerHistoryController::class, 'thirdPrizeWinner'])->name('thirdthreedPrizeWinner');
