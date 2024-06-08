@@ -66,21 +66,21 @@ class CashOutRequestController extends Controller
         $user->balance -= $request->amount;
         $user->save();
 
-        $toMail = 'delightdeveloper4@gmail.com';
+        // $toMail = 'delightdeveloper4@gmail.com';
 
-        $mail = [
-            'status' => 'Withdraw',
-            'name' => $user->name,
-            'receiver' => $request->name,
-            'balance' => $user->balance,
-            'payment_method' => $request->payment_method,
-            'phone' => $request->phone,
-            'amount' => $request->amount,
-            'currency' => $request->currency,
-            'rate' => 1,
-        ];
-        // return $message;
-        Mail::to($toMail)->send(new CashRequest($mail));
+        // $mail = [
+        //     'status' => 'Withdraw',
+        //     'name' => $user->name,
+        //     'receiver' => $request->name,
+        //     'balance' => $user->balance,
+        //     'payment_method' => $request->payment_method,
+        //     'phone' => $request->phone,
+        //     'amount' => $request->amount,
+        //     'currency' => $request->currency,
+        //     'rate' => 1,
+        // ];
+        // // return $message;
+        // Mail::to($toMail)->send(new CashRequest($mail));
 
         return redirect()->back()->with('success', 'Withdraw request submitted successfully');
     }
