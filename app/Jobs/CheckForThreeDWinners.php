@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\Lotto;
+use App\Models\ThreeDigit\Lotto;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -40,13 +40,13 @@ class CheckForThreeDWinners implements ShouldQueue
         $three_digit_id = $this->threedWinner->prize_no === '00' ? 1 : intval($this->threedWinner->prize_no, 10) + 1;
         //Log::info('Three digit id: ' . gettype($three_digit_id) . ' - ' . $three_digit_id);
 
-        $winningEntries = DB::table('lotto_three_digit_copy')
-            ->join('lottos', 'lotto_three_digit_copy.lotto_id', '=', 'lottos.id')
-            ->join('three_digits', 'lotto_three_digit_copy.three_digit_id', '=', 'three_digits.id')
+        $winningEntries = DB::table('lottery_three_digit_copies')
+            ->join('lottos', 'lottery_three_digit_copies.lotto_id', '=', 'lottos.id')
+            ->join('three_digits', 'lottery_three_digit_copies.three_digit_id', '=', 'three_digits.id')
             ->where('three_digits.id', $three_digit_id) // Use the calculated three_digit_id here
-            ->where('lotto_three_digit_copy.prize_sent', 0)
-            ->whereDate('lotto_three_digit_copy.created_at', $today)
-            ->select('lotto_three_digit_copy.*') // Select all columns from pivot table
+            ->where('lottery_three_digit_copies.prize_sent', 0)
+            ->whereDate('lottery_three_digit_copies.created_at', $today)
+            ->select('lottery_three_digit_copies.*') // Select all columns from pivot table
             ->get();
 
         // Loop through each winning entry and process them

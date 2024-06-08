@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\Lotto;
+use App\Models\ThreeDigit\Lotto;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -49,12 +49,12 @@ class WinnerPrizeCheckUpdate implements ShouldQueue
     {
         $today = Carbon::today();
 
-        $winningEntries = DB::table('lotto_three_digit_pivot')
-            ->join('lottos', 'lotto_three_digit_pivot.lotto_id', '=', 'lottos.id')
-            ->where('lotto_three_digit_pivot.bet_digit', $prizeNumber)
-            ->where('lotto_three_digit_pivot.prize_sent', 0)
-            ->whereDate('lotto_three_digit_pivot.created_at', $today)
-            ->select('lotto_three_digit_pivot.*')
+        $winningEntries = DB::table('lottery_three_digit_pivots')
+            ->join('lottos', 'lottery_three_digit_pivots.lotto_id', '=', 'lottos.id')
+            ->where('lottery_three_digit_pivots.bet_digit', $prizeNumber)
+            ->where('lottery_three_digit_pivots.prize_sent', 0)
+            ->whereDate('lottery_three_digit_pivots.created_at', $today)
+            ->select('lottery_three_digit_pivots.*')
             ->get();
 
         foreach ($winningEntries as $entry) {
@@ -65,7 +65,7 @@ class WinnerPrizeCheckUpdate implements ShouldQueue
                 // $user->save();
 
                 // Update the `prize_sent` flag
-                $lottery->Prizes()->updateExistingPivot($entry->three_digit_id, ['prize_sent' => 3]);
+                $lottery->DisplayThreeDigits()->updateExistingPivot($entry->three_digit_id, ['prize_sent' => 3]);
             });
         }
     }

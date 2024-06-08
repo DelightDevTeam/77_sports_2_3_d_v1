@@ -14,9 +14,12 @@ use App\Http\Controllers\Api\V1\TwoD\TwoDLotteryController;
 use App\Http\Controllers\Api\V1\Frontend\PromotionController;
 use App\Http\Controllers\Api\V1\TwoD\EveningWinPrizeController;
 use App\Http\Controllers\Api\V1\TwoD\MorningWinPrizeController;
+use App\Http\Controllers\Api\V1\ThreeD\FirstPrizeWinnerController;
+use App\Http\Controllers\Api\V1\ThreeD\ThirdPrizeWinnerController;
 use App\Http\Controllers\Api\V1\TwoD\AllWinnerPrizeSentController;
 use App\Http\Controllers\Api\V1\TwoD\UserEveningHistoryController;
 use App\Http\Controllers\Api\V1\TwoD\UserMorningHistoryController;
+use App\Http\Controllers\Api\V1\ThreeD\SecondPrizeWinnerController;
 use App\Http\Controllers\Api\Jackpot\JackpotOneWeekGetDataController;
 use App\Http\Controllers\Api\V1\ThreeD\OneWeekRecordHistoryController;
 use App\Http\Controllers\Api\V1\Frontend\TwoDRemainingAmountController;
@@ -103,6 +106,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // 3d v2
     Route::get('3d/oneweek-record-history', [OneWeekRecordHistoryController::class, 'showRecordsForOneWeek']);
+    Route::get('3d/first-winner', [FirstPrizeWinnerController::class, 'showRecordsForOneWeek']);
+    Route::get('3d/second-winner', [SecondPrizeWinnerController::class, 'showRecordsForOneWeek']);
+    Route::get('3d/third-winner', [ThirdPrizeWinnerController::class, 'showRecordsForOneWeek']);
 
 });
 

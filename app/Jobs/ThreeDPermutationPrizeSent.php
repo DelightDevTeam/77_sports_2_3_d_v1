@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\Lotto;
+use App\Models\ThreeDigit\Lotto;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -78,12 +78,12 @@ class ThreeDPermutationPrizeSent implements ShouldQueue
     {
         $today = Carbon::today();
 
-        $winningEntries = DB::table('lotto_three_digit_copy')
-            ->join('lottos', 'lotto_three_digit_copy.lotto_id', '=', 'lottos.id')
-            ->where('lotto_three_digit_copy.bet_digit', $permutation)
-            ->where('lotto_three_digit_copy.prize_sent', 0)
-            ->whereDate('lotto_three_digit_copy.created_at', $today)
-            ->select('lotto_three_digit_copy.*')
+        $winningEntries = DB::table('lottery_three_digit_copies')
+            ->join('lottos', 'lottery_three_digit_copies.lotto_id', '=', 'lottos.id')
+            ->where('lottery_three_digit_copies.bet_digit', $permutation)
+            ->where('lottery_three_digit_copies.prize_sent', 0)
+            ->whereDate('lottery_three_digit_copies.created_at', $today)
+            ->select('lottery_three_digit_copies.*')
             ->get();
 
         foreach ($winningEntries as $entry) {
