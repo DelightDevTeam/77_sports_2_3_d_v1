@@ -82,7 +82,7 @@ class LottoService
         $num = str_pad($item['num'], 3, '0', STR_PAD_LEFT);
         $sub_amount = $item['amount'];
         $three_digit = ThreeDigit::where('three_digit', $num)->firstOrFail();
-        $totalBetAmount = DB::table('lotto_three_digit_copy')->where('three_digit_id', $three_digit->id)->sum('sub_amount');
+        $totalBetAmount = DB::table('lottery_three_digit_copies')->where('three_digit_id', $three_digit->id)->sum('sub_amount');
         $break = ThreeDDLimit::latest()->first()->three_d_limit;
 
         if ($totalBetAmount + $sub_amount > $break) {
@@ -101,7 +101,7 @@ class LottoService
         $three_digit = ThreeDigit::where('three_digit', $num)->firstOrFail();
 
         // Calculate the total bet amount for the three_digit
-        $totalBetAmount = DB::table('lotto_three_digit_copy')
+        $totalBetAmount = DB::table('lottery_three_digit_copies')
             ->where('three_digit_id', $three_digit->id)
             ->sum('sub_amount');
 

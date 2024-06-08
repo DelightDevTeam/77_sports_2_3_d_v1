@@ -352,17 +352,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::get('3d-settings', [SettingsController::class, 'index']);
     Route::get('3d-more-setting', [SettingsController::class, 'getCurrentMonthResultsSetting']);
     // result date update
-    Route::patch('/3d-results/{id}/status', [SettingsController::class, 'updateStatus'])
-        ->name('ThreedOpenClose');
-    Route::patch('/three-d-results/{id}/status', [SettingsController::class, 'updateResultNumber'])
-        ->name('UpdateResult_number');
-
-    Route::post('/store-permutations', [SettingsController::class, 'PermutationStore'])->name('storePermutations');
-    //deletePermutation
-    Route::delete('/delete-permutation/{id}', [SettingsController::class, 'deletePermutation'])->name('deletePermutation');
-    Route::post('/permutation-reset', [SettingsController::class, 'PermutationReset'])->name('PermutationReset');
-
-    Route::post('/3d-prizes-store', [SettingsController::class, 'store'])->name('PrizeStore');
-    //deletePermutation
-    Route::delete('/delete-prize/{id}', [SettingsController::class, 'destroy'])->name('DeletePrize');
+    Route::patch('/3d-results/{id}/status', [SettingsController::class, 'updateStatus'])->name('ThreedOpenClose');
+    
 });
