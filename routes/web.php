@@ -32,11 +32,13 @@ use App\Http\Controllers\Admin\ThreeD\SettingsController;
 use App\Http\Controllers\Admin\ThreedMatchTimeController;
 use App\Http\Controllers\Admin\FillBalanceReplyController;
 use App\Http\Controllers\Admin\TwoD\TwoDSettingController;
+use App\Http\Controllers\Admin\ThreeD\ALlHistoryController;
 use App\Http\Controllers\Admin\TwoDMorningWinnerController;
 use App\Http\Controllers\Admin\ThreeD\ThreeDCloseController;
 use App\Http\Controllers\Admin\ThreeD\ThreeDLegarController;
 use App\Http\Controllers\Admin\TwoD\CloseTwoDigitController;
 use App\Http\Controllers\Admin\TwoD\HeadDigitCloseController;
+use App\Http\Controllers\Admin\ThreeD\OneWeekRecordController;
 use App\Http\Controllers\Admin\TwoD\TwoDWinnersPrizeController;
 use App\Http\Controllers\Admin\ThreeD\ThreeDPrizeNumberCreateController;
 
@@ -353,5 +355,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::get('3d-more-setting', [SettingsController::class, 'getCurrentMonthResultsSetting']);
     // result date update
     Route::patch('/3d-results/{id}/status', [SettingsController::class, 'updateStatus'])->name('ThreedOpenClose');
-    
+    Route::get('/3d-one-week-records', [OneWeekRecordController::class, 'showRecordsForOneWeek'])->name('oneWeekRec');
+    Route::get('/3d-one-week-slip', [OneWeekRecordController::class, 'index'])->name('OneWeekSlipIndex');
+    Route::get('/3d-oneweek-slip-no/{userId}/{slipNo}', [OneWeekRecordController::class, 'show'])->name('OneWeekSlipDetail');
+    Route::get('/3d-all-history', [ALlHistoryController::class, 'showRecords'])->name('AllHistory');
+
+    Route::get('/3d-slip-history', [ALlHistoryController::class, 'index'])->name('SlipHistoryIndex');
+    Route::get('/3d-slip-no-history/{userId}/{slipNo}', [ALlHistoryController::class, 'show'])->name('SlipHistoryShow');
 });

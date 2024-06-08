@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use Carbon\Carbon;
-use App\Models\Lotto;
+use App\Models\ThreeDigit\Lotto;
 use App\Models\ThreeDigit;
 use App\Helpers\DrawDateHelper;
 use App\Helpers\MatchTimeHelper;
@@ -43,7 +43,7 @@ class LottoService
             $currentDate = Carbon::now()->format('Y-m-d'); // Format the date and time as needed
             $currentTime = Carbon::now()->format('H:i:s');
             $customString = '77-sport-3d';
-            $randomNumber = rand(10000000, 99999999); // Generate a random 4-digit number
+            $randomNumber = rand(1, 99999); // Generate a random 4-digit number
             $slipNo = $randomNumber.'-'.$customString.'-'.$currentDate.'-'.$currentTime; // Combine date, string, and random number
             //$lottery = $this->createLottery($totalAmount, $user->id);
             $lottery = Lotto::create([

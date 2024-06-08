@@ -456,10 +456,22 @@
       </a>
      </li>
 
-     <li class="nav-item">
+     {{-- <li class="nav-item">
       <a class="nav-link text-white " href="{{ url('admin/three-d-history')}}">
        <span class="sidenav-mini-icon"> 3D  </span>
-       <span class="sidenav-normal  ms-2  ps-1">  မှတ်တမ်း </span>
+       <span class="sidenav-normal  ms-2  ps-1">  Allမှတ်တမ်း </span>
+      </a>
+     </li> --}}
+     <li class="nav-item">
+      <a class="nav-link text-white " href="{{ url('admin/3d-all-history')}}">
+       <span class="sidenav-mini-icon"> 3D  </span>
+       <span class="sidenav-normal  ms-2  ps-1">  Allမှတ်တမ်း </span>
+      </a>
+     </li>
+          <li class="nav-item">
+      <a class="nav-link text-white " href="{{ url('admin/3d-slip-history')}}">
+       <span class="sidenav-mini-icon"> 3D  </span>
+       <span class="sidenav-normal  ms-2  ps-1">  All Slip မှတ်တမ်း </span>
       </a>
      </li>
      <li class="nav-item">
@@ -498,12 +510,25 @@
        <span class="sidenav-normal  ms-2  ps-1"> ပိတ်ဂဏန်းထဲ့ရန် </span>
       </a>
      </li>
-     <li class="nav-item">
+     {{-- <li class="nav-item">
       <a class="nav-link text-white " href="{{ url('/admin/three-d-list-index') }}">
        <span class="sidenav-mini-icon"> 3D </span>
        <span class="sidenav-normal  ms-2  ps-1">  တပါတ်တွင်းမှတ်တမ်း </span>
       </a>
+     </li> --}}
+     <li class="nav-item">
+      <a class="nav-link text-white " href="{{ url('/admin/3d-one-week-records') }}">
+       <span class="sidenav-mini-icon"> 3D </span>
+       <span class="sidenav-normal  ms-2  ps-1">  တပါတ်တွင်းမှတ်တမ်း </span>
+      </a>
      </li>
+      <li class="nav-item">
+      <a class="nav-link text-white " href="{{ url('/admin/3d-one-week-slip') }}">
+       <span class="sidenav-mini-icon"> 3D </span>
+       <span class="sidenav-normal  ms-2  ps-1">  တပါတ်တွင်း Slip </span>
+      </a>
+     </li>
+     
      {{-- <li class="nav-item">
       <a class="nav-link text-white " href="{{ url('/admin/three-d-same-id-display-limit-amount') }}">
        <span class="sidenav-mini-icon"> 3D </span>
@@ -522,7 +547,7 @@
        <span class="sidenav-normal  ms-2  ps-1">  ပေါက်သူများ </span>
       </a>
      </li>
-     <li class="nav-item">
+     {{-- <li class="nav-item">
       <a class="nav-link text-white " href="{{ url('/admin/first-prize') }}">
        <span class="sidenav-mini-icon"> 3D </span>
        <span class="sidenav-normal  ms-2  ps-1">  FirstPrize </span>
@@ -540,7 +565,7 @@
        <span class="sidenav-mini-icon"> 3D </span>
        <span class="sidenav-normal  ms-2  ps-1">  ThirdPrize </span>
       </a>
-     </li>
+     </li> --}}
      <li class="nav-item">
       <a class="nav-link text-white " href="{{ url('/admin/permutation-winners-history') }}">
        <span class="sidenav-mini-icon"> 3D </span>

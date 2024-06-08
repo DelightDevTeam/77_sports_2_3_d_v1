@@ -20,18 +20,18 @@ class ThreeDigitDataService
 
         foreach ($threeDigits as $digit) {
             // Data for the current period
-            $periodData = DB::table('lotto_three_digit_copy')
-                ->join('lottos', 'lotto_three_digit_copy.lotto_id', '=', 'lottos.id')
+            $periodData = DB::table('lottery_three_digit_copies')
+                ->join('lottos', 'lottery_three_digit_copies.lotto_id', '=', 'lottos.id')
                 ->where('three_digit_id', $digit->id)
-                ->whereBetween('lotto_three_digit_copy.created_at', [$morningStart, $morningEnd])
+                ->whereBetween('lottery_three_digit_copies.created_at', [$morningStart, $morningEnd])
                 ->select(
-                    'lotto_three_digit_copy.three_digit_id',
-                    DB::raw('SUM(lotto_three_digit_copy.sub_amount) as total_sub_amount'),
-                    DB::raw('GROUP_CONCAT(DISTINCT lotto_three_digit_copy.bet_digit) as bet_digits'),
+                    'lottery_three_digit_copies.three_digit_id',
+                    DB::raw('SUM(lottery_three_digit_copies.sub_amount) as total_sub_amount'),
+                    DB::raw('GROUP_CONCAT(DISTINCT lottery_three_digit_copies.bet_digit) as bet_digits'),
                     DB::raw('COUNT(*) as total_bets'),
-                    DB::raw('MAX(lotto_three_digit_copy.created_at) as latest_bet_time')
+                    DB::raw('MAX(lottery_three_digit_copies.created_at) as latest_bet_time')
                 )
-                ->groupBy('lotto_three_digit_copy.three_digit_id')
+                ->groupBy('lottery_three_digit_copies.three_digit_id')
                 ->first();
 
             // Store the fetched data

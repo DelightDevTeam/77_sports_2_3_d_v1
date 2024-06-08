@@ -79,7 +79,10 @@ class User extends Authenticatable
     {
         return $this->roles()->where('id', 1)->exists();
     }
-
+    public function isAdmin()
+    {
+        return $this->roles()->where('id', 1);
+    }
     public function getIsUserAttribute()
     {
         return $this->roles()->where('id', 2)->exists();
