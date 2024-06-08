@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('threed_match_times', function (Blueprint $table) {
             $table->id();
-            $table->string('open_time')->default('00');
-            $table->date('match_time')->default('2023-11-14');
+            $table->date('result_date');
+            $table->time('result_time');
+            $table->string('match_time'); // Match time description
+            $table->enum('status', ['open', 'closed'])->default('closed');
             $table->timestamps();
         });
     }

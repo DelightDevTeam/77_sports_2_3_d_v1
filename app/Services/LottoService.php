@@ -2,63 +2,20 @@
 
 namespace App\Services;
 
-use App\Models\Admin\ThreeDDLimit;
+use Carbon\Carbon;
 use App\Models\Lotto;
 use App\Models\ThreeDigit;
-use App\Models\ThreeDigit\LotteryThreeDigitPivot;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use App\Helpers\DrawDateHelper;
+use App\Helpers\MatchTimeHelper;
+use App\Models\Admin\ThreeDDLimit;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\Models\ThreeDigit\ThreedSetting;
+use App\Models\ThreeDigit\LotteryThreeDigitPivot;
 
 class LottoService
 {
-    // public function play($totalAmount, $amounts)
-    // {
-    //     // Begin Database Transaction
-    //     DB::beginTransaction();
-
-    //     try {
-    //         // Retrieve the authenticated user
-    //         $user = Auth::user();
-
-    //         // Check if the user's balance is sufficient
-    //         if ($user->balance < 0) {
-    //             throw new \Exception('လက်ကျန်ငွေ မလုံလောက်ပါ။');
-    //         }
-
-    //         // Save the user with the new balance
-
-    //         // Create a new lottery record
-    //         $lottery = Lotto::create([
-    //             'total_amount' => $totalAmount,
-    //             'user_id' => $user->id,
-    //         ]);
-
-    //         // Process each amount
-    //         foreach ($amounts as $item) {
-    //             $this->processAmount($item, $lottery);
-    //         }
-    //         /** @var \App\Models\User $user */
-    //         $user->balance -= $totalAmount;
-    //         $user->save();
-
-    //         // Commit the transaction
-    //         DB::commit();
-
-    //         // Return the lottery data or other success indication
-    //         return $lottery;
-    //     } catch (\Exception $e) {
-    //         // Rollback the transaction on error
-    //         DB::rollback();
-    //         // Log::error('Error in LottoService play method: ' . $e->getMessage());
-
-    //         // Rethrow the exception to be handled by the global exception handler
-    //         // throw $e;
-    //         return response()->json(['message'=> $e->getMessage()], 401);
-    //     }
-    // }
-
     public function play($totalAmount, $amounts)
     {
         // Begin Transaction
@@ -82,11 +39,17 @@ class LottoService
             if (! empty($preOver)) {
                 return $preOver;
             }
-
+            // Create a new lottery entry
+            $currentDate = Carbon::now()->format('Y-m-d'); // Format the date and time as needed
+            $currentTime = Carbon::now()->format('H:i:s');
+            $customString = '77-sport-3d';
+            $randomNumber = rand(10000000, 99999999); // Generate a random 4-digit number
+            $slipNo = $randomNumber.'-'.$customString.'-'.$currentDate.'-'.$currentTime; // Combine date, string, and random number
             //$lottery = $this->createLottery($totalAmount, $user->id);
             $lottery = Lotto::create([
                 'total_amount' => $totalAmount,
                 'user_id' => $user->id,
+                'slip_no' => $slipNo,
             ]);
 
             $over = [];
@@ -144,19 +107,47 @@ class LottoService
 
         // Check if the limit is exceeded
         $break = ThreeDDLimit::latest()->first()->three_d_limit;
+        $draw_date = DrawDateHelper::getResultDate();
+        $start_date = $draw_date['match_start_date'];
+        $end_date = $draw_date['result_date'];
+        $play_date = Carbon::now()->format('Y-m-d');  // Correct date format
+        $play_time = Carbon::now()->format('H:i:s');  // Correct time format
+        $player_id = Auth::user()->id;
+        $results = ThreedSetting::where('status', 'open')
+            ->whereBetween('result_date', [$start_date, $end_date])
+            ->first();
+
+        if ($results && $results->status == 'closed') {
+            return response()->json(['message' => '3D game does not open for this time']);
+        }
+        $matchTimes = MatchTimeHelper::getCurrentYearAndMatchTimes();
+
+            if (empty($matchTimes['currentMatchTime'])) {
+                return response()->json(['message' => 'No current match time available']);
+            }
+
+            $currentMatchTime = $matchTimes['currentMatchTime'];
+            //Log::info('Running Match Time ID: ' . $currentMatchTime['id'] . ' - Time: ' . $currentMatchTime['match_time']);
+
         if ($totalBetAmount + $sub_amount <= $break) {
-            $play_date = Carbon::now()->format('Y-m-d');  // Correct date format
-            $play_time = Carbon::now()->format('H:i:s');  // Correct time format
+
             // Create a pivot record for a valid bet
             $pivot = new LotteryThreeDigitPivot([
+                'threed_setting_id' => $results->id,
                 'lotto_id' => $lotteryId,
                 'three_digit_id' => $three_digit->id,
-                'bet_digit' => $bet_digit,
+                'threed_match_time_id' => $currentMatchTime['id'],
+                'user_id' => $player_id,
+                'bet_digit' => $num,
                 'sub_amount' => $sub_amount,
                 'prize_sent' => false,
+                'match_status' => $results->status,
                 'play_date' => $play_date,
                 'play_time' => $play_time,
-                //'currency' => 'mmk'
+                'res_date' => $results->result_date,
+                'res_time' => $results->result_time,
+                'match_start_date' => $start_date,
+                'running_match' => $currentMatchTime['match_time'],
             ]);
             $pivot->save();
         } else {

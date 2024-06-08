@@ -67,9 +67,9 @@
             use Carbon\Carbon;
             $currentTime = Carbon::now();
             $start9Time = Carbon::parse('12:00');
-            $end12Time = Carbon::parse('12:10'); //close time 11:45AM
+            $end12Time = Carbon::parse('14:10'); //close time 11:45AM
             $start2Time = Carbon::parse('16:30');
-            $end4Time = Carbon::parse('16:45'); //close time 3:45PM
+            $end4Time = Carbon::parse('23:45'); //close time 3:45PM
             @endphp
             <form action="{{ route('admin.tow-d-win-number.store') }}" method="post">
                 @csrf
