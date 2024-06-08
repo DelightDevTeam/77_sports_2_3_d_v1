@@ -40,6 +40,7 @@ class DatabaseSeeder extends Seeder
             ThreeDLimitTableSeeder::class,
             CommissionTableSeeder::class,
             TwodSettingTableSeeder::class,
+            ThreedSettingTableSeeder::class,
         ]);
     }
 }

@@ -3,9 +3,8 @@
 namespace App\Models\ThreeDigit;
 
 use App\Models\Admin\LotteryMatch;
-// use App\Models\Admin\ThreedDigit;
 use App\Models\Admin\ThreedMatchTime;
-use App\Models\ThreeDigit\ThreeDigit;
+use App\Models\ThreeDigit\LotteryThreeDigitPivot;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,11 +17,11 @@ class Lotto extends Model
     protected $fillable = [
         'total_amount',
         'user_id',
-        //'session',
         'lottery_match_id',
         'comission',
         'commission_amount',
         'status',
+        'slip_no',
     ];
 
     protected $dates = ['created_at', 'updated_at'];
@@ -30,6 +29,11 @@ class Lotto extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function lotteryThreeDigitPivots()
+    {
+        return $this->hasMany(LotteryThreeDigitPivot::class, 'lotto_id');
     }
 
     public function lotteryMatch()
@@ -43,22 +47,14 @@ class Lotto extends Model
         return $this->hasOne(ThreedMatchTime::class, 'id', 'lottery_match_id');
     }
 
-    //  public function threedDigits() {
-    //     return $this->belongsToMany(ThreeDigit::class, 'lotto_three_digit_copy')->withPivot('sub_amount', 'prize_sent')->withTimestamps();
-    // }
-    // public function threeDigits()
-    // {
-    //     return $this->belongsToMany(ThreeDigit::class, 'lotto_three_digit_pivot', 'lotto_id', 'three_digit_id')
-    //         ->withPivot(['sub_amount', 'prize_sent', 'created_at', 'updated_at']);
-    // }
     public function threedDigits()
     {
-        return $this->belongsToMany(ThreeDigit::class, 'lotto_three_digit_pivot')->withPivot('sub_amount', 'prize_sent')->withTimestamps();
+        return $this->belongsToMany(ThreeDigit::class, 'lottery_three_digit_pivots')->withPivot('sub_amount', 'prize_sent')->withTimestamps();
     }
 
     public function DisplayThreeDigits()
     {
-        return $this->belongsToMany(ThreeDigit::class, 'lotto_three_digit_pivot', 'lotto_id', 'three_digit_id')->withPivot('sub_amount', 'prize_sent', 'created_at');
+        return $this->belongsToMany(ThreeDigit::class, 'lottery_three_digit_pivots', 'lotto_id', 'three_digit_id')->withPivot('sub_amount', 'prize_sent', 'created_at');
     }
 
     public function displayThreeDigitsOneWeekHistory($jackpotIds = [])
@@ -73,25 +69,25 @@ class Lotto extends Model
         $startDateSecondRange = Carbon::now()->startOfMonth()->addDays(17);
         $endDateSecondRange = Carbon::now()->endOfMonth();
 
-        return $this->belongsToMany(ThreeDigit::class, 'lotto_three_digit_pivot', 'lotto_id', 'three_digit_id')
+        return $this->belongsToMany(ThreeDigit::class, 'lottery_three_digit_pivots', 'lotto_id', 'three_digit_id')
             ->select([
                 'three_digits.*',
-                'lotto_three_digit_pivot.lotto_id AS pivot_lotto_id',
-                'lotto_three_digit_pivot.three_digit_id AS pivot_three_digit_id',
-                'lotto_three_digit_pivot.bet_digit',
-                'lotto_three_digit_pivot.sub_amount AS pivot_sub_amount',
-                'lotto_three_digit_pivot.prize_sent AS pivot_prize_sent',
-                'lotto_three_digit_pivot.play_date',
-                'lotto_three_digit_pivot.play_time',
-                'lotto_three_digit_pivot.created_at AS pivot_created_at',
-                'lotto_three_digit_pivot.updated_at AS pivot_updated_at',
+                'lottery_three_digit_pivots.lotto_id AS pivot_lotto_id',
+                'lottery_three_digit_pivots.three_digit_id AS pivot_three_digit_id',
+                'lottery_three_digit_pivots.bet_digit',
+                'lottery_three_digit_pivots.sub_amount AS pivot_sub_amount',
+                'lottery_three_digit_pivots.prize_sent AS pivot_prize_sent',
+                'lottery_three_digit_pivots.play_date',
+                'lottery_three_digit_pivots.play_time',
+                'lottery_three_digit_pivots.created_at AS pivot_created_at',
+                'lottery_three_digit_pivots.updated_at AS pivot_updated_at',
             ])
             ->where(function ($query) use ($startDateFirstRange, $endDateFirstRange, $startDateSecondRange, $endDateSecondRange) {
-                $query->whereBetween('lotto_three_digit_pivot.created_at', [$startDateFirstRange, $endDateFirstRange])
-                    ->orWhereBetween('lotto_three_digit_pivot.created_at', [$startDateSecondRange, $endDateSecondRange]);
+                $query->whereBetween('lottery_three_digit_pivots.created_at', [$startDateFirstRange, $endDateFirstRange])
+                    ->orWhereBetween('lottery_three_digit_pivots.created_at', [$startDateSecondRange, $endDateSecondRange]);
             })
-            ->whereIn('lotto_three_digit_pivot.lotto_id', $digitIds)
-            ->orderBy('lotto_three_digit_pivot.created_at', 'desc');
+            ->whereIn('lottery_three_digit_pivots.lotto_id', $digitIds)
+            ->orderBy('lottery_three_digit_pivots.created_at', 'desc');
     }
 
     // three digit once month  history
@@ -107,24 +103,19 @@ class Lotto extends Model
         $startDate = Carbon::now()->startOfMonth();
         $endDate = Carbon::now()->addMonthNoOverflow()->startOfMonth()->addDay(); // This will give you the second day of the next month
 
-        return $this->belongsToMany(ThreeDigit::class, 'lotto_three_digit_pivot', 'lotto_id', 'three_digit_id')
+        return $this->belongsToMany(ThreeDigit::class, 'lottery_three_digit_pivots', 'lotto_id', 'three_digit_id')
             ->select([
                 'three_digits.*',
-                'lotto_three_digit_pivot.lotto_id AS pivot_lotto_id',
-                'lotto_three_digit_pivot.three_digit_id AS pivot_three_digit_id',
-                'lotto_three_digit_pivot.sub_amount AS pivot_sub_amount',
-                'lotto_three_digit_pivot.prize_sent AS pivot_prize_sent',
-                'lotto_three_digit_pivot.created_at AS pivot_created_at',
-                'lotto_three_digit_pivot.updated_at AS pivot_updated_at',
+                'lottery_three_digit_pivots.lotto_id AS pivot_lotto_id',
+                'lottery_three_digit_pivots.three_digit_id AS pivot_three_digit_id',
+                'lottery_three_digit_pivots.sub_amount AS pivot_sub_amount',
+                'lottery_three_digit_pivots.prize_sent AS pivot_prize_sent',
+                'lottery_three_digit_pivots.created_at AS pivot_created_at',
+                'lottery_three_digit_pivots.updated_at AS pivot_updated_at',
             ])
-            ->whereBetween('lotto_three_digit_pivot.created_at', [$startDate, $endDate])
-            ->whereIn('lotto_three_digit_pivot.lotto_id', $jackpotIds)
-            ->orderBy('lotto_three_digit_pivot.created_at', 'desc');
-    }
-
-    public function DisplayThreeDigitsOver()
-    {
-        return $this->belongsToMany(ThreeDigit::class, 'lotto_three_digit_over', 'lotto_id', 'three_digit_id')->withPivot('sub_amount', 'prize_sent', 'created_at');
+            ->whereBetween('lottery_three_digit_pivots.created_at', [$startDate, $endDate])
+            ->whereIn('lottery_three_digit_pivots.lotto_id', $jackpotIds)
+            ->orderBy('lottery_three_digit_pivots.created_at', 'desc');
     }
 
     // three digit once month history
@@ -133,7 +124,7 @@ class Lotto extends Model
         $onceMonthStart = Carbon::now()->startOfMonth();
         $onceMonthEnd = Carbon::now()->endOfMonth();
 
-        return $this->belongsToMany(ThreeDigit::class, 'lotto_three_digit_pivot', 'lotto_id', 'three_digit_id')->withPivot('bet_digit', 'sub_amount', 'prize_sent', 'play_date', 'play_time', 'created_at')
+        return $this->belongsToMany(ThreeDigit::class, 'lottery_three_digit_pivots', 'lotto_id', 'three_digit_id')->withPivot('bet_digit', 'sub_amount', 'prize_sent', 'play_date', 'play_time', 'created_at')
             ->wherePivotBetween('created_at', [$onceMonthStart, $onceMonthEnd]);
     }
 }
