@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Api\V1\ThreeD;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Services\LottoOneWeekRecordService;
+use App\Services\ApiLottoOneWeekRecordService;
 
 class OneWeekRecordHistoryController extends Controller
 {
      protected $lottoService;
 
-    public function __construct(LottoOneWeekRecordService $lottoService)
+    public function __construct(ApiLottoOneWeekRecordService $lottoService)
     {
         $this->lottoService = $lottoService;
     }
