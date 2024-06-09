@@ -102,6 +102,9 @@ class TwoDController extends Controller
 
         // Get the draw date and current session
         $draw_date = TwodSetting::where('status', 'open')->first();
+        if(!$draw_date){
+            return $this->error("error", '2D Session များ ပိတ်ထားပါသည်။', 401);
+        }
         $win_date = $draw_date->result_date;
         $current_session = SessionHelper::getCurrentSession();
 
