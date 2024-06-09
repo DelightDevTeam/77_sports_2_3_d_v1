@@ -24,11 +24,23 @@ class WinnerHistoryController extends Controller
         try {
             $data = $this->lottoService->GetRecordForOneWeek();
 
+            $winner_lists = $data['records'];
+            $lists = [];
+            
+            foreach($winner_lists as $list) {
+                $lists[] = (object)[
+                    'name' => $list->name,
+                    'res_date' => $list->play_date,
+                    'prize_amount' => $list->prize_amount
+                ];
+            }
+
             return response()->json([
                 'status' => 'success',
-                'win_prize' => $data['records'],
+                'win_prize' => $lists,
                 'total_prize_amount' => $data['total_prize_amount'],
             ], 200);
+            
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
