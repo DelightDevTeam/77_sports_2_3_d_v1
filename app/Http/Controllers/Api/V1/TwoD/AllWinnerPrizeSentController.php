@@ -25,10 +25,21 @@ class AllWinnerPrizeSentController extends Controller
 
         $data = $this->apiAllWinService->AllWinPrizeSent();
 
+        $winner_lists = $data['results'];
+        $lists = [];
+        
+        foreach($winner_lists as $list) {
+            $lists[] = (object)[
+                'name' => $list->user_name,
+                'res_date' => $list->res_date,
+                'prize_amount' => $list->win_prize
+            ];
+        }
+        
         return response()->json([
             'status' => 'Request was successful.',
             'message' => null,
-            'data' => $data,
+            'data' => $lists,
         ]);
     }
 }
