@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin\Currency;
-use App\Models\Admin\LotteryMatch;
-use App\Models\ThreeDigit\Lotto;
-use App\Models\TwoD\Lottery;
 use App\Models\User;
+use App\Models\UserLog;
+use App\Models\TwoD\Lottery;
 use Illuminate\Http\Request;
+use App\Models\Admin\Currency;
+use App\Models\ThreeDigit\Lotto;
+use App\Models\Admin\LotteryMatch;
 
 class HomeController extends Controller
 {
@@ -125,5 +126,18 @@ class HomeController extends Controller
     public function profile()
     {
         return view('frontend.user-profile');
+    }
+    public function logs($id)
+    {
+        $logs = UserLog::with('user')->where('user_id', $id)->get();
+
+        return view('admin.logs', compact('logs'));
+    }
+
+    public function logsIndex()
+    {
+        $logs = UserLog::with('user')->get();
+
+        return view('admin.logs', compact('logs'));
     }
 }

@@ -167,6 +167,14 @@
             </a>
           </li>
           @endcan
+          @can('user_access')
+          <li class="nav-item">
+            <a class="nav-link text-white " href="{{ url('admin/user-logs')}}">
+              <span class="sidenav-mini-icon"> User </span>
+              <span class="sidenav-normal  ms-2  ps-1">Login Logs </span>
+            </a>
+          </li>
+          @endcan
         </ul>
       </div>
     </li>

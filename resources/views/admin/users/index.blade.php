@@ -66,6 +66,7 @@
       <th>ChangePWD</th>
       <th>Role</th>
       <th>Created_at</th>
+      <th>LoginLog</th>
       <th>Action</th>
      </thead>
      <tbody>
@@ -94,6 +95,10 @@
         @endforeach
        </td>
        <td class="text-sm font-weight-normal">{{ $user->created_at->format('F j, Y') }}</td>
+       <td>
+        <a href="{{ route('admin.logs', $user->id) }}" data-bs-toggle="tooltip"
+         data-bs-original-title="User Login Logs" class="btn btn-primary btn-sm">UserLog</a>
+       </td>
        <td>
         <a href="{{ route('admin.users.edit', $user->id) }}" data-bs-toggle="tooltip"
          data-bs-original-title="Edit User"><i
