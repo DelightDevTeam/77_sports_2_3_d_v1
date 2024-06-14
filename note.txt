@@ -1,12 +1,16 @@
 shweizud_twod_lottery
 
-php artisan migrate:rollback --path=/database/migrations/2024_04_13_145007_create_first_prize_winners_table.php
+php artisan migrate:rollback --path=/database/migrations/2024_06_08_102401_create_threed_match_times_table.php
 
 
 php artisan migrate --path=/database/migrations/2024_04_13_145007_create_first_prize_winners_table.php
 
+php artisan migrate --path=/database/migrations/2024_06_08_103025_create_threed_settings_table.php
+php artisan db:seed --class=ThreedMatchTimeSeeder
+
+
 SET FOREIGN_KEY_CHECKS = 0;
-TRUNCATE TABLE cash_in_requests;
+TRUNCATE TABLE threed_match_times;
 SET FOREIGN_KEY_CHECKS = 1;
 
 
