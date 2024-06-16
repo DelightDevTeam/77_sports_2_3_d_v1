@@ -5,7 +5,8 @@ php artisan migrate:rollback --path=/database/migrations/2024_06_08_102401_creat
 
 php artisan migrate --path=/database/migrations/2024_04_13_145007_create_first_prize_winners_table.php
 
-php artisan migrate --path=/database/migrations/2024_06_14_074958_create_user_logs_table.php
+php artisan migrate --path=/database/migrations/2024_06_14_114512_add_last_active_at_to_users_table.php
+php artisan make:migration add_last_active_at_to_users_table --table=users
 php artisan db:seed --class=ThreedMatchTimeSeeder
 
 

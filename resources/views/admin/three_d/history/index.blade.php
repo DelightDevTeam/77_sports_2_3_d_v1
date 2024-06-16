@@ -55,7 +55,8 @@
          @foreach ($records as $record)
              <tr>
                  <td>{{ $record->user_id }}</td>
-                 <td>{{ $record->user->name }}</td>
+                 {{-- <td>{{ $record->user->name }}</td> --}}
+                 <td>{{ optional($record->user)->name }}</td>
                  <td>{{ $record->slip_no }}</td>
                  <td>{{ $record->total_sub_amount }}</td>
                  <td>
