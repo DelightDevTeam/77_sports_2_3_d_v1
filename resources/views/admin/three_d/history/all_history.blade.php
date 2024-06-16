@@ -59,7 +59,8 @@
              @foreach ($data['records'] as $record)
                  <tr>
                      <td>{{ $loop->iteration }}</td>
-                     <td>{{ $record->user->name }}</td>
+                     {{-- <td>{{ $record->user->name }}</td> --}}
+                 <td>{{ optional($record->user)->name }}</td>
                      <td>{{ $record->bet_digit }}</td>
                      <td>{{ $record->sub_amount }}</td>
                      <td>{{ $record->running_match }}</td>
