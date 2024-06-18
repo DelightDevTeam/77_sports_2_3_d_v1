@@ -46,21 +46,20 @@
               <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>
-                  <span class="d-block">{{ $log->user->id }}</span>
+                  <span class="d-block">{{ $log->user->id ?? "" }}</span>
                 </td>
                 <td>
-                  <span class="d-block">{{ $log->user->name }}</span>
+                  <span class="d-block">{{ $log->user->name ?? "" }}</span>
                 </td>
                   <td>
-                  <span class="d-block">{{ $log->user->phone }}</span>
+                  <span class="d-block">{{ $log->user->phone ?? "" }}</span>
                 </td>
                 <td>
-                  <span class="d-block">{{ $log->user->balance }}</span>
+                  <span class="d-block">{{ $log->user->balance ?? "" }}</span>
                 </td>
-                <td class="text-sm  font-weight-bold">{{ $log->ip_address }}</td>
+                <td class="text-sm  font-weight-bold">{{ $log->ip_address ?? "" }}</td>
                 <td>{{ $log->created_at}}</td>
-                <td class="text-sm  font-weight-bold">{{ $log->user_agent }}</td>
-
+                <td class="text-sm  font-weight-bold">{{ $log->user_agent ?? "" }}</td>
               </tr>
               @endforeach
             @else
