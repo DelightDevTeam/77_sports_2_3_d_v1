@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Commission;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\TwoD\Lottery;
 use Illuminate\Http\Request;
@@ -18,9 +19,11 @@ class TwoDCommissionController extends Controller
         //     ->select('users.name', 'lotteries.user_id', 'lotteries.id', 'lotteries.comission', 'lotteries.commission_amount', 'lotteries.status', DB::raw('SUM(lotteries.total_amount) as total_amount'))
         //     ->groupBy('lotteries.user_id')
         //     ->get();
+        $currentDate = Carbon::now()->setTimezone('Asia/Yangon')->format('Y-m-d');
 
         $totalAmounts = Lottery::join('users', 'lotteries.user_id', '=', 'users.id')
-            ->select([
+        ->where('created_at', $currentDate)    
+        ->select([
                 DB::raw('MAX(users.name) as name'),
                 DB::raw('MAX(users.phone) as phone'),
                 DB::raw('MAX(lotteries.id) as lottery_id'),
