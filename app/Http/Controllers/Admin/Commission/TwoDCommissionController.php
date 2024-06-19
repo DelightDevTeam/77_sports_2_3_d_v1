@@ -19,7 +19,7 @@ class TwoDCommissionController extends Controller
         //     ->select('users.name', 'lotteries.user_id', 'lotteries.id', 'lotteries.comission', 'lotteries.commission_amount', 'lotteries.status', DB::raw('SUM(lotteries.total_amount) as total_amount'))
         //     ->groupBy('lotteries.user_id')
         //     ->get();
-        $currentDate = Carbon::now()->setTimezone('Asia/Yangon')->format('Y-m-d');
+        $currentDate = Carbon::today()->setTimezone('Asia/Yangon')->format('Y-m-d');
 
         $totalAmounts = Lottery::join('users', 'lotteries.user_id', '=', 'users.id')
         ->where('lotteries.created_at', $currentDate)    
