@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Commission;
 
-use App\Http\Controllers\Controller;
-use App\Models\Admin\Commission;
-use App\Models\Lottery;
 use App\Models\User;
+use App\Models\TwoD\Lottery;
 use Illuminate\Http\Request;
+use App\Models\Admin\Commission;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 
 class TwoDCommissionController extends Controller
 {

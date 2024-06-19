@@ -1,4 +1,5 @@
 php -r "file_put_contents('/var/www/html/77_sports_2_3_d_v1/storage/logs/laravel.log', '');"
+tail -f /var/www/html/77_sports_2_3_d_v1/storage/logs/laravel.log
 
 php artisan migrate:rollback --path=/database/migrations/2024_06_08_102401_create_threed_match_times_table.php
 
