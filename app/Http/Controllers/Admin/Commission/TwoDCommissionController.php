@@ -30,6 +30,7 @@ class TwoDCommissionController extends Controller
                 DB::raw('MAX(lotteries.comission) as comission'),
                 DB::raw('MAX(lotteries.commission_amount) as commission_amount'),
                 DB::raw('MAX(lotteries.status) as status'),
+                DB::raw('MAX(lotteries.created_at) as created_at'),
                 'lotteries.user_id',
                 DB::raw('SUM(lotteries.total_amount) as total_amount'),
             ])
