@@ -55,7 +55,7 @@ class TwoDLotteryController extends Controller
     public function store(TwoDPlayRequest $request, TwoDPlayService $playService)
     {
         // Log the incoming request for debugging
-        Log::info('Store method called.');
+        //Log::info('Store method called.');
 
         // Fetch the current open 2D lottery setting
         $currentDate = TwodSetting::where('status', 'open')->first();

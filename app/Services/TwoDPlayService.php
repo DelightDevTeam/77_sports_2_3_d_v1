@@ -131,10 +131,10 @@ class TwoDPlayService
         if ($totalBetAmountForTwoDigit + $subAmount <= $user_default_break) {
             // Over all limits exceeded, return error
             //return [$amount['num']];
-            Log::info('you can play with user break');
+            //Log::info('you can play with user break');
         } elseif ($totalBetAmountForTwoDigit + $subAmount <= $break) {
             // User's limit exceeded
-            Log::info('you can play with over all break ');
+            //Log::info('you can play with over all break ');
             //Log::info("Bet exceeds user limit for {$twoDigit}");
 
             //return [$amount['num']];
@@ -191,7 +191,7 @@ class TwoDPlayService
 
         if ($results) {
             $two_id = $results->id;
-            Log::info("TwoDSetting id is: {$two_id}");
+            //Log::info("TwoDSetting id is: {$two_id}");
 
             $play_date = Carbon::now()->format('Y-m-d');  // Correct date format
             $play_time = Carbon::now()->format('H:i:s');  // Correct time format
@@ -216,7 +216,7 @@ class TwoDPlayService
                 'play_time' => $play_time,
             ]);
 
-            Log::info("Created LotteryTwoDigitPivot with ID: {$pivot->id}");
+            //Log::info("Created LotteryTwoDigitPivot with ID: {$pivot->id}");
 
         } else {
             Log::error("No TwodSetting found for date: {$today} with status 'open'");

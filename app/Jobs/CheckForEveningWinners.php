@@ -29,10 +29,22 @@ class CheckForEveningWinners implements ShouldQueue
 
     public function handle()
     {
-        $today = Carbon::today();
+        // $today = Carbon::today();
 
-        if ($this->twodWiner->session !== 'evening') {
-            Log::info('This TwodWiner is not for the evening session, exiting.');
+        // if ($this->twodWiner->session !== 'evening') {
+        //     Log::info('This TwodWiner is not for the evening session, exiting.');
+        //     return;
+        // }
+        Log::info('Job started for Evening TwodWiner with prize_no: ' . $this->twodWiner->prize_no);
+
+        $today = Carbon::today();
+        //\Log::info("Today's date: " . $today->toDateString());
+        $playDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+        if (! in_array(strtolower(date('l')), $playDays)) {
+            return; // exit if it's not a playing day
+        }
+        if ($this->twodWiner->session !== 'morning') {
+            Log::info('This TwodWiner is not for the Evening session, exiting.');
             return;
         }
 

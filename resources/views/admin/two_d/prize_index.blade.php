@@ -1,5 +1,6 @@
 @extends('layouts.admin_app')
 @section('styles')
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css" rel="stylesheet">
 <style>
     .transparent-btn {
         background: none;
@@ -66,7 +67,7 @@
             @php
             use Carbon\Carbon;
             $currentTime = Carbon::now();
-            $start9Time = Carbon::parse('12:00');
+            $start9Time = Carbon::parse('8:00');
             $end12Time = Carbon::parse('14:10'); //close time 11:45AM
             $start2Time = Carbon::parse('16:30');
             $end4Time = Carbon::parse('23:45'); //close time 3:45PM
@@ -213,15 +214,22 @@
         </div>
     </div>
 </div>
+
 @endsection
 @section('scripts')
 <script src="{{ asset('admin_app/assets/js/plugins/datatables.js') }}"></script>
-{{-- <script>
-    const dataTableSearch = new simpleDatatables.DataTable("#datatable-search", {
-      searchable: true,
-      fixedHeight: true
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    @if(session('success'))
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        </script>
     });
-  </script> --}}
+@endif
 <script>
     if (document.getElementById('twod-search')) {
         const dataTableSearch = new simpleDatatables.DataTable("#twod-search", {

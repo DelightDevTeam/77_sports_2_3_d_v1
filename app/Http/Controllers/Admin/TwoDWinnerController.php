@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Admin\TwodWiner;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\Admin\TwodWiner;
+use App\Http\Controllers\Controller;
 
 class TwoDWinnerController extends Controller
 {
@@ -36,18 +37,36 @@ class TwoDWinnerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(Request $request)
+    // {
+    //     //
+    //     $currentSession = date('H') < 12 ? 'morning' : 'evening';  // before 1 pm is morning
+
+    //     TwodWiner::create([
+    //         'prize_no' => $request->prize_no,
+    //         'session' => $currentSession,
+    //     ]);
+
+    //     return redirect()->back()->with('success', 'Two Digit Lottery Winner Added Successfully');
+    // }
     public function store(Request $request)
-    {
-        //
-        $currentSession = date('H') < 12 ? 'morning' : 'evening';  // before 1 pm is morning
+{
+    // Get the current time in the 'Asia/Yangon' time zone
+    $currentTime = Carbon::now('Asia/Yangon')->format('H:i:s');
 
-        TwodWiner::create([
-            'prize_no' => $request->prize_no,
-            'session' => $currentSession,
-        ]);
+    // Determine the current session based on the current time
+    $currentSession = Carbon::now('Asia/Yangon')->format('H:i') < '12:30' ? 'morning' : 'evening';
 
-        return redirect()->back()->with('success', 'Two Digit Lottery Winner Added Successfully');
-    }
+    // Create a new TwodWiner entry
+    TwodWiner::create([
+        'prize_no' => $request->prize_no,
+        'session' => $currentSession,
+    ]);
+
+    // Redirect back with a success message
+    return redirect()->back()->with('success', 'ထွက်ဂဏန်းထဲ့သွင်းမှု့အောင်မြင်ပါသည်။');
+}
+
 
     /**
      * Display the specified resource.
