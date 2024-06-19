@@ -22,7 +22,7 @@ class TwoDCommissionController extends Controller
         $currentDate = Carbon::today()->setTimezone('Asia/Yangon')->format('Y-m-d');
 
         $totalAmounts = Lottery::join('users', 'lotteries.user_id', '=', 'users.id')
-        ->where('lotteries.created_at', $currentDate)    
+        //->where('lotteries.created_at', $currentDate)    
         ->select([
                 DB::raw('MAX(users.name) as name'),
                 DB::raw('MAX(users.phone) as phone'),
